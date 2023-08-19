@@ -1,7 +1,5 @@
 # Notes App
 
-¡Claro! Siguiendo la estructura que hemos definido, y teniendo en cuenta los principios SOLID, aquí está una descripción de la funcionalidad de cada carpeta, subcarpeta y qué deberían contener:
-
 ### **src**
 
 #### **config**
