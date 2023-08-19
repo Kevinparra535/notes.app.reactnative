@@ -1,8 +1,8 @@
 # Notes App
 
-### **src**
+## **src**
 
-#### **config**
+### **config**
 
 - **Objetivo:** Contiene configuraciones de diferentes servicios o herramientas.
 - **Archivos como `firebaseConfig.ts`:** Deberían contener configuraciones específicas para servicios, como Firebase en este caso.
@@ -26,7 +26,7 @@
 - **Objetivo:** Implementaciones concretas de los repositorios definidos en `domain/repositories`.
 - **Archivos como `userDataRepository.ts`:** Deberían interactuar con fuentes de datos, ya sea una API, base de datos local, etc. Implementan interfaces definidas en el dominio.
 
-#### **domain**
+### **domain**
 
 - **Objetivo:** Representa la lógica y reglas de negocio puras.
 
@@ -50,7 +50,7 @@
 - **Objetivo:** Interfaces que definen las operaciones que pueden realizar los repositorios.
 - **Archivos como `userRepositoryInterface.ts`:** Deberían contener la definición de métodos que luego las implementaciones concretas en `data/repositories` deben cumplir.
 
-#### **ui**
+### **ui**
 
 - **Objetivo:** Todo lo relacionado con la interfaz de usuario y su lógica.
 
@@ -205,5 +205,63 @@ Al seguir esta estructura y los principios SOLID, garantizas un código más lim
 |
 |-- App.tsx
 |-- package.json
+
+```
+
+## MVVM
+Vamos a desglosar cómo integrarías MVVM en la estructura que ya has definido:
+
+### **Model (Modelo)**
+
+El modelo representa los datos y la lógica de negocio. Esto ya está cubierto por tus capas `domain` y `data`:
+
+- **data/models**: Aquí estarán tus objetos que representan la estructura de tus datos.
+- **domain/entities**: Estas serían las entidades de negocio.
+
+### **View (Vista)**
+
+La vista se encarga de cómo se muestran los datos al usuario. Esto se relaciona con los componentes y pantallas que has definido en la capa `ui`.
+
+- **ui/screens**: Estas son tus vistas principales. Cada pantalla representa una vista en el patrón MVVM.
+- **ui/components**: Estos son componentes más pequeños que puedes reutilizar en diferentes vistas.
+
+### **ViewModel**
+
+El ViewModel actúa como un intermediario entre el Modelo y la Vista. Se encarga de la lógica de presentación y de manejar los eventos de la Vista. Toma los datos del Modelo y los transforma en una forma que sea fácil de presentar en la Vista.
+
+Para integrar el ViewModel en tu estructura:
+
+- Podrías añadir una nueva carpeta llamada `viewModels` dentro de `ui`.
+
+  **ui/viewModels**: Aquí colocarías toda la lógica que toma los datos del modelo y los prepara para ser mostrados en las vistas. También manejaría eventos de la vista, como clicks o entradas del usuario.
+
+Un ejemplo simple: supongamos que tienes una pantalla de perfil de usuario (`ProfileScreen.tsx`). Podrías tener un ViewModel asociado (`ProfileViewModel.ts`) que se encarga de obtener la información del usuario del modelo, procesarla (por ejemplo, formatear fechas o valores) y pasarla a la vista para ser mostrada.
+
+Con MVVM, en lugar de tener toda la lógica en la vista (pantalla o componente), divides la lógica de presentación y la colocas en el ViewModel. Esto hace que tu vista sea más "tonta" y se encargue principalmente de mostrar datos, mientras que el ViewModel se encarga de la lógica y de cómo se presentan esos datos.
+
+Combinar Clean Architecture con MVVM te brinda una estructura muy sólida y escalable, donde cada parte de tu código tiene una responsabilidad clara y definida, y donde es más fácil realizar pruebas y mantenimiento.
+
+
+## Diagrama
+En este diagrama:
+
+- **View (Vista)**: Representa las pantallas y componentes (`ui/screens` y `ui/components`). Interactúa directamente con el ViewModel, enviando eventos y mostrando datos.
+
+- **ViewModel**: Se encuentra en `ui/viewModels` y actúa como un intermediario entre la Vista y el Modelo. Transforma y prepara los datos para la Vista y maneja los eventos de la Vista.
+
+- **Model (Modelo)**: Representa los datos y la lógica de negocio (`data/models` y `domain/entities`). Provee los datos al ViewModel.
+
+Las flechas representan la dirección del flujo de datos y eventos. Por ejemplo, la Vista envía eventos (como clicks) al ViewModel, y el ViewModel recupera o envía datos al Modelo.
+
+Para una representación más visual y rica, te recomendaría usar herramientas especializadas para diagramas, como Lucidchart, Draw.io, o incluso software como PowerPoint o Keynote, y luego enlazar la imagen resultante en tu documento Markdown.
+
+```sql
++----------------+      +-----------------+      +------------------+
+|                |      |                 |      |                  |
+|     View       |----->|  ViewModel      |----->|     Model        |
+| (Screens,      |      | (ui/viewModels) |      | (data/models,    |
+|  Components)   |<-----|                 |<-----|  domain/entities)|
+|                |      |                 |      |                  |
++----------------+      +-----------------+      +------------------+
 
 ```
