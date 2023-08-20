@@ -9,7 +9,7 @@ import Note from "@/domain/entities/Note";
 export interface NoteRepository {
   // getAll(): Promise<Note[]>;
   // findById(noteId: string): Promise<Note | null>;
-  getNoteById(noteId: string): void; // This is only for testing
+  getNoteById(id: string): Promise<any>; // This is only for testing
   // findAllByUser(userId: string): Promise<Note[]>;
   // create(note: Note): Promise<void>;
   // update(note: Note): Promise<void>;
