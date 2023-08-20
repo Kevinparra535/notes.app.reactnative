@@ -1,7 +1,7 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStackNavigator  } from "@react-navigation/stack";
 
 // Contextos
 
@@ -37,7 +37,7 @@ import DashboardNavigation from "./DashboardNavigation";
  * @beta
  */
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const RootNavigation = (): JSX.Element => {
   // Renders

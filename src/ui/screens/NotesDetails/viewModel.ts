@@ -4,7 +4,7 @@ import { GetNoteById } from "@/domain/useCases/getNoteById";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 
-export const OneNoteViewModel = (noteId: string) => {
+export const NotesDetailsViewModel = (noteId: string) => {
   const [note, setNote] = useState<Note | null>(null);
   const datasource = new NetworkNoteDatasource(); // Crea una instancia de tu Datasource
   const getNoteById: GetNoteById = new GetNoteById(

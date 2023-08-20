@@ -50,6 +50,4 @@ const Notes = (): JSX.Element => {
   return <NotesList viewModel={data} refresh={refresh} />;
 };
 
-const styles = StyleSheet.create({});
-
 export default Notes;

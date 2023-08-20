@@ -1,6 +1,7 @@
 // Librerias
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 // Contextos
 
@@ -30,22 +31,26 @@ import Fonts from "@/ui/styles/Fonts";
  * @beta
  */
 
-type Props = { title: string; content: string };
+type Props = { title: string; content: string; uuid: string };
 
-const NotesCards = ({ title, content }: Props) => {
+const NotesCards = ({ title, content, uuid }: Props) => {
   // Estados
 
   // Contextos
 
   // Hooks
+  const navigation: any = useNavigation();
 
   // Funciones
+  const handlePress = () => {
+    navigation.navigate("NotesDetails", { id: uuid });
+  };
 
   // UseEffects
 
   // Renders
   return (
-    <View style={styles.card}>
+    <Pressable onPress={handlePress} style={styles.card}>
       <View style={styles.cardHeader}>
         <Text style={styles.title} numberOfLines={2}>
           {title}
@@ -59,14 +64,14 @@ const NotesCards = ({ title, content }: Props) => {
       </View>
 
       <View style={styles.cardFooter}>{/* <Text>Tags</Text> */}</View>
-    </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
     paddingVertical: Spacings.spacex2,
-    paddingHorizontal: Spacings.space + 5 ,
+    paddingHorizontal: Spacings.space + 5,
     marginTop: Spacings.space,
     marginHorizontal: Spacings.space,
     borderColor: Colors.variants.one,

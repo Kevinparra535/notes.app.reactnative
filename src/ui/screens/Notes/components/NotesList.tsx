@@ -64,7 +64,7 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
         onRefresh={refresh}
         data={viewModel.data}
         renderItem={({ item }) => (
-          <NotesCards title={item.title} content={item.content} />
+          <NotesCards uuid={item.uuid} title={item.title} content={item.content} />
         )}
         keyExtractor={(item) => item.uuid}
       />

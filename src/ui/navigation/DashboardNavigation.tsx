@@ -13,6 +13,7 @@ import Notes from "../screens/Notes";
 // Componentes
 
 // Navigations
+import NotesNavigation from "./NotesNavigation";
 
 // Imagenes
 
@@ -53,7 +54,11 @@ const DashboardNavigation = (): JSX.Element => {
   // Renders
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Notes" component={Notes} />
+      <Tab.Screen
+        name="NotesNavigation"
+        component={NotesNavigation}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   );
 };
