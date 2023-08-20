@@ -25,12 +25,12 @@ import { NotesViewModel } from "./NotesViewModel";
  * Descripción del componente.
  *
  * @remarks
- * Esta pantalla renderiza todas las notas
+ * Esta pantalla solo muestra una nota en base a los parametros
  *
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <NotesScreen />
+ * <OneNoteScreen />
  * ```
  *
  * @returns `JSX.Element`
@@ -38,13 +38,12 @@ import { NotesViewModel } from "./NotesViewModel";
  * @beta
  */
 
-const NotesScreen = (): JSX.Element => {
+const OneNoteScreen = (): JSX.Element => {
   const noteId = "hwYk7R2KcMBPy9RElbnK";
   const { note } = NotesViewModel(noteId);
 
   // Renders
   if (!note) return <Text>Loading...</Text>;
-
 
   return (
     <View>
@@ -54,8 +53,6 @@ const NotesScreen = (): JSX.Element => {
   );
 };
 
-NotesScreen.defaultProps = {};
-
 const styles = StyleSheet.create({});
 
-export default NotesScreen;
+export default OneNoteScreen;
