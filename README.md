@@ -1,4 +1,16 @@
-# Notes App
+# Aplicación de Notas con Sincronización en Tiempo Real - React Native
+
+**Descripción:** Una aplicación donde los usuarios puedan crear, editar y eliminar notas. Además, estas notas se sincronizarán en tiempo real entre dispositivos utilizando un backend común.
+
+**Características:**
+
+1. **Registro e inicio de sesión de usuarios:** Utiliza Firebase Authentication o cualquier otro servicio de autenticación que prefieras.
+2. **Creación y edición de notas:** Una interfaz sencilla donde el usuario pueda escribir sus ideas.
+3. **Sincronización en tiempo real:** Utiliza Firebase Realtime Database o Firestore para la sincronización en tiempo real de las notas entre diferentes dispositivos.
+4. **Búsqueda de notas:** Permite filtrar las notas por palabras clave.
+5. **Temas oscuro y claro:** Agrega una opción para cambiar entre modo oscuro y claro.
+
+# Desglose:
 
 ## **src**
 
@@ -209,6 +221,7 @@ Al seguir esta estructura y los principios SOLID, garantizas un código más lim
 ```
 
 ## MVVM
+
 Vamos a desglosar cómo integrarías MVVM en la estructura que ya has definido:
 
 ### **Model (Modelo)**
@@ -241,8 +254,8 @@ Con MVVM, en lugar de tener toda la lógica en la vista (pantalla o componente),
 
 Combinar Clean Architecture con MVVM te brinda una estructura muy sólida y escalable, donde cada parte de tu código tiene una responsabilidad clara y definida, y donde es más fácil realizar pruebas y mantenimiento.
 
-
 ## Diagrama
+
 En este diagrama:
 
 - **View (Vista)**: Representa las pantallas y componentes (`ui/screens` y `ui/components`). Interactúa directamente con el ViewModel, enviando eventos y mostrando datos.
