@@ -5,6 +5,7 @@ import {
   collection,
   getDocs,
   getDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { config } from "@/config/config";
 
@@ -15,7 +16,6 @@ import { config } from "@/config/config";
 // import {...} from "firebase/storage";
 
 // Initialize Firebase
-
 const firebaseConfig = {
   apiKey: config.apikey,
   authDomain: config.authdomain,
@@ -29,7 +29,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { db, collection, doc, getDocs, getDoc };
+export { db, collection, doc, getDocs, getDoc, onSnapshot };
 
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase

@@ -7,9 +7,9 @@
 import Note from "@/domain/entities/Note";
 
 export interface NoteRepository {
-  // getAll(): Promise<Note[]>;
+  getAllNotes(): Promise<Array<any>>;
+  getNoteById(uuid: string): Promise<any>; // This is only for testing
   // findById(noteId: string): Promise<Note | null>;
-  getNoteById(id: string): Promise<any>; // This is only for testing
   // findAllByUser(userId: string): Promise<Note[]>;
   // create(note: Note): Promise<void>;
   // update(note: Note): Promise<void>;

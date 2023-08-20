@@ -9,6 +9,7 @@ export class GetNoteById {
     const noteModel = await this._noteRepository.getNoteById(noteId);
     const noteProps: NoteProps = {
       id: noteModel.id,
+      uuid: noteModel.uuid,
       title: noteModel.title,
       content: noteModel.content
     };

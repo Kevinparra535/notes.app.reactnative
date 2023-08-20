@@ -7,7 +7,7 @@ import { View, Text, StyleSheet } from "react-native";
 // Hooks
 
 // ViewModels
-import { NotesViewModel } from "./NotesViewModel";
+import { OneNoteViewModel } from "./OneNoteViewModel";
 
 // Screens
 
@@ -40,7 +40,7 @@ import { NotesViewModel } from "./NotesViewModel";
 
 const OneNoteScreen = (): JSX.Element => {
   const noteId = "hwYk7R2KcMBPy9RElbnK";
-  const { note } = NotesViewModel(noteId);
+  const { note } = OneNoteViewModel(noteId);
 
   // Renders
   if (!note) return <Text>Loading...</Text>;

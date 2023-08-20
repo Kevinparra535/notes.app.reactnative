@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 import Note from "@/domain/entities/Note";
-import { GetNoteById } from "@/domain/useCases/getNoteById";
+import { GetAllNotes } from "@/domain/useCases/getAllNotes";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { FirebaseNoteDatasource } from "@/data/network/FirebaseNoteDatasource";
 
-export const NotesViewModel = (noteId: string) => {
-  const [note, setNote] = useState<Note | null>(null);
-  const datasource = new FirebaseNoteDatasource(); // Crea una instancia de tu Datasource
-  const getNoteById: GetNoteById = new GetNoteById(
-    new NoteRepositoryImpl(datasource)
-  ); // Pasa el datasource al repositorio
+export const NotesViewModel = () => {
+  const [notes, setNotes] = useState<Array<Note>>([]);
+  const datasource = new FirebaseNoteDatasource();
+  const getAllNotes: GetAllNotes = new GetAllNotes(new NoteRepositoryImpl(datasource));
 
-  const fetchNote = async () => {
-    const result: any = await getNoteById.execute(noteId);
-    setNote(result);
+  const fetchNotes = async () => {
+    const result: Array<Note> = await getAllNotes.execute();
+    setNotes(result);
   };
 
   useEffect(() => {
-    fetchNote();
-  }, [noteId]);
+    fetchNotes();
+  }, []);
 
-  return { note };
+  return notes;
 };

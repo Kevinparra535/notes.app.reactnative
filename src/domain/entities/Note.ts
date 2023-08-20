@@ -30,17 +30,20 @@ import { NoteModel } from "@/data/models/NoteModel";
 
 export interface NoteProps {
   id: string;
+  uuid: string;
   title: string;
   content: string;
 }
 
 class Note {
   public id: string;
+  public uuid: string;
   public title: string;
   public content: string;
 
   constructor(model: NoteModel) {
     this.id = model.id;
+    this.uuid = model.uuid;
     this.title = model.title;
     this.content = model.content;
   }

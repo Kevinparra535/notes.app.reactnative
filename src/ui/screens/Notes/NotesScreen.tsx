@@ -1,6 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 
 // Contextos
 
@@ -38,19 +38,29 @@ import { NotesViewModel } from "./NotesViewModel";
  * @beta
  */
 
+type ItemProps = { title: string; content: string };
+
 const NotesScreen = (): JSX.Element => {
-  const noteId = "hwYk7R2KcMBPy9RElbnK";
-  const { note } = NotesViewModel(noteId);
+  const notes = NotesViewModel();
+
+  const Item = ({ title, content }: ItemProps) => (
+    <View>
+      <Text>{title}</Text>
+      <Text>{content}</Text>
+    </View>
+  );
 
   // Renders
-  if (!note) return <Text>Loading...</Text>;
-
+  if (!notes) return <Text>Loading...</Text>;
 
   return (
-    <View>
-      <Text>{note.title}</Text>
-      <Text>{note.content}</Text>
-    </View>
+    <FlatList
+      data={notes}
+      renderItem={({ item }) => (
+        <Item title={item.title} content={item.content} />
+      )}
+      keyExtractor={(item) => item.uuid}
+    />
   );
 };
 

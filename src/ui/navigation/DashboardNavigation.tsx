@@ -58,8 +58,4 @@ const DashboardNavigation = (): JSX.Element => {
   );
 };
 
-DashboardNavigation.defaultProps = {};
-
-const styles = StyleSheet.create({});
-
 export default DashboardNavigation;
