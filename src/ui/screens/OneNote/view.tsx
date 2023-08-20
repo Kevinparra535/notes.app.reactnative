@@ -7,7 +7,7 @@ import { View, Text, StyleSheet } from "react-native";
 // Hooks
 
 // ViewModels
-import { OneNoteViewModel } from "./OneNoteViewModel";
+import { OneNoteViewModel } from "./viewModel";
 
 // Screens
 
@@ -38,7 +38,7 @@ import { OneNoteViewModel } from "./OneNoteViewModel";
  * @beta
  */
 
-const OneNoteScreen = (): JSX.Element => {
+const OneNote = (): JSX.Element => {
   const noteId = "hwYk7R2KcMBPy9RElbnK";
   const { note } = OneNoteViewModel(noteId);
 
@@ -55,4 +55,4 @@ const OneNoteScreen = (): JSX.Element => {
 
 const styles = StyleSheet.create({});
 
-export default OneNoteScreen;
+export default OneNote;

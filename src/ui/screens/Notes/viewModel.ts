@@ -5,13 +5,16 @@ import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { FirebaseNoteDatasource } from "@/data/network/FirebaseNoteDatasource";
 
 export const NotesViewModel = () => {
-  const [notes, setNotes] = useState<Array<Note>>([]);
+  const [notes, setNotes] = useState<Array<Note> | null>(null);
   const datasource = new FirebaseNoteDatasource();
-  const getAllNotes: GetAllNotes = new GetAllNotes(new NoteRepositoryImpl(datasource));
+  const getAllNotes: GetAllNotes = new GetAllNotes(
+    new NoteRepositoryImpl(datasource)
+  );
 
   const fetchNotes = async () => {
-    const result: Array<Note> = await getAllNotes.execute();
-    setNotes(result);
+    const result: Promise<Array<Note>> = await getAllNotes.execute();
+    console.log(result)
+    setNotes(await result);
   };
 
   useEffect(() => {

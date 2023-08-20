@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // Hooks
 
 // Screens
-import NotesScreen from "../screens/Notes/NotesScreen";
+import Notes from "../screens/Notes";
 
 // Componentes
 
@@ -53,7 +53,7 @@ const DashboardNavigation = (): JSX.Element => {
   // Renders
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Notes" component={NotesScreen} />
+      <Tab.Screen name="Notes" component={Notes} />
     </Tab.Navigator>
   );
 };
