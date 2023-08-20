@@ -52,12 +52,13 @@ const Notes = (): JSX.Element => {
   const notes = NotesViewModel();
 
   // Renders
-  if (!notes) return <Loader />;
+  if (notes.status === "loading") return <Loader />;
+  if (notes.status === "error") return <Text>Error</Text>;
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={notes}
+        data={notes.data}
         renderItem={({ item }) => (
           <NotesCards title={item.title} content={item.content} />
         )}

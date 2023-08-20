@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import Note from "@/domain/entities/Note";
 import { GetNoteById } from "@/domain/useCases/getNoteById";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
-import { FirebaseNoteDatasource } from "@/data/network/FirebaseNoteDatasource";
+import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 
 export const OneNoteViewModel = (noteId: string) => {
   const [note, setNote] = useState<Note | null>(null);
-  const datasource = new FirebaseNoteDatasource(); // Crea una instancia de tu Datasource
+  const datasource = new NetworkNoteDatasource(); // Crea una instancia de tu Datasource
   const getNoteById: GetNoteById = new GetNoteById(
     new NoteRepositoryImpl(datasource)
   ); // Pasa el datasource al repositorio
