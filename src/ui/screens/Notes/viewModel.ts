@@ -16,14 +16,15 @@ export const NotesViewModel = () => {
     new NoteRepositoryImpl(datasource)
   );
 
-  const fetchNotes = async () => {
+  const fetchNotes = async (): Promise<void> => {
     const result: ResponseModel<Array<NoteModel>> = await getAllNotes.execute();
     setNotes(result);
+    console.log('Me ejecuto')
   };
 
   useEffect(() => {
     fetchNotes();
   }, []);
 
-  return notes;
+  return { data: notes, refresh: fetchNotes };
 };

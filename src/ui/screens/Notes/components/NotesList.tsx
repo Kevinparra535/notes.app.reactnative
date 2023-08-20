@@ -25,6 +25,7 @@ import { ResponseModel } from "@/data/models/ResponseModel";
 
 type Props = {
   viewModel: ResponseModel<NoteModel[]>;
+  refresh: () => Promise<void>;
 };
 
 /**
@@ -44,7 +45,7 @@ type Props = {
  * @beta
  */
 
-const NotesList = ({ viewModel }: Props): JSX.Element => {
+const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -59,6 +60,8 @@ const NotesList = ({ viewModel }: Props): JSX.Element => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        refreshing={viewModel.status === "loading"}
+        onRefresh={refresh}
         data={viewModel.data}
         renderItem={({ item }) => (
           <NotesCards title={item.title} content={item.content} />

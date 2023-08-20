@@ -41,13 +41,13 @@ import NotesList from "./components/NotesList";
  */
 
 const Notes = (): JSX.Element => {
-  const viewModel = NotesViewModel();
+  const { data, refresh } = NotesViewModel();
 
   // Renders
-  if (viewModel.status === "loading") return <Loader />;
-  if (viewModel.status === "error") return <Text>Error</Text>;
+  if (data.status === "loading") return <Loader />;
+  if (data.status === "error") return <Text>Error</Text>;
 
-  return <NotesList viewModel={viewModel} />;
+  return <NotesList viewModel={data} refresh={refresh} />;
 };
 
 const styles = StyleSheet.create({});
