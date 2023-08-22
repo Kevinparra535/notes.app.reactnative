@@ -53,7 +53,11 @@ const DashboardNavigation = (): JSX.Element => {
 
   // Renders
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+      }}
+    >
       <Tab.Screen
         name="NotesNavigation"
         component={NotesNavigation}

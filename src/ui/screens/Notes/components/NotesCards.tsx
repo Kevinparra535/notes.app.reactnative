@@ -51,11 +51,13 @@ const NotesCards = ({ title, content, uuid }: Props) => {
   // Renders
   return (
     <Pressable onPress={handlePress} style={styles.card}>
-      <View style={styles.cardHeader}>
-        <Text style={styles.title} numberOfLines={2}>
-          {title}
-        </Text>
-      </View>
+      {title && (
+        <View style={styles.cardHeader}>
+          <Text style={styles.title} numberOfLines={2}>
+            {title}
+          </Text>
+        </View>
+      )}
 
       <View style={styles.cardBody}>
         <Text style={styles.content} numberOfLines={4}>
