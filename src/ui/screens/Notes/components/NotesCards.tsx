@@ -59,11 +59,13 @@ const NotesCards = ({ title, content, uuid }: Props) => {
         </View>
       )}
 
-      <View style={styles.cardBody}>
-        <Text style={styles.content} numberOfLines={4}>
-          {content}
-        </Text>
-      </View>
+      {content && (
+        <View style={styles.cardBody}>
+          <Text style={styles.content} numberOfLines={4}>
+            {content}
+          </Text>
+        </View>
+      )}
 
       <View style={styles.cardFooter}>{/* <Text>Tags</Text> */}</View>
     </Pressable>
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
   cardHeader: {
     flex: 1,
     justifyContent: "space-between",
-    marginBottom: Spacings.space,
   },
 
   title: {
@@ -106,7 +107,8 @@ const styles = StyleSheet.create({
   },
 
   cardBody: {
-    minHeight: 70,
+    marginVertical: Spacings.space,
+    minHeight: 20,
   },
 
   content: {

@@ -58,24 +58,27 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
 
   // Renders
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        refreshing={viewModel.status === "loading"}
-        onRefresh={refresh}
-        data={viewModel.data}
-        renderItem={({ item }) => (
-          <NotesCards uuid={item.uuid} title={item.title} content={item.content} />
-        )}
-        keyExtractor={(item) => item.uuid}
-      />
-    </SafeAreaView>
+    <FlatList
+      style={styles.container}
+      refreshing={viewModel.status === "loading"}
+      onRefresh={refresh}
+      data={viewModel.data}
+      renderItem={({ item }) => (
+        <NotesCards
+          uuid={item.uuid}
+          title={item.title}
+          content={item.content}
+        />
+      )}
+      keyExtractor={(item) => item.uuid}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    // marginTop: StatusBar.currentHeight || 0,
     backgroundColor: Colors.bg.claro,
   },
 });

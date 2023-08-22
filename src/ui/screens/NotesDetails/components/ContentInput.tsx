@@ -57,7 +57,7 @@ const ContentInput = ({ value }: Props): JSX.Element => {
     <TextInput
       multiline
       inputMode="text"
-      placeholder="Title"
+      placeholder="Note"
       style={styles.input}
       defaultValue={value}
       scrollEnabled={false}
