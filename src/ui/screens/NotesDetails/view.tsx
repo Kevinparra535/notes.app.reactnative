@@ -13,6 +13,7 @@ import { NotesDetailsViewModel } from "./viewModel";
 // Screens
 
 // Componentes
+import TitleInput from "./components/TitleInput";
 
 // Navigations
 
@@ -22,6 +23,7 @@ import { NotesDetailsViewModel } from "./viewModel";
 import Colors from "@/ui/styles/Colors";
 import Fonts from "@/ui/styles/Fonts";
 import Spacings from "@/ui/styles/Spacings";
+import ContentInput from "./components/ContentInput";
 
 // Tipado
 type Props = {
@@ -46,11 +48,6 @@ type Props = {
  */
 
 const NotesDetails = ({ route }: Props): JSX.Element => {
-  // States
-  const [heightTitle, setHeightTitle] = useState(40); // valor inicial para la altura
-
-  // hooks
-
   // Funciones
   const noteId = route.params.id;
   const { note } = NotesDetailsViewModel(noteId);
@@ -59,33 +56,15 @@ const NotesDetails = ({ route }: Props): JSX.Element => {
   if (!note) return <Text>Loading...</Text>;
 
   return (
-    <KeyboardAwareScrollView style={styles.container}>
-      <TextInput
-        multiline
-        inputMode="text"
-        placeholder="Title"
-        scrollEnabled={false}
-        keyboardType="default"
-        textBreakStrategy="simple"
-        defaultValue={note.title}
-        cursorColor={Colors.oscuro}
-        lineBreakStrategyIOS="standard"
-        style={[styles.input, styles.inputTitle]}
-      />
-
-      <TextInput
-        multiline
-        inputMode="text"
-        autoFocus={!note.content ? true : false}
-        placeholder="Content"
-        scrollEnabled={false}
-        keyboardType="default"
-        textBreakStrategy="simple"
-        defaultValue={note.content}
-        cursorColor={Colors.oscuro}
-        lineBreakStrategyIOS="standard"
-        style={[styles.input, styles.inputContent]}
-      />
+    <KeyboardAwareScrollView
+      style={styles.container}
+      extraHeight={100}
+      extraScrollHeight={100}
+      enableOnAndroid
+      viewIsInsideTabBar
+    >
+      <TitleInput value={note.title} />
+      <ContentInput value={note.content} />
     </KeyboardAwareScrollView>
   );
 };
@@ -94,22 +73,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Spacings.spacex2,
     flex: 1,
-  },
-
-  input: {
-    flex: 1,
-    flexWrap: "wrap",
-    ...Fonts.inputsBold,
-  },
-
-  inputTitle: {
-    marginTop: Spacings.spacex2,
-    ...Fonts.inputsBold,
-  },
-
-  inputContent: {
-    marginBottom: Spacings.spacex5,
-    ...Fonts.inputsNormal,
   },
 });
 
