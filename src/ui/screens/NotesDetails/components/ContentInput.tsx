@@ -28,7 +28,7 @@ type Props = {
  * Descripción del componente.
  *
  * @remarks
- * Esta es una descripción más detallada del componente. Puedes hablar sobre su funcionamiento, cómo se utiliza, etc.
+ *  * Este componente se encarga de setear y mostrar el contenido al momento de abrirse la nota, a futuro se puede ajustar para que sea reutilizable pero por ahora es independiente.
  *
  * @example
  * Ejemplo de uso:
