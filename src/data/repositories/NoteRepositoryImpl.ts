@@ -1,5 +1,5 @@
 import { NoteRepository } from "@/domain/repositories/NoteRepository";
-import { NetworkNoteDatasource } from "../network/NetworkNoteDatasource";
+import { NetworkNoteDatasource } from "../../ui/store/NetworkNoteDatasource";
 import { NoteModel } from "../models/NoteModel";
 
 export class NoteRepositoryImpl implements NoteRepository {

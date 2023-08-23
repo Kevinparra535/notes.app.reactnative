@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Note from "@/domain/entities/Note";
 import { GetNoteById } from "@/domain/useCases/getNoteById";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
-import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+import { NetworkNoteDatasource } from "@/ui/store/NetworkNoteDatasource";
 
 export const NotesDetailsViewModel = (noteId: string) => {
   const [note, setNote] = useState<Note | null>(null);

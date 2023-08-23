@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Note from "@/domain/entities/Note";
 import { GetAllNotes } from "@/domain/useCases/getAllNotes";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
-import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+import { NetworkNoteDatasource } from "@/ui/store/NetworkNoteDatasource";
 import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
 
