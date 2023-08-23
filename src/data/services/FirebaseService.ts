@@ -1,20 +1,21 @@
 import { db, doc, getDoc, collection, getDocs } from "@/config/firebaseConfig";
 import { NoteModel } from "../models/NoteModel";
+import Note from "@/domain/entities/Note";
 import { ResponseModel } from "../models/ResponseModel";
-import { NotesCacheManager } from "../network/NotesCacheManager";
+import { NotesCacheManager } from "../../ui/store/NotesCacheManager";
 
 export class FirebaseService {
   private cacheManager = new NotesCacheManager();
 
-  async fetchAllNotes(): Promise<ResponseModel<Array<NoteModel>>> {
+  async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {
     const cacheKey = "all-notes";
+    console.log(this.cacheManager.has(cacheKey));
 
     if (this.cacheManager.has(cacheKey)) {
       return { status: "success", data: this.cacheManager.get(cacheKey) };
     }
 
-    const formatedResponse: Array<NoteModel> = [];
-
+    const formatedResponse: Array<Note> = [];
     try {
       const notesCol = collection(db, "notes");
       const docs = await getDocs(notesCol);
@@ -31,7 +32,7 @@ export class FirebaseService {
     }
   }
 
-  async fetchNoteById(noteId: string): Promise<NoteModel> {
+  async fetchNoteById(noteId: string): Promise<Note> {
     if (this.cacheManager.has(noteId)) {
       return this.cacheManager.get(noteId);
     }
@@ -40,7 +41,7 @@ export class FirebaseService {
     const docSnap = await getDoc(notesCol);
 
     if (docSnap.exists()) {
-      const noteData: NoteModel = docSnap.data() as NoteModel;
+      const noteData: Note = docSnap.data() as Note;
       this.cacheManager.set(noteId, noteData);
       return noteData;
     } else {

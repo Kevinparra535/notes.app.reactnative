@@ -4,10 +4,11 @@
  * El repositorio NoteRepository debe definir todos los métodos necesarios para interactuar con las notas desde el punto de vista del almacenamiento.
  */
 
+import { ResponseModel } from "@/data/models/ResponseModel";
 import Note from "@/domain/entities/Note";
 
 export interface NoteRepository {
-  getAllNotes(): Promise<Array<any>>;
+  getAllNotes(): Promise<ResponseModel<Array<Note>>>;
   getNoteById(uuid: string): Promise<any>; // This is only for testing
   // findById(noteId: string): Promise<Note | null>;
   // findAllByUser(userId: string): Promise<Note[]>;

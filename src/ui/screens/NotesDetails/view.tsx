@@ -14,6 +14,7 @@ import { NotesDetailsViewModel } from "./viewModel";
 
 // Componentes
 import TitleInput from "./components/TitleInput";
+import Loader from "@/ui/components/Loader";
 
 // Navigations
 
@@ -52,8 +53,9 @@ const NotesDetails = ({ route }: Props): JSX.Element => {
   const noteId = route.params.id;
   const { note } = NotesDetailsViewModel(noteId);
 
+
   // Renders
-  if (!note) return <Text>Loading...</Text>;
+  if (!note) return <Loader />;
 
   return (
     <KeyboardAwareScrollView

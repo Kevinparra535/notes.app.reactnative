@@ -1,4 +1,3 @@
-// /data/cache/NotesCacheManager.ts
 
 type Cache = {
   [key: string]: any; // La llave puede ser el ID de la nota o algún otro identificador.
