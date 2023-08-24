@@ -1,6 +1,5 @@
-import { NoteRepository } from "@/domain/repositories/NoteRepository";
-import { NoteModel } from "../models/NoteModel";
 import Note from "@/domain/entities/Note";
+import { NoteRepository } from "@/domain/repositories/NoteRepository";
 import { FirebaseService } from "../services/FirebaseService";
 import { ResponseModel } from "../models/ResponseModel";
 
@@ -18,6 +17,14 @@ export class NetworkNoteDatasource implements NoteRepository {
 
   async getNoteById(noteId: string): Promise<Note> {
     return this.firebaseService.fetchNoteById(noteId);
+  }
+
+  async updateTitle(noteId: string, title: string): Promise<void> {
+    this.firebaseService.updateNoteTitle(noteId, title);
+  }
+
+  async updateContent(noteId: string, data: Record<string, string>): Promise<void> {
+    this.firebaseService.updateNoteContent(noteId, data);
   }
 
   public static getInstance(): NetworkNoteDatasource {

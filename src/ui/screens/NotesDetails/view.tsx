@@ -15,16 +15,15 @@ import { NotesDetailsViewModel } from "./viewModel";
 // Componentes
 import TitleInput from "./components/TitleInput";
 import Loader from "@/ui/components/Loader";
+import StatusUpdating from "./components/StatusUpdating";
+import ContentInput from "./components/ContentInput";
 
 // Navigations
 
 // Imagenes
 
 // Estilos
-import Colors from "@/ui/styles/Colors";
-import Fonts from "@/ui/styles/Fonts";
 import Spacings from "@/ui/styles/Spacings";
-import ContentInput from "./components/ContentInput";
 
 // Tipado
 type Props = {
@@ -49,13 +48,40 @@ type Props = {
  */
 
 const NotesDetails = ({ route }: Props): JSX.Element => {
-  // Funciones
+  // Configs
   const noteId = route.params.id;
-  const { note } = NotesDetailsViewModel(noteId);
+  const viewModel = NotesDetailsViewModel(noteId);
 
+  // Estados
+  const [inputs, setInputs] = useState({
+    title: "",
+    content: "",
+  });
+
+  // Funciones
+  const handleTextChange = (id: string, value: string) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  useEffect(() => {
+    viewModel.handleNoteChange(inputs);
+  }, [inputs]);
+
+  useEffect(() => {
+    if (viewModel.note) {
+      setInputs({
+        title: viewModel.note?.title,
+        content: viewModel.note?.content,
+      });
+    }
+  }, [viewModel.note]);
 
   // Renders
-  if (!note) return <Loader />;
+  if (viewModel.isLoading) return <Loader />;
+  if (viewModel.error) return <Text>Error</Text>;
 
   return (
     <KeyboardAwareScrollView
@@ -65,8 +91,12 @@ const NotesDetails = ({ route }: Props): JSX.Element => {
       enableOnAndroid
       viewIsInsideTabBar
     >
-      <TitleInput value={note.title} />
-      <ContentInput value={note.content} />
+      <StatusUpdating
+        isSyncing={viewModel.note?.isSyncing}
+        syncError={viewModel.note?.syncError}
+      />
+      <TitleInput value={inputs.title} onChangeText={handleTextChange} />
+      <ContentInput value={inputs.content} onChangeText={handleTextChange} />
     </KeyboardAwareScrollView>
   );
 };

@@ -21,7 +21,8 @@ import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
 type Props = {
-  value: string;
+  value: string | undefined;
+  onChangeText(id:string, value: string): void;
 };
 
 /**
@@ -41,7 +42,7 @@ type Props = {
  * @beta
  */
 
-const TitleInput = ({ value }: Props): JSX.Element => {
+const TitleInput = ({ value, onChangeText }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -58,13 +59,15 @@ const TitleInput = ({ value }: Props): JSX.Element => {
       multiline
       inputMode="text"
       placeholder="Title"
+      value={value}
+      style={styles.input}
       scrollEnabled={false}
       keyboardType="default"
+      returnKeyType='none'
       textBreakStrategy="simple"
-      defaultValue={value}
       cursorColor={Colors.oscuro}
       lineBreakStrategyIOS="standard"
-      style={styles.input}
+      onChangeText={value => onChangeText('title', value)}
     />
   );
 };

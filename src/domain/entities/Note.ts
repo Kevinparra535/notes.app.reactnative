@@ -33,6 +33,9 @@ export interface NoteProps {
   uuid: string;
   title: string;
   content: string;
+  isSyncing?: boolean;
+  lastSynced?: Date;
+  syncError?: string;
 }
 
 class Note {
@@ -40,27 +43,37 @@ class Note {
   public uuid: string;
   public title: string;
   public content: string;
+  public isSyncing: boolean;
+  public lastSynced: Date | null;
+  public syncError: string | null;
 
   constructor(model: NoteModel) {
     this.id = model.id;
     this.uuid = model.uuid;
     this.title = model.title;
     this.content = model.content;
+    this.id = model.id;
+    this.uuid = model.uuid;
+    this.title = model.title;
+    this.content = model.content;
+    this.isSyncing = model.isSyncing || false;
+    this.lastSynced = model.lastSynced || null;
+    this.syncError = model.syncError || null;
   }
 
-  // Actualizacion de contenido
-  updateContent(newContent: string): void {
-    console.log("Update Content");
-
-    // this.content = newContent;
-    // this.updateDate();
+  setSyncing() {
+    this.isSyncing = true;
+    this.syncError = null; // Reset any previous sync errors
   }
 
-  updateTitle(newTitle: string): void {
-    console.log("Update Title");
+  setSynced() {
+    this.isSyncing = false;
+    this.lastSynced = new Date();
+  }
 
-    // this.title = newTitle;
-    // this.updateDate();
+  setSyncError(error: string) {
+    this.isSyncing = false;
+    this.syncError = error;
   }
 }
 
