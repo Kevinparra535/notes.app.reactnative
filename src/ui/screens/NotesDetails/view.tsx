@@ -1,6 +1,6 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { Text, TextInput, StyleSheet } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Text, TextInput, StyleSheet, Button } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Contextos
@@ -24,6 +24,7 @@ import ContentInput from "./components/ContentInput";
 
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
+import { observer } from "mobx-react-lite";
 
 // Tipado
 type Props = {
@@ -47,39 +48,17 @@ type Props = {
  * @beta
  */
 
-const NotesDetails = ({ route }: Props): JSX.Element => {
+const NotesDetails: React.FC<Props> = observer(({ route }) => {
   // Configs
   const noteId = route.params.id;
-  const viewModel = NotesDetailsViewModel(noteId);
 
   // Estados
-  const [inputs, setInputs] = useState({
-    id: "",
-    title: "",
-    content: "",
-  });
+  const [viewModel] = useState(() => new NotesDetailsViewModel(noteId));
 
   // Funciones
   const handleTextChange = (id: string, value: string) => {
-    setInputs((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    viewModel.handleNoteChange({ [id]: value });
   };
-
-  useEffect(() => {
-    viewModel.handleNoteChange(inputs);
-  }, [inputs]);
-
-  useEffect(() => {
-    if (viewModel.note) {
-      setInputs({
-        id: viewModel.note.id,
-        title: viewModel.note?.title,
-        content: viewModel.note?.content,
-      });
-    }
-  }, [viewModel.note]);
 
   // Renders
   if (viewModel.isLoading) return <Loader />;
@@ -97,11 +76,17 @@ const NotesDetails = ({ route }: Props): JSX.Element => {
         isSyncing={viewModel.note?.isSyncing}
         syncError={viewModel.note?.syncError}
       />
-      <TitleInput value={inputs.title} onChangeText={handleTextChange} />
-      <ContentInput value={inputs.content} onChangeText={handleTextChange} />
+      <TitleInput
+        value={viewModel.note?.title}
+        onChangeText={handleTextChange}
+      />
+      <ContentInput
+        value={viewModel.note?.content}
+        onChangeText={handleTextChange}
+      />
     </KeyboardAwareScrollView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

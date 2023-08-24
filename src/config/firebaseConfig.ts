@@ -8,6 +8,9 @@ import {
   onSnapshot,
   getFirestore,
   serverTimestamp,
+  disableNetwork,
+  initializeFirestore,
+  memoryLocalCache,
 } from "firebase/firestore";
 import { config } from "@/config/config";
 
@@ -42,6 +45,5 @@ export {
   getFirestore,
   serverTimestamp,
 };
-
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase

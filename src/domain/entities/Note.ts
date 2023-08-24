@@ -30,7 +30,6 @@ import { NoteModel } from "@/data/models/NoteModel";
 
 export interface NoteProps {
   id: string;
-  uuid: string;
   title: string;
   content: string;
   isSyncing?: boolean;
@@ -40,7 +39,6 @@ export interface NoteProps {
 
 class Note {
   public id: string;
-  public uuid: string;
   public title: string;
   public content: string;
   public isSyncing: boolean;
@@ -49,7 +47,6 @@ class Note {
 
   constructor(model: NoteModel) {
     this.id = model.id;
-    this.uuid = model.uuid;
     this.title = model.title;
     this.content = model.content;
     this.isSyncing = model.isSyncing || false;

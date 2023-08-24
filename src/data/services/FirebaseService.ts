@@ -11,6 +11,8 @@ import Note from "@/domain/entities/Note";
 import { ResponseModel } from "../models/ResponseModel";
 import { NotesCacheManager } from "../../ui/store/NotesCacheManager";
 
+type nodeId = string;
+
 export class FirebaseService {
   private cacheManager = new NotesCacheManager();
   private collectionName: string = "notes";
@@ -40,7 +42,7 @@ export class FirebaseService {
     }
   }
 
-  async fetchNoteById(noteId: string): Promise<Note> {
+  async fetchNoteById(noteId: nodeId): Promise<Note> {
     // if (this.cacheManager.has(noteId)) {
     //   return this.cacheManager.get(noteId);
     // }
@@ -49,7 +51,7 @@ export class FirebaseService {
     const docSnap = await getDoc(notesCol);
 
     if (docSnap.exists()) {
-      const noteData: Note = { ...docSnap.data(), uuid: noteId } as Note;
+      const noteData: Note = docSnap.data() as Note;
       // this.cacheManager.set(noteId, noteData);
       return noteData;
     } else {
@@ -58,15 +60,15 @@ export class FirebaseService {
   }
 
   async updateNoteContent(
-    noteId: string,
+    noteId: nodeId,
     data: Record<string, string>
   ): Promise<void> {
     const notesRef = doc(db, this.collectionName, noteId);
-    await updateDoc(notesRef, {
-      title: data.title,
-      content: data.content,
-      timestamp: serverTimestamp(),
-    });
+    const updatedData = {
+      ...data,
+      updated: serverTimestamp(),
+    };
+    await updateDoc(notesRef, updatedData);
     this.cacheManager.clear(noteId);
   }
 }

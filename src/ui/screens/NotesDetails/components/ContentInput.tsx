@@ -60,7 +60,7 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
       inputMode="text"
       placeholder="Note"
       style={styles.input}
-      value={value}
+      defaultValue={value}
       scrollEnabled={false}
       keyboardType="default"
       textBreakStrategy="simple"

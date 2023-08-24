@@ -59,7 +59,7 @@ const TitleInput = ({ value, onChangeText }: Props): JSX.Element => {
       multiline
       inputMode="text"
       placeholder="Title"
-      value={value}
+      defaultValue={value}
       style={styles.input}
       scrollEnabled={false}
       keyboardType="default"
