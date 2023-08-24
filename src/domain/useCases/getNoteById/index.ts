@@ -13,6 +13,7 @@ export class GetNoteById {
       title: noteModel.title,
       content: noteModel.content
     };
+    console.log('noteModel', noteModel)
     return new Note(noteProps);
   }
 }

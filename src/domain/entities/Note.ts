@@ -52,10 +52,6 @@ class Note {
     this.uuid = model.uuid;
     this.title = model.title;
     this.content = model.content;
-    this.id = model.id;
-    this.uuid = model.uuid;
-    this.title = model.title;
-    this.content = model.content;
     this.isSyncing = model.isSyncing || false;
     this.lastSynced = model.lastSynced || null;
     this.syncError = model.syncError || null;

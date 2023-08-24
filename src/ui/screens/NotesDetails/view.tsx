@@ -54,6 +54,7 @@ const NotesDetails = ({ route }: Props): JSX.Element => {
 
   // Estados
   const [inputs, setInputs] = useState({
+    id: "",
     title: "",
     content: "",
   });
@@ -73,6 +74,7 @@ const NotesDetails = ({ route }: Props): JSX.Element => {
   useEffect(() => {
     if (viewModel.note) {
       setInputs({
+        id: viewModel.note.id,
         title: viewModel.note?.title,
         content: viewModel.note?.content,
       });

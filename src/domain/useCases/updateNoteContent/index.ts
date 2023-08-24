@@ -13,16 +13,18 @@ export class UpdateNoteContent {
     newData: Record<string, string>
   ): Promise<Note> {
     const note = await this._noteRepository.getNoteById(noteId);
-    note.setSyncing();
+    // note.setSyncing();
+
+    console.log("USE CASE UPDATE NOTE ===>: ", note);
 
     try {
       // Update the note in the database
       await this._noteRepository.updateContent(noteId, newData);
 
       // If successful, update the note entity to reflect the successful sync
-      note.setSynced();
+      // note.setSynced();
     } catch (error) {
-      console.log("UpdateNoteContent: ", error);
+      console.log("USE CASE UPDATE NOTE ===>: ", error);
       // Handle the error, update the note entity to reflect the sync error
       note.setSyncError("Failed to sync the note content.");
     }

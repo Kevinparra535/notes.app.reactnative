@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import Note from "@/domain/entities/Note";
 import { GetNoteById } from "@/domain/useCases/getNoteById";
+import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 import { debounce } from "@/ui/utils/Deboucing";
-import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
 
 export const NotesDetailsViewModel = (noteId: string) => {
   // Estados
@@ -26,6 +26,7 @@ export const NotesDetailsViewModel = (noteId: string) => {
     try {
       setIsLoading(true);
       const response: Note = await getNoteById.execute(noteId);
+      console.log("fetchNote", response);
       setNote(response);
     } catch (error) {
       setError("Failed to fetch the note.");
@@ -40,10 +41,11 @@ export const NotesDetailsViewModel = (noteId: string) => {
     // note.setSyncing();
 
     try {
-      await updateNoteContent.execute(note.id, newData);
+      await updateNoteContent.execute(noteId, newData);
       // note.setSynced();
     } catch (error) {
-      // note.setSyncError("Failed to sync the note.");
+      console.log('handleNoteChange.error:', error)
+      note.setSyncError("Failed to sync the note.");
     }
   }, 500);
 
