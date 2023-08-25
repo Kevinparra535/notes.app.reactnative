@@ -32,6 +32,10 @@ export interface NoteProps {
   id: string;
   title: string;
   content: string;
+  updated: {
+  seconds: number;
+  nanoseconds: number;
+};
   isSyncing?: boolean;
   lastSynced?: Date;
   syncError?: string;
@@ -41,6 +45,10 @@ class Note {
   public id: string;
   public title: string;
   public content: string;
+  public updated: {
+  seconds: number;
+  nanoseconds: number;
+};
   public isSyncing: boolean;
   public lastSynced: Date | null;
   public syncError: string | null;
@@ -49,24 +57,10 @@ class Note {
     this.id = model.id;
     this.title = model.title;
     this.content = model.content;
+    this.updated = model.updated;
     this.isSyncing = model.isSyncing || false;
     this.lastSynced = model.lastSynced || null;
     this.syncError = model.syncError || null;
-  }
-
-  setSyncing() {
-    this.isSyncing = true;
-    this.syncError = null; // Reset any previous sync errors
-  }
-
-  setSynced() {
-    this.isSyncing = false;
-    this.lastSynced = new Date();
-  }
-
-  setSyncError(error: string) {
-    this.isSyncing = false;
-    this.syncError = error;
   }
 }
 

@@ -60,6 +60,8 @@ const NotesDetails: React.FC<Props> = observer(({ route }) => {
     viewModel.handleNoteChange({ [id]: value });
   };
 
+  console.log(viewModel.note);
+
   // Renders
   if (viewModel.isLoading) return <Loader />;
   if (viewModel.error) return <Text>Error</Text>;
@@ -73,8 +75,9 @@ const NotesDetails: React.FC<Props> = observer(({ route }) => {
       viewIsInsideTabBar
     >
       <StatusUpdating
-        isSyncing={viewModel.note?.isSyncing}
-        syncError={viewModel.note?.syncError}
+        isSyncing={viewModel.isSyncing}
+        syncError={viewModel.syncError}
+        lastUpdate={viewModel.note?.updated}
       />
       <TitleInput
         value={viewModel.note?.title}

@@ -1,4 +1,3 @@
-
 import { NoteRepository } from "@/domain/repositories/NoteRepository";
 import Note, { NoteProps } from "@/domain/entities/Note";
 
@@ -10,9 +9,9 @@ export class GetNoteById {
     const noteProps: NoteProps = {
       id: noteModel.id,
       title: noteModel.title,
-      content: noteModel.content
+      content: noteModel.content,
+      updated: noteModel.updated,
     };
-    // console.log('noteModel', noteModel)
     return new Note(noteProps);
   }
 }

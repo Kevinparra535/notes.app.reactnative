@@ -59,14 +59,16 @@ import { makeAutoObservable } from "mobx";
 
 export class NotesDetailsViewModel {
   private noteId: string;
+  public note: Note | null = null;
+  private getNoteById: GetNoteById;
+  public isLoading: boolean = true;
+  public isSyncing: boolean = false;
+  public lastSynced: Date | null = null;
+  public syncError: string | null = null;
+  private updateNoteContent: UpdateNoteContent;
+  public error: string | null | unknown = null;
   private datasource: NetworkNoteDatasource =
     NetworkNoteDatasource.getInstance();
-  private getNoteById: GetNoteById;
-  private updateNoteContent: UpdateNoteContent;
-
-  public note: Note | null = null;
-  public isLoading: boolean = true;
-  public error: string | null | unknown = null;
 
   constructor(noteId: string) {
     makeAutoObservable(this);
@@ -79,15 +81,30 @@ export class NotesDetailsViewModel {
     this.fetchNote();
   }
 
-  setLoading(state: boolean) {
+  private setSyncing() {
+    this.isSyncing = true;
+    this.syncError = null;
+  }
+
+  private setSynced() {
+    this.isSyncing = false;
+    this.lastSynced = new Date();
+  }
+
+  private setSyncError(error: string) {
+    this.isSyncing = false;
+    this.syncError = error;
+  }
+
+  private setLoading(state: boolean) {
     this.isLoading = state;
   }
 
-  setNote(note: Note) {
+  private setNote(note: Note) {
     this.note = note;
   }
 
-  setError(error: string | unknown) {
+  private setError(error: string | unknown) {
     this.error = error;
   }
 
@@ -105,14 +122,17 @@ export class NotesDetailsViewModel {
   }
 
   handleNoteChange(newData: Record<string, string>) {
+    this.setSyncing();
+
     if (!this.note) return;
 
     const fun = debounce(async (newData: Record<string, string>) => {
       try {
         await this.updateNoteContent.execute(this.noteId, newData);
+        this.setSynced();
       } catch (error) {
         console.log("NotesDetailsViewModel.handleNoteChange.error:", error);
-        this.note?.setSyncError("Failed to sync the note.");
+        this.setSyncError("Failed to fetch note.");
       }
     }, 2000);
 

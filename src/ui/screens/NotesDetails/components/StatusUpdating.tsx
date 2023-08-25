@@ -1,4 +1,5 @@
 // Librerias
+import { NoteModel } from "@/data/models/NoteModel";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import { TimeSince } from "@/ui/utils/TimeSince";
 
 // Navigations
 
@@ -21,6 +23,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 type Props = {
   isSyncing: boolean | undefined;
   syncError: string | boolean | null | undefined;
+  lastUpdate: { seconds: number; nanoseconds: number; } | undefined;
 };
 
 /**
@@ -40,7 +43,11 @@ type Props = {
  * @beta
  */
 
-const StatusUpdating = ({ isSyncing, syncError }: Props): JSX.Element => {
+const StatusUpdating = ({
+  isSyncing,
+  syncError,
+  lastUpdate,
+}: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -54,6 +61,11 @@ const StatusUpdating = ({ isSyncing, syncError }: Props): JSX.Element => {
   // Renders
   return (
     <>
+      {lastUpdate && !isSyncing && (
+        <Text style={{ color: "black" }}>
+          Last sync: {TimeSince(lastUpdate)}
+        </Text>
+      )}
       {isSyncing && <Text style={{ color: "black" }}>Synchronizing...</Text>}
       {syncError && <Text style={{ color: "red" }}>{syncError}</Text>}
     </>
