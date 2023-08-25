@@ -49,11 +49,10 @@ export class FirebaseService {
 
     return new Promise((resolve, reject) => {
       const formatedResponse: Array<Note> = [];
-
       const notesCol = collection(db, this.collectionName);
       const q = query(notesCol, orderBy("updated", "desc"));
 
-      // Establece el listener
+      // Set up the listener
       const unsub = onSnapshot(
         q,
         (snapshot) => {
@@ -74,17 +73,13 @@ export class FirebaseService {
               }
             }
           });
-
           resolve({ status: "success", data: formatedResponse });
-
-          unsub();
         },
         (error) => {
-          // En caso de error, rechaza la promesa y desvincula el listener
           reject({ status: "error", error: error.message });
-          unsub();
         }
       );
+      return unsub;
     });
   }
 

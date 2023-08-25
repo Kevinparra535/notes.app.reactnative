@@ -25,7 +25,7 @@ import { ResponseModel } from "@/data/models/ResponseModel";
 
 type Props = {
   viewModel: ResponseModel<NoteModel[]>;
-  refresh: () => Promise<void>;
+  refresh: () => void;
 };
 
 /**

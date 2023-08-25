@@ -14,7 +14,7 @@ export class UpdateNoteContent {
   ): Promise<Note> {
     const note = await this._noteRepository.getNoteById(noteId);
 
-    console.log("USE CASE UPDATE NOTE ===>: ", note);
+    // console.log("USE CASE UPDATE NOTE ===>: ", note);
 
     try {
       await this._noteRepository.updateContent(noteId, newData);

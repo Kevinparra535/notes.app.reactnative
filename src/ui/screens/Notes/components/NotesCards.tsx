@@ -74,15 +74,13 @@ const NotesCards = ({ title, content, uuid }: Props) => {
 
 const styles = StyleSheet.create({
   card: {
-    paddingVertical: Spacings.spacex2,
-    paddingHorizontal: Spacings.space + 5,
+    paddingVertical: Spacings.space,
+    paddingHorizontal: Spacings.space,
     marginTop: Spacings.space,
     marginHorizontal: Spacings.space,
     borderColor: Colors.variants.one,
     shadowColor: Colors.oscuro,
-    borderRadius: Spacings.space,
-    borderWidth: 1,
-    borderBlockColor: Colors.variants.one,
+    borderRadius: Spacings.spacehalf,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -102,12 +100,12 @@ const styles = StyleSheet.create({
     maxWidth: "90%",
     overflow: "hidden",
     ...Fonts.header1,
-    fontSize: 22,
-    lineHeight: Spacings.spacex3,
+    fontSize: 15,
+    lineHeight: 20,
   },
 
   cardBody: {
-    marginVertical: Spacings.space,
+    marginTop: Spacings.spacehalf,
     minHeight: 20,
   },
 

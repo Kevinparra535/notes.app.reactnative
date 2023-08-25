@@ -1,7 +1,8 @@
 // Librerias
-import React, { useEffect, useRef, useState } from "react";
-import { Text, TextInput, StyleSheet, Button } from "react-native";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import { Text, TextInput, StyleSheet, Button, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { observer } from "mobx-react-lite";
 
 // Contextos
 
@@ -15,8 +16,8 @@ import { NotesDetailsViewModel } from "./viewModel";
 // Componentes
 import TitleInput from "./components/TitleInput";
 import Loader from "@/ui/components/Loader";
-import StatusUpdating from "./components/StatusUpdating";
 import ContentInput from "./components/ContentInput";
+import HeaderNotesDetails from "./components/HeaderNotesDetails";
 
 // Navigations
 
@@ -24,7 +25,6 @@ import ContentInput from "./components/ContentInput";
 
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
-import { observer } from "mobx-react-lite";
 
 // Tipado
 type Props = {
@@ -55,39 +55,49 @@ const NotesDetails: React.FC<Props> = observer(({ route }) => {
   // Estados
   const [viewModel] = useState(() => new NotesDetailsViewModel(noteId));
 
+  // hooks
+  const isNeedUpdate: MutableRefObject<boolean> = useRef(false);
+
   // Funciones
   const handleTextChange = (id: string, value: string) => {
     viewModel.handleNoteChange({ [id]: value });
+    isNeedUpdate.current = true;
   };
 
-  console.log(viewModel.note);
+  useEffect(() => {
+    return () => {
+      isNeedUpdate.current = false;
+    };
+  }, []);
 
   // Renders
   if (viewModel.isLoading) return <Loader />;
   if (viewModel.error) return <Text>Error</Text>;
 
   return (
-    <KeyboardAwareScrollView
-      style={styles.container}
-      extraHeight={100}
-      extraScrollHeight={100}
-      enableOnAndroid
-      viewIsInsideTabBar
+    <HeaderNotesDetails
+      isNeedUpdate={isNeedUpdate}
+      isSyncing={viewModel.isSyncing}
+      syncError={viewModel.syncError}
+      lastUpdate={viewModel.note?.updated}
     >
-      <StatusUpdating
-        isSyncing={viewModel.isSyncing}
-        syncError={viewModel.syncError}
-        lastUpdate={viewModel.note?.updated}
-      />
-      <TitleInput
-        value={viewModel.note?.title}
-        onChangeText={handleTextChange}
-      />
-      <ContentInput
-        value={viewModel.note?.content}
-        onChangeText={handleTextChange}
-      />
-    </KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        extraHeight={100}
+        extraScrollHeight={100}
+        enableOnAndroid
+        viewIsInsideTabBar
+      >
+        <TitleInput
+          value={viewModel.note?.title}
+          onChangeText={handleTextChange}
+        />
+        <ContentInput
+          value={viewModel.note?.content}
+          onChangeText={handleTextChange}
+        />
+      </KeyboardAwareScrollView>
+    </HeaderNotesDetails>
   );
 });
 

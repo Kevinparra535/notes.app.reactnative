@@ -1,6 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Contextos
 
@@ -37,27 +37,19 @@ import NotesDetails from "../screens/NotesDetails";
  * @beta
  */
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const NotesNavigation = (): JSX.Element => {
   // Renders
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Notes"
-        component={Notes}
-        options={{
-          animationEnabled: true,
-          animationTypeForReplace: "pop",
-        }}
-      />
+      <Stack.Screen name="Notes" component={Notes} options={{}} />
       <Stack.Screen
         name="NotesDetails"
         component={NotesDetails}
         options={{
-          title: '',
-          animationEnabled: true,
-          animationTypeForReplace: "pop",
+          title: "",
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

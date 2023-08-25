@@ -36,7 +36,7 @@ const Fonts = {
   },
 
   inputsBold: {
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: "poppins-semibold",
     color: Colors.oscuro,
   },
