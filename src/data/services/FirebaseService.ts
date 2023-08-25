@@ -2,10 +2,13 @@ import {
   db,
   doc,
   getDoc,
+  limit,
   getDocs,
   updateDoc,
   collection,
   onSnapshot,
+  orderBy,
+  query,
   serverTimestamp,
 } from "@/config/firebaseConfig";
 import Note from "@/domain/entities/Note";
@@ -25,22 +28,64 @@ export class FirebaseService {
     //   return { status: "success", data: this.cacheManager.get(cacheKey) };
     // }
 
-    const formatedResponse: Array<Note> = [];
+    // const formatedResponse: Array<Note> = [];
 
-    try {
+    // try {
+    //   const notesCol = collection(db, this.collectionName);
+    //   const q = query(notesCol, orderBy("updated", "desc"));
+
+    //   const docs = await getDocs(q);
+
+    //   docs.forEach((doc: { id: string; data: () => any }) => {
+    //     formatedResponse.push({ uuid: doc.id, ...doc.data() });
+    //   });
+
+    //   // this.cacheManager.set(cacheKey, formatedResponse);
+
+    //   return { status: "success", data: formatedResponse };
+    // } catch (error: any) {
+    //   return { status: "error", error: error.message };
+    // }
+
+    return new Promise((resolve, reject) => {
+      const formatedResponse: Array<Note> = [];
+
       const notesCol = collection(db, this.collectionName);
-      const docs = await getDocs(notesCol);
+      const q = query(notesCol, orderBy("updated", "desc"));
 
-      docs.forEach((doc: { id: string; data: () => any }) => {
-        formatedResponse.push({ uuid: doc.id, ...doc.data() });
-      });
+      // Establece el listener
+      const unsub = onSnapshot(
+        q,
+        (snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added" || change.type === "modified") {
+              const docData: any = {
+                uuid: change.doc.id,
+                ...change.doc.data(),
+              };
+              formatedResponse.push(docData);
+            }
+            if (change.type === "removed") {
+              const indexToRemove = formatedResponse.findIndex(
+                (item) => item.uuid === change.doc.id
+              );
+              if (indexToRemove !== -1) {
+                formatedResponse.splice(indexToRemove, 1);
+              }
+            }
+          });
 
-      // this.cacheManager.set(cacheKey, formatedResponse);
+          resolve({ status: "success", data: formatedResponse });
 
-      return { status: "success", data: formatedResponse };
-    } catch (error: any) {
-      return { status: "error", error: error.message };
-    }
+          unsub();
+        },
+        (error) => {
+          // En caso de error, rechaza la promesa y desvincula el listener
+          reject({ status: "error", error: error.message });
+          unsub();
+        }
+      );
+    });
   }
 
   async fetchNoteById(noteId: nodeId): Promise<Note> {

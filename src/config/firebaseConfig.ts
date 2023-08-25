@@ -1,16 +1,16 @@
 import { initializeApp } from "firebase/app";
 import {
   doc,
+  query,
+  limit,
   getDoc,
+  orderBy,
   getDocs,
   updateDoc,
   collection,
   onSnapshot,
   getFirestore,
   serverTimestamp,
-  disableNetwork,
-  initializeFirestore,
-  memoryLocalCache,
 } from "firebase/firestore";
 import { config } from "@/config/config";
 
@@ -37,8 +37,11 @@ const db = getFirestore(app);
 export {
   db,
   doc,
+  query,
+  limit,
   getDoc,
   getDocs,
+  orderBy,
   updateDoc,
   collection,
   onSnapshot,
