@@ -67,6 +67,12 @@ const NotesCards = ({ title, content, uuid }: Props) => {
         </View>
       )}
 
+      {!title && !content && (
+        <View style={styles.cardEmpty}>
+          <Text style={styles.emptyTitle}>Empty Note</Text>
+        </View>
+      )}
+
       <View style={styles.cardFooter}>{/* <Text>Tags</Text> */}</View>
     </Pressable>
   );
@@ -112,6 +118,19 @@ const styles = StyleSheet.create({
   content: {
     ...Fonts.bodyText,
     fontSize: 13,
+  },
+
+  cardEmpty: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+  },
+
+  emptyTitle: {
+    ...Fonts.header1,
+    fontSize: 15,
+    lineHeight: 20,
+    color: Colors.variants.one,
   },
 
   cardFooter: {

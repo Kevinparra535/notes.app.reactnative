@@ -134,7 +134,7 @@ export class NotesDetailsViewModel {
         console.log("NotesDetailsViewModel.handleNoteChange.error:", error);
         this.setSyncError("Failed to fetch note.");
       }
-    }, 2000);
+    }, 1000);
 
     fun(newData);
   }

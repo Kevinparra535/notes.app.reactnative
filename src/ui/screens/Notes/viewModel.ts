@@ -26,8 +26,6 @@ export class NotesViewModel {
   }
 
   private async fetchNote(): Promise<void> {
-    console.log("fetchNote");
-
     const result: ResponseModel<Array<NoteModel>> =
       await this.getAllNotes.execute();
 

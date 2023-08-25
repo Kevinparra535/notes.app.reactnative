@@ -3,7 +3,7 @@ import React, { MutableRefObject, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 // Contextos
 
@@ -62,7 +62,7 @@ const HeaderNotesDetails = ({
 
   // Hooks
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
 
   // Funciones
   const handleBackPress = () => {
