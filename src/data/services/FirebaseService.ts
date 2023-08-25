@@ -5,6 +5,7 @@ import {
   getDocs,
   updateDoc,
   collection,
+  onSnapshot,
   serverTimestamp,
 } from "@/config/firebaseConfig";
 import Note from "@/domain/entities/Note";
@@ -47,16 +48,40 @@ export class FirebaseService {
     //   return this.cacheManager.get(noteId);
     // }
 
-    const notesCol = doc(db, this.collectionName, noteId);
-    const docSnap = await getDoc(notesCol);
+    // const notesCol = doc(db, this.collectionName, noteId);
+    // const docSnap = await getDoc(notesCol);
+    // if (docSnap.exists()) {
+    //   const noteData: Note = docSnap.data() as Note;
+    //   // this.cacheManager.set(noteId, noteData);
+    //   return noteData;
+    // } else {
+    //   throw new Error("Note not found");
+    // }
 
-    if (docSnap.exists()) {
-      const noteData: Note = docSnap.data() as Note;
-      // this.cacheManager.set(noteId, noteData);
-      return noteData;
-    } else {
-      throw new Error("Note not found");
-    }
+    return new Promise((resolve, reject) => {
+      // Establece el listener
+      const unsub = onSnapshot(
+        doc(db, this.collectionName, noteId),
+        (docSnap) => {
+          // Se puede descomentar si quieres saber si los datos provienen del servidor o del cache local
+          // const source = docSnap.metadata.hasPendingWrites ? "Local" : "Server";
+          // console.log(source, " data: ", docSnap.data());
+
+          if (docSnap.exists()) {
+            const noteData: Note = docSnap.data() as Note;
+            resolve(noteData);
+
+            // Después de obtener los datos por primera vez, desvincula el listener
+            unsub();
+          } else {
+            reject(new Error("Note not found"));
+
+            // Después de recibir el error, desvincula el listener
+            unsub();
+          }
+        }
+      );
+    });
   }
 
   async updateNoteContent(
