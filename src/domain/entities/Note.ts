@@ -32,10 +32,11 @@ export interface NoteProps {
   id: string;
   title: string;
   content: string;
+  uuid: string;
   updated: {
-  seconds: number;
-  nanoseconds: number;
-};
+    seconds: number;
+    nanoseconds: number;
+  };
   isSyncing?: boolean;
   lastSynced?: Date;
   syncError?: string;
@@ -46,15 +47,17 @@ class Note {
   public title: string;
   public content: string;
   public updated: {
-  seconds: number;
-  nanoseconds: number;
-};
+    seconds: number;
+    nanoseconds: number;
+  };
   public isSyncing: boolean;
   public lastSynced: Date | null;
   public syncError: string | null;
+  public uuid: string;
 
   constructor(model: NoteModel) {
     this.id = model.id;
+    this.uuid = model.uuid;
     this.title = model.title;
     this.content = model.content;
     this.updated = model.updated;

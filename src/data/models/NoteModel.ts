@@ -2,6 +2,7 @@
 
 export interface NoteModel {
   id: string;
+  uuid: string,
   title: string;
   content: string;
   updated: {
