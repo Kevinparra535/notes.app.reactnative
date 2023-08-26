@@ -63,15 +63,12 @@ const CreateNotes: React.FC = observer(() => {
   // Funciones
   const handleTextChange = (id: string, value: string) => {
     viewModel.handleNoteChange({ [id]: value });
-    isNeedUpdate.current = true;
   };
 
   useFocusEffect(
     useCallback(() => {
       return () => {
-        isNeedUpdate.current = false;
         viewModel.saveAndCreateNewNote();
-        console.log("unmount");
       };
     }, [])
   );
@@ -91,8 +88,14 @@ const CreateNotes: React.FC = observer(() => {
         extraScrollHeight={100}
         style={styles.container}
       >
-        <TitleInput onChangeText={handleTextChange} />
-        <ContentInput onChangeText={handleTextChange} />
+        <TitleInput
+          value={viewModel.newNoteContent?.title}
+          onChangeText={handleTextChange}
+        />
+        <ContentInput
+          value={viewModel.newNoteContent?.content}
+          onChangeText={handleTextChange}
+        />
       </KeyboardAwareScrollView>
     </HeaderNotesDetails>
   );
