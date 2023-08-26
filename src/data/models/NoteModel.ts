@@ -1,8 +1,7 @@
 export type timeStamp = { seconds: number; nanoseconds: number };
 
 export interface NoteModel {
-  id: string;
-  uuid: string; // NoteId
+  uuid?: string; // NoteId
   title: string;
   content: string;
   userId: string;

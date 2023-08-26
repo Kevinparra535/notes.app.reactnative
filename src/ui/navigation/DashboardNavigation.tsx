@@ -16,7 +16,7 @@ import {
 // Hooks
 
 // Screens
-import CustomTab from "../components/CustomTab";
+import CustomTab from "./components/CustomTab";
 
 // Componentes
 

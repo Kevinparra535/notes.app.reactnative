@@ -67,8 +67,7 @@ export class NotesDetailsViewModel {
   public syncError: string | null = null;
   private updateNoteContent: UpdateNoteContent;
   public error: string | null | unknown = null;
-  private datasource: NetworkNoteDatasource =
-    NetworkNoteDatasource.getInstance();
+  private datasource: NetworkNoteDatasource = NetworkNoteDatasource.getInstance();
 
   constructor(noteId: string) {
     makeAutoObservable(this);

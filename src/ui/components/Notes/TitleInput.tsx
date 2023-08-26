@@ -21,7 +21,7 @@ import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
 type Props = {
-  value: string | undefined;
+  value?: string | undefined;
   onChangeText(id:string, value: string): void;
 };
 
@@ -29,7 +29,7 @@ type Props = {
  * Descripción del componente.
  *
  * @remarks
- *  * Este componente se encarga de setear y mostrar el contenido al momento de abrirse la nota, a futuro se puede ajustar para que sea reutilizable pero por ahora es independiente.
+ * Este componente se encarga de setear y mostrar el titulo al momento de abrirse la nota, a futuro se puede ajustar para que sea reutilizable pero por ahora es independiente.
  *
  * @example
  * Ejemplo de uso:
@@ -42,7 +42,7 @@ type Props = {
  * @beta
  */
 
-const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
+const TitleInput = ({ value, onChangeText }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -58,16 +58,16 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
     <TextInput
       multiline
       inputMode="text"
-      placeholder="Note"
-      style={styles.input}
+      placeholder="Title"
       defaultValue={value}
+      style={styles.input}
       scrollEnabled={false}
       keyboardType="default"
+      returnKeyType='none'
       textBreakStrategy="simple"
       cursorColor={Colors.oscuro}
       lineBreakStrategyIOS="standard"
-      autoFocus={!value ? true : false}
-      onChangeText={value => onChangeText('content', value)}
+      onChangeText={value => onChangeText('title', value)}
     />
   );
 };
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     flexWrap: "wrap",
-    ...Fonts.inputsNormal,
+    marginTop: Spacings.spacex2,
+    ...Fonts.inputsBold,
   },
 });
 
-export default ContentInput;
+export default TitleInput;

@@ -14,10 +14,10 @@ import { NotesDetailsViewModel } from "./viewModel";
 // Screens
 
 // Componentes
-import TitleInput from "./components/TitleInput";
+import TitleInput from "@/ui/components/Notes/TitleInput";
 import Loader from "@/ui/components/Loader";
-import ContentInput from "./components/ContentInput";
-import HeaderNotesDetails from "./components/HeaderNotesDetails";
+import ContentInput from "../../components/Notes/ContentInput";
+import HeaderNotesDetails from "@/ui/components/Notes/HeaderNotesDetails";
 
 // Navigations
 
@@ -79,7 +79,7 @@ const NotesDetails: React.FC<Props> = observer(({ route }) => {
       isNeedUpdate={isNeedUpdate}
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
-      lastUpdate={viewModel.note?.updated}
+      lastUpdate={viewModel.note?.updatedAt}
     >
       <KeyboardAwareScrollView
         style={styles.container}

@@ -9,6 +9,7 @@ export class CreateNote {
   }
 
   async execute(userId: string, data: Record<string, string>): Promise<void> {
-    console.log("Create note");
+    const noteModel = await this._noteRepository.createNote(userId, data);
+    return noteModel;
   }
 }

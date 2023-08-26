@@ -31,8 +31,7 @@ import { NoteModel, timeStamp } from "@/data/models/NoteModel";
 export interface NoteProps extends NoteModel {}
 
 class Note {
-  public id: string;
-  public uuid: string; // NoteId
+  public uuid: string | undefined; // NoteId
   public title: string;
   public content: string;
   public userId: string;
@@ -46,8 +45,7 @@ class Note {
   public createdAt: timeStamp;
 
   constructor(model: NoteModel) {
-    this.id = model.id;
-    this.uuid = model.uuid;
+    this.uuid = model.uuid || undefined;
     this.title = model.title;
     this.content = model.content;
     this.userId = model.userId;

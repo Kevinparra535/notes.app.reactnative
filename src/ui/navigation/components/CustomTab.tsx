@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../styles/Colors";
+import Colors from "../../styles/Colors";
 
 // Contextos
 

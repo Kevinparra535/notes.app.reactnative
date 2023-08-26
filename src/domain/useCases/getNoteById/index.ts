@@ -7,7 +7,6 @@ export class GetNoteById {
   async execute(noteId: string): Promise<Note> {
     const noteModel = await this._noteRepository.getNoteById(noteId);
     const noteProps: NoteProps = {
-      id: noteModel.id,
       pin: noteModel.pin,
       tags: noteModel.tags,
       uuid: noteModel.uuid,

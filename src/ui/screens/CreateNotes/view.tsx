@@ -1,7 +1,14 @@
 // Librerias
-import React, { useEffect, useState } from "react";
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { observer } from "mobx-react-lite";
 
 // Contextos
 
@@ -10,12 +17,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import ContentInput from "@/ui/components/Notes/ContentInput";
+import HeaderNotesDetails from "@/ui/components/Notes/HeaderNotesDetails";
+import TitleInput from "@/ui/components/Notes/TitleInput";
+import { CreateNotesViewModel } from "./viewModel";
 
 // Navigations
 
 // Imagenes
 
 // Estilos
+import Spacings from "@/ui/styles/Spacings";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Tipado
 
@@ -36,31 +49,60 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * @beta
  */
 
-const CreateNotes = (): JSX.Element => {
+const CreateNotes: React.FC = observer(() => {
+  const userId = "test-id";
+
   // Estados
-  const [data, setData] = useState([]);
+  const [viewModel] = useState(() => new CreateNotesViewModel(userId));
 
   // Contextos
 
-  // Hooks
+  // hooks
+  const isNeedUpdate: MutableRefObject<boolean> = useRef(false);
 
   // Funciones
+  const handleTextChange = (id: string, value: string) => {
+    viewModel.handleNoteChange({ [id]: value });
+    isNeedUpdate.current = true;
+  };
 
-  // UseEffects
-  useEffect(() => {}, []);
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        isNeedUpdate.current = false;
+        viewModel.saveAndCreateNewNote();
+        console.log("unmount");
+      };
+    }, [])
+  );
 
   // Renders
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Create note</Text>
-      </View>
-    </SafeAreaView>
+    <HeaderNotesDetails
+      isNeedUpdate={isNeedUpdate}
+      isSyncing={viewModel.isSyncing}
+      syncError={viewModel.syncError}
+      lastUpdate={viewModel.note?.updatedAt}
+    >
+      <KeyboardAwareScrollView
+        style={styles.container}
+        extraHeight={100}
+        extraScrollHeight={100}
+        enableOnAndroid
+        viewIsInsideTabBar
+      >
+        <TitleInput onChangeText={handleTextChange} />
+        <ContentInput onChangeText={handleTextChange} />
+      </KeyboardAwareScrollView>
+    </HeaderNotesDetails>
   );
-};
+});
 
-CreateNotes.defaultProps = {};
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: Spacings.spacex2,
+    flex: 1,
+  },
+});
 
 export default CreateNotes;

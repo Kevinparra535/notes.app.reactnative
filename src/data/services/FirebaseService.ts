@@ -1,14 +1,13 @@
 import {
   db,
   doc,
-  getDoc,
-  limit,
-  getDocs,
+  query,
+  addDoc,
+  setDoc,
+  orderBy,
   updateDoc,
   collection,
   onSnapshot,
-  orderBy,
-  query,
   serverTimestamp,
 } from "@/config/firebaseConfig";
 import Note from "@/domain/entities/Note";
@@ -50,7 +49,7 @@ export class FirebaseService {
     return new Promise((resolve, reject) => {
       const formatedResponse: Array<Note> = [];
       const notesCol = collection(db, this.collectionName);
-      const q = query(notesCol, orderBy("updated", "desc"));
+      const q = query(notesCol, orderBy("updatedAt", "desc"));
 
       // Set up the listener
       const unsub = onSnapshot(
@@ -79,32 +78,26 @@ export class FirebaseService {
           reject({ status: "error", error: error.message });
         }
       );
+
       return unsub;
     });
   }
 
-  async createNote(
-    userId: string,
-    data: Record<string, string>
-  ): Promise<void> {
-    console.log("Create Note");
+  async createNote(userId: string, data: Record<string, string>): Promise<any> {
+    const docRef = await addDoc(collection(db, this.collectionName), {
+      userId,
+      tags: [],
+      pin: false,
+      color: "#FFFFFF",
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+      ...data,
+    });
+
+    console.log("FirebaseService: Create Note => ", docRef.id);
   }
 
   async fetchNoteById(noteId: nodeId): Promise<Note> {
-    // if (this.cacheManager.has(noteId)) {
-    //   return this.cacheManager.get(noteId);
-    // }
-
-    // const notesCol = doc(db, this.collectionName, noteId);
-    // const docSnap = await getDoc(notesCol);
-    // if (docSnap.exists()) {
-    //   const noteData: Note = docSnap.data() as Note;
-    //   // this.cacheManager.set(noteId, noteData);
-    //   return noteData;
-    // } else {
-    //   throw new Error("Note not found");
-    // }
-
     return new Promise((resolve, reject) => {
       // Establece el listener
       const unsub = onSnapshot(
@@ -138,7 +131,7 @@ export class FirebaseService {
     const notesRef = doc(db, this.collectionName, noteId);
     const updatedData = {
       ...data,
-      updated: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     };
     await updateDoc(notesRef, updatedData);
     this.cacheManager.clear(noteId);
