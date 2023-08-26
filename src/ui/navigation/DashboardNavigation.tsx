@@ -22,6 +22,7 @@ import CustomTab from "../components/CustomTab";
 
 // Navigations
 import NotesNavigation from "./NotesNavigation";
+import CreateNotes from "../screens/CreateNotes";
 
 // Imagenes
 
@@ -65,7 +66,7 @@ const DashboardNavigation = (): JSX.Element => {
     <Tab.Navigator
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        tabBarInactiveTintColor: "grey",
+        tabBarInactiveTintColor: Colors.oscuro,
         tabBarActiveTintColor: Colors.oscuro,
         tabBarActiveBackgroundColor: Colors.brand.secondary,
       }}
@@ -95,17 +96,17 @@ const DashboardNavigation = (): JSX.Element => {
         }}
       /> */}
 
-      {/* <Tab.Screen
-        name="FavoritesNavigation"
-        component={FavoritesNavigation}
+      <Tab.Screen
+        name="CreateNotes"
+        component={CreateNotes}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ focused, color, size }) => (
-            <PlusIcon color={color} strokeWidth={1.8} size={size} />
+            <PlusIcon color={Colors.claro} strokeWidth={1.8} size={size} />
           ),
         }}
-      /> */}
+      />
 
       {/* <Tab.Screen
         name="FavoritesNavigation"

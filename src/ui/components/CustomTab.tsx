@@ -1,7 +1,14 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Colors from "../styles/Colors";
 
 // Contextos
 
@@ -60,30 +67,37 @@ export default ({ state, navigation, descriptors }: Props): JSX.Element => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        {routes.map((route: { key: string | number }, index: any) => {
-          const { options } = descriptors[route.key];
+        {routes.map(
+          (route: { key: string | number; name: string }, index: any) => {
+            const { options } = descriptors[route.key];
 
-          const isFocused = state.index === index;
+            const isFocused = state.index === index;
 
-          const tintColor = isFocused
-            ? options.tabBarActiveTintColor
-            : options.tabBarInactiveTintColor;
+            const tintColor = isFocused
+              ? options.tabBarActiveTintColor
+              : options.tabBarInactiveTintColor;
 
-          const backgroundColor = isFocused
-            ? options.tabBarActiveBackgroundColor
-            : options.tabBarInactiveBackgroundColor;
+            const backgroundColor = isFocused
+              ? options.tabBarActiveBackgroundColor
+              : options.tabBarInactiveBackgroundColor;
 
-          return (
-            <TouchableOpacity
-              key={index}
-              style={[styles.tab, { backgroundColor }]}
-              onPress={() => onPress(route)}
-            >
-              {options.tabBarIcon &&
-                options.tabBarIcon({ color: tintColor, size: 25 })}
-            </TouchableOpacity>
-          );
-        })}
+            let additionalStyles = {};
+
+            if (route.name === "CreateNotes")
+              additionalStyles = styles.tabCenter;
+
+            return (
+              <TouchableOpacity
+                key={index}
+                onPress={() => onPress(route)}
+                style={[styles.tab, { backgroundColor }, additionalStyles]}
+              >
+                {options.tabBarIcon &&
+                  options.tabBarIcon({ color: tintColor, size: 25 })}
+              </TouchableOpacity>
+            );
+          }
+        )}
       </View>
     </SafeAreaView>
   );
@@ -95,15 +109,10 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-between",
-    position: "absolute",
-    bottom: Platform.OS === "android" ? 10 : 45,
-    marginHorizontal: "7.5%",
-    width: "85%",
+    justifyContent: "center",
     height: 64,
-    borderRadius: 100,
     shadowColor: "#171717",
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: { width: 1, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
     backgroundColor: "white",
@@ -115,7 +124,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     margin: 4,
+    width: 40,
     height: 40,
     borderRadius: 100,
+  },
+
+  tabCenter: {
+    padding: 10,
+    position: 'relative',
+    top: -30,
+    margin: 4,
+    width: 70,
+    height: 70,
+    borderWidth: 5,
+    borderRadius: 100,
+    borderColor: Colors.claro,
+    backgroundColor: Colors.oscuro,
   },
 });
