@@ -83,6 +83,13 @@ export class FirebaseService {
     });
   }
 
+  async createNote(
+    userId: string,
+    data: Record<string, string>
+  ): Promise<void> {
+    console.log("Create Note");
+  }
+
   async fetchNoteById(noteId: nodeId): Promise<Note> {
     // if (this.cacheManager.has(noteId)) {
     //   return this.cacheManager.get(noteId);

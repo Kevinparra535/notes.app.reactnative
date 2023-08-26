@@ -13,5 +13,6 @@ export interface NoteRepository {
   syncError?: boolean,
   getNoteById(uuid: string): Promise<Note>;
   getAllNotes(): Promise<ResponseModel<Array<Note>>>;
+  createNote(userId: string, data: Record<string, string>): Promise<void>;
   updateContent(noteId: string, newData: Record<string, string>): Promise<void>;
 }

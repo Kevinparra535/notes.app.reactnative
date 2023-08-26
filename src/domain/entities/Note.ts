@@ -26,41 +26,36 @@
  * removeTag(tag: string | number): void { const index = this.tags.indexOf(tag); if (index !== -1) { this.tags.splice(index, 1); }}
  */
 
-import { NoteModel } from "@/data/models/NoteModel";
+import { NoteModel, timeStamp } from "@/data/models/NoteModel";
 
-export interface NoteProps {
-  id: string;
-  title: string;
-  content: string;
-  uuid: string;
-  updated: {
-    seconds: number;
-    nanoseconds: number;
-  };
-  isSyncing?: boolean;
-  lastSynced?: Date;
-  syncError?: string;
-}
+export interface NoteProps extends NoteModel {}
 
 class Note {
   public id: string;
+  public uuid: string; // NoteId
   public title: string;
   public content: string;
-  public updated: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  public userId: string;
+  public color: string;
+  public pin: boolean;
   public isSyncing: boolean;
   public lastSynced: Date | null;
   public syncError: string | null;
-  public uuid: string;
+  public tags: Array<string | number>;
+  public updatedAt: timeStamp;
+  public createdAt: timeStamp;
 
   constructor(model: NoteModel) {
     this.id = model.id;
     this.uuid = model.uuid;
     this.title = model.title;
     this.content = model.content;
-    this.updated = model.updated;
+    this.userId = model.userId;
+    this.color = model.color;
+    this.pin = model.pin;
+    this.tags = model.tags;
+    this.updatedAt = model.updatedAt;
+    this.createdAt = model.createdAt;
     this.isSyncing = model.isSyncing || false;
     this.lastSynced = model.lastSynced || null;
     this.syncError = model.syncError || null;

@@ -1,7 +1,7 @@
 const Colors = {
   brand: {
     primary: '#D4701E',
-    secondary: '#C4C4C4',
+    secondary: '#CCCCCC',
   },
 
   variants: {

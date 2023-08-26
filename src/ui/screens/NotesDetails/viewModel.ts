@@ -102,6 +102,7 @@ export class NotesDetailsViewModel {
 
   private setNote(note: Note) {
     this.note = note;
+    console.log(note)
   }
 
   private setError(error: string | unknown) {

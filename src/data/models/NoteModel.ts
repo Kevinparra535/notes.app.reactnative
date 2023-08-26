@@ -1,15 +1,17 @@
-
+export type timeStamp = { seconds: number; nanoseconds: number };
 
 export interface NoteModel {
   id: string;
-  uuid: string,
+  uuid: string; // NoteId
   title: string;
   content: string;
-  updated: {
-  seconds: number;
-  nanoseconds: number;
-},
+  userId: string;
+  color: string;
+  pin: boolean;
   isSyncing?: boolean;
   lastSynced?: Date;
   syncError?: string;
+  tags: Array<string | number>;
+  updatedAt: timeStamp;
+  createdAt: timeStamp;
 }

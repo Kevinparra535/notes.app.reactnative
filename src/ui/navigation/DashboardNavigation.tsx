@@ -2,13 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  HomeIcon,
+  StarIcon,
+  PlusIcon,
+  UserCircleIcon,
+  FolderIcon,
+  RectangleStackIcon,
+} from "react-native-heroicons/outline";
 
 // Contextos
 
 // Hooks
 
 // Screens
-import Notes from "../screens/Notes";
+import CustomTab from "../components/CustomTab";
 
 // Componentes
 
@@ -18,6 +26,7 @@ import NotesNavigation from "./NotesNavigation";
 // Imagenes
 
 // Estilos
+import Colors from "../styles/Colors";
 
 // Tipado
 
@@ -56,13 +65,71 @@ const DashboardNavigation = (): JSX.Element => {
     <Tab.Navigator
       screenOptions={{
         tabBarHideOnKeyboard: true,
+        tabBarInactiveTintColor: "grey",
+        tabBarActiveTintColor: Colors.oscuro,
+        tabBarActiveBackgroundColor: Colors.brand.secondary,
       }}
+      tabBar={(props) => <CustomTab {...props} />}
     >
       <Tab.Screen
         name="NotesNavigation"
         component={NotesNavigation}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <HomeIcon size={size} color={color} strokeWidth={1.8} />
+          ),
+        }}
       />
+
+      {/* <Tab.Screen
+        name="FavoritesNavigation"
+        component={FavoritesNavigation}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <StarIcon color={color} strokeWidth={1.8} size={size} />
+          ),
+        }}
+      /> */}
+
+      {/* <Tab.Screen
+        name="FavoritesNavigation"
+        component={FavoritesNavigation}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <PlusIcon color={color} strokeWidth={1.8} size={size} />
+          ),
+        }}
+      /> */}
+
+      {/* <Tab.Screen
+        name="FavoritesNavigation"
+        component={FavoritesNavigation}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <FolderIcon color={color} strokeWidth={1.8} size={size} />
+          ),
+        }}
+      /> */}
+
+      {/* <Tab.Screen
+        name="FavoritesNavigation"
+        component={FavoritesNavigation}
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <RectangleStackIcon color={color} strokeWidth={1.8} size={size} />
+          ),
+        }}
+      /> */}
     </Tab.Navigator>
   );
 };
