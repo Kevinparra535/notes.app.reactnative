@@ -1,12 +1,6 @@
 // Librerias
-import React, {
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useCallback, useState } from "react";
+import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
 
@@ -58,7 +52,6 @@ const CreateNotes: React.FC = observer(() => {
   // Contextos
 
   // hooks
-  const isNeedUpdate: MutableRefObject<boolean> = useRef(false);
 
   // Funciones
   const handleTextChange = (id: string, value: string) => {
@@ -76,7 +69,6 @@ const CreateNotes: React.FC = observer(() => {
   // Renders
   return (
     <HeaderNotesDetails
-      isNeedUpdate={isNeedUpdate}
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
       lastUpdate={viewModel.note?.updatedAt}

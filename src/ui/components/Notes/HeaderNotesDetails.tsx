@@ -24,12 +24,16 @@ import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
+
+type FirebaseDate = { seconds: number; nanoseconds: number };
+
 type Props = {
   children: JSX.Element;
-  isNeedUpdate: MutableRefObject<boolean>;
+  showLastTimeEdited?: boolean;
   isSyncing: boolean | undefined;
+  lastSynced: FirebaseDate | null;
+  lastUpdate: FirebaseDate | undefined;
   syncError: string | boolean | null | undefined;
-  lastUpdate: { seconds: number; nanoseconds: number } | undefined;
 };
 
 /**
@@ -53,8 +57,9 @@ const HeaderNotesDetails = ({
   children,
   isSyncing,
   syncError,
+  lastSynced,
   lastUpdate,
-  isNeedUpdate,
+  showLastTimeEdited,
 }: Props): JSX.Element => {
   // Estados
 
@@ -68,7 +73,6 @@ const HeaderNotesDetails = ({
   const handleBackPress = () => {
     navigation.navigate({
       name: "Notes",
-      params: { isNeedUpdate: isNeedUpdate.current },
       merge: true,
     });
   };
@@ -84,10 +88,17 @@ const HeaderNotesDetails = ({
         </Pressable>
 
         <View style={styles.status}>
-          <Text style={styles.statusTexts}>
-            Edited: {lastUpdate && TimeSince(lastUpdate)}
-          </Text>
-          <Text style={styles.statusTexts}> • </Text>
+          {showLastTimeEdited && (
+            <>
+              <Text style={styles.statusTexts}>
+                Edited:{" "}
+                {lastSynced
+                  ? TimeSince(lastSynced)
+                  : lastUpdate && TimeSince(lastUpdate)}
+              </Text>
+              <Text style={styles.statusTexts}> • </Text>
+            </>
+          )}
 
           <Text style={styles.statusTexts}>
             {isSyncing ? "Synchronizing..." : "Synced"}

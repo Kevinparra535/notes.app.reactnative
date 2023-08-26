@@ -47,11 +47,6 @@ type Props = {
 
 const Notes: React.FC<Props> = observer(({ route, navigation }) => {
   const [viewModel] = useState(() => new NotesViewModel());
-  const isNeedUpdate: boolean = route.params?.isNeedUpdate;
-
-  useEffect(() => {
-    if (isNeedUpdate) viewModel.refresh();
-  }, [route.params]);
 
   // Renders
   if (viewModel.notes.status === "loading") return <Loader />;

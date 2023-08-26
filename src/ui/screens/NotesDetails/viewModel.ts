@@ -5,7 +5,8 @@ import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 import { debounce } from "@/ui/utils/Deboucing";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
+import notesStore from "@/ui/store/NotesStore";
 
 // export const NotesDetailsViewModel = (noteId: string) => {
 //   // Estados
@@ -58,16 +59,20 @@ import { makeAutoObservable } from "mobx";
 // };
 
 export class NotesDetailsViewModel {
-  private noteId: string;
   public note: Note | null = null;
   private getNoteById: GetNoteById;
+  private updateNoteContent: UpdateNoteContent;
+  private datasource: NetworkNoteDatasource =
+    NetworkNoteDatasource.getInstance();
+
+  private noteId: string;
   public isLoading: boolean = true;
   public isSyncing: boolean = false;
-  public lastSynced: Date | null = null;
   public syncError: string | null = null;
-  private updateNoteContent: UpdateNoteContent;
   public error: string | null | unknown = null;
-  private datasource: NetworkNoteDatasource = NetworkNoteDatasource.getInstance();
+  public lastSynced: { seconds: number; nanoseconds: number } | null = null;
+
+  public noteUpdated: boolean = false;
 
   constructor(noteId: string) {
     makeAutoObservable(this);
@@ -86,8 +91,13 @@ export class NotesDetailsViewModel {
   }
 
   private setSynced() {
+    const now = new Date().getTime();
+    const totalSeconds = now / 1000;
+    const seconds = Math.floor(totalSeconds);
+    const nanoseconds = Math.floor((totalSeconds - seconds) * 1e9);
+
     this.isSyncing = false;
-    this.lastSynced = new Date();
+    this.lastSynced = { seconds, nanoseconds };
   }
 
   private setSyncError(error: string) {
@@ -101,7 +111,7 @@ export class NotesDetailsViewModel {
 
   private setNote(note: Note) {
     this.note = note;
-    console.log(note)
+    console.log(note);
   }
 
   private setError(error: string | unknown) {
@@ -130,6 +140,11 @@ export class NotesDetailsViewModel {
       try {
         await this.updateNoteContent.execute(this.noteId, newData);
         this.setSynced();
+
+        runInAction(() => {
+          this.noteUpdated = true;
+          notesStore.setNoteUpdated(true);
+        });
       } catch (error) {
         console.log("NotesDetailsViewModel.handleNoteChange.error:", error);
         this.setSyncError("Failed to fetch note.");

@@ -28,6 +28,16 @@ export class NotesViewModel {
         }
       }
     );
+
+    reaction(
+      () => notesStore.noteUpdated,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+          notesStore.setNoteUpdated(false);
+        }
+      }
+    );
   }
 
   private setNotes(notes: ResponseModel<Array<NoteModel>>) {
@@ -43,14 +53,18 @@ export class NotesViewModel {
 
   public refresh(): void {
     this.fetchNote();
-    reaction(
-      () => notesStore.newNoteCreated,
-      (newVal) => {
-        if (newVal) {
-          this.refresh();
-          notesStore.setNewNoteCreated(false);
-        }
+    reaction(() => notesStore.newNoteCreated, (newVal) => {
+      if (newVal) {
+        this.refresh();
+        notesStore.setNewNoteCreated(false);
       }
-    );
+    });
+
+    reaction(() => notesStore.noteUpdated, (newVal) => {
+      if (newVal) {
+        this.refresh();
+        notesStore.setNoteUpdated(false);
+      }
+    });
   }
 }

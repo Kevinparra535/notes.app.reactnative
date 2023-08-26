@@ -1,6 +1,6 @@
 // Librerias
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Text, TextInput, StyleSheet, Button, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
 
@@ -58,26 +58,16 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
   const [viewModel] = useState(() => new NotesDetailsViewModel(noteId));
 
   // hooks
-  const isNeedUpdate: MutableRefObject<boolean> = useRef(false);
   const isFocused = useIsFocused();
 
   // Funciones
   const handleTextChange = (id: string, value: string) => {
     viewModel.handleNoteChange({ [id]: value });
-    isNeedUpdate.current = true;
   };
 
   useEffect(() => {
-    if (isFocused) {
-      navigation.setParams({ hideTabBar: true });
-    }
+    if (isFocused) navigation.setParams({ hideTabBar: true });
   }, [isFocused, navigation]);
-
-  useEffect(() => {
-    return () => {
-      isNeedUpdate.current = false;
-    };
-  }, []);
 
   // Renders
   if (viewModel.isLoading) return <Loader />;
@@ -85,9 +75,10 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
 
   return (
     <HeaderNotesDetails
-      isNeedUpdate={isNeedUpdate}
+      showLastTimeEdited
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
+      lastSynced={viewModel.lastSynced}
       lastUpdate={viewModel.note?.updatedAt}
     >
       <KeyboardAwareScrollView
