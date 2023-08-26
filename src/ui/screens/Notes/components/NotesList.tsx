@@ -1,7 +1,7 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { StyleSheet, FlatList, StatusBar } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, TouchableHighlight, Text } from "react-native";
+import { SwipeListView } from "react-native-swipe-list-view";
 
 // Contextos
 
@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NotesCards from "./NotesCards";
 
 // Componentes
+import NotesListOptions from "./NotesListOptions";
 
 // Navigations
 
@@ -22,6 +23,7 @@ import Colors from "@/ui/styles/Colors";
 // Tipado
 import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
+import Spacings from "@/ui/styles/Spacings";
 
 type Props = {
   viewModel: ResponseModel<NoteModel[]>;
@@ -58,11 +60,15 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
 
   // Renders
   return (
-    <FlatList
-      style={styles.container}
-      refreshing={viewModel.status === "loading"}
+    <SwipeListView
       onRefresh={refresh}
+      leftOpenValue={200}
+      rightOpenValue={-200}
       data={viewModel.data}
+      style={styles.container}
+      keyExtractor={(item) => item.uuid}
+      renderHiddenItem={NotesListOptions}
+      refreshing={viewModel.status === "loading"}
       renderItem={({ item }) => (
         <NotesCards
           uuid={item.uuid}
@@ -70,7 +76,6 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
           content={item.content}
         />
       )}
-      keyExtractor={(item) => item.uuid}
     />
   );
 };
@@ -78,8 +83,8 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: Colors.bg.claro,
+    marginBottom: Spacings.space,
+    backgroundColor: Colors.claro,
   },
 });
 

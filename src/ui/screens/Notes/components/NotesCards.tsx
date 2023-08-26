@@ -82,8 +82,7 @@ const styles = StyleSheet.create({
   card: {
     paddingVertical: Spacings.space,
     paddingHorizontal: Spacings.space,
-    marginTop: Spacings.space,
-    marginHorizontal: Spacings.space,
+    margin: Spacings.space,
     borderColor: Colors.variants.one,
     shadowColor: Colors.oscuro,
     borderRadius: Spacings.spacehalf,
