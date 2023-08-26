@@ -1,6 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Contextos
 
@@ -19,6 +19,10 @@ import NotesDetails from "../screens/NotesDetails";
 // Estilos
 
 // Tipado
+type Props = {
+  route: any;
+  navigation: any;
+};
 
 /**
  * Descripción del componente.
@@ -39,11 +43,11 @@ import NotesDetails from "../screens/NotesDetails";
 
 const Stack = createNativeStackNavigator();
 
-const NotesNavigation = (): JSX.Element => {
+const NotesNavigation = ({ navigation, route }: Props): JSX.Element => {
   // Renders
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Notes" component={Notes} options={{}} />
+      <Stack.Screen name="Notes" component={Notes} />
       <Stack.Screen
         name="NotesDetails"
         component={NotesDetails}
@@ -51,6 +55,14 @@ const NotesNavigation = (): JSX.Element => {
           title: "",
           headerShown: false,
         }}
+        listeners={() => ({
+          focus: () => {
+            navigation.setParams({ hideTabBar: true });
+          },
+          beforeRemove: () => {
+            navigation.setParams({ hideTabBar: undefined });
+          },
+        })}
       />
     </Stack.Navigator>
   );

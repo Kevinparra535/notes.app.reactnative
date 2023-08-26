@@ -45,7 +45,11 @@ export class CreateNotesViewModel {
     this.setSyncing();
 
     const fun = debounce(async (newData: Record<string, string>) => {
-      this.newNoteContent = { ...this.newNoteContent, ...newData };
+      this.newNoteContent = {
+        ...this.newNoteContent,
+        userId: this.userId,
+        ...newData,
+      };
       this.setSynced();
     }, 1000);
 
@@ -54,7 +58,8 @@ export class CreateNotesViewModel {
 
   async saveAndCreateNewNote() {
     try {
-      await this.createNote.execute(this.userId, this.newNoteContent);
+      const response = await this.createNote.execute(this.newNoteContent);
+      console.log("CreateNotesViewModel.saveAndCreateNewNote: ", response);
     } catch (error) {
       console.log("CreateNotesViewModel.handleNoteChange.error:", error);
       this.setSyncError("Failed to fetch note.");

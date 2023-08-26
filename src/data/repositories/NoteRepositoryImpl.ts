@@ -10,15 +10,18 @@ export class NoteRepositoryImpl implements NoteRepository {
     return this.datasource.getAllNotes();
   }
 
-  async createNote(userId: string, data: Record<string, string>): Promise<void> {
-    this.datasource.createNote(userId, data);
+  async createNote(data: Record<string, string>): Promise<string> {
+    return this.datasource.createNote(data);
   }
 
   async getNoteById(noteId: string): Promise<Note> {
     return this.datasource.getNoteById(noteId);
   }
 
-  async updateContent(noteId: string, data: Record<string, string>): Promise<void> {
+  async updateContent(
+    noteId: string,
+    data: Record<string, string>
+  ): Promise<void> {
     this.datasource.updateContent(noteId, data);
   }
 }

@@ -1,6 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   HomeIcon,
@@ -50,6 +50,10 @@ import Colors from "../styles/Colors";
 
 const Tab = createBottomTabNavigator();
 
+const EmptyView = () => {
+  return <View></View>
+}
+
 const DashboardNavigation = (): JSX.Element => {
   // Estados
 
@@ -84,9 +88,9 @@ const DashboardNavigation = (): JSX.Element => {
         }}
       />
 
-      {/* <Tab.Screen
+      <Tab.Screen
         name="FavoritesNavigation"
-        component={FavoritesNavigation}
+        component={EmptyView}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -94,7 +98,7 @@ const DashboardNavigation = (): JSX.Element => {
             <StarIcon color={color} strokeWidth={1.8} size={size} />
           ),
         }}
-      /> */}
+      />
 
       <Tab.Screen
         name="CreateNotes"
@@ -108,9 +112,9 @@ const DashboardNavigation = (): JSX.Element => {
         }}
       />
 
-      {/* <Tab.Screen
-        name="FavoritesNavigation"
-        component={FavoritesNavigation}
+      <Tab.Screen
+        name="ArchiviedNavigation"
+        component={EmptyView}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -118,11 +122,11 @@ const DashboardNavigation = (): JSX.Element => {
             <FolderIcon color={color} strokeWidth={1.8} size={size} />
           ),
         }}
-      /> */}
+      />
 
-      {/* <Tab.Screen
-        name="FavoritesNavigation"
-        component={FavoritesNavigation}
+      <Tab.Screen
+        name="CategoriesNavigation"
+        component={EmptyView}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -130,7 +134,7 @@ const DashboardNavigation = (): JSX.Element => {
             <RectangleStackIcon color={color} strokeWidth={1.8} size={size} />
           ),
         }}
-      /> */}
+      />
     </Tab.Navigator>
   );
 };

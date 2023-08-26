@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import Note from "@/domain/entities/Note";
+import { ToastAndroid } from "react-native";
 import { GetAllNotes } from "@/domain/useCases/getAllNotes";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 export class NotesViewModel {
   private datasource = NetworkNoteDatasource.getInstance();
@@ -33,6 +33,7 @@ export class NotesViewModel {
   }
 
   public refresh(): void {
+    ToastAndroid.show('Synchronising notes!', ToastAndroid.SHORT);
     this.fetchNote();
   }
 }

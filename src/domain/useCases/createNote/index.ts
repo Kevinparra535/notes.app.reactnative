@@ -8,8 +8,8 @@ export class CreateNote {
     this._noteRepository = noteRepository;
   }
 
-  async execute(userId: string, data: Record<string, string>): Promise<void> {
-    const noteModel = await this._noteRepository.createNote(userId, data);
+  async execute(data: Record<string, string>): Promise<string> {
+    const noteModel = await this._noteRepository.createNote(data);
     return noteModel;
   }
 }

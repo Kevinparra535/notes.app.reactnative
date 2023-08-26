@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { RootSiblingParent } from "react-native-root-siblings";
 import "react-native-gesture-handler";
 
 import loadFonts from "@/ui/utils/FontLoader";
@@ -22,8 +23,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <RootNavigation />
-    </NavigationContainer>
+    <RootSiblingParent>
+      <NavigationContainer>
+        <RootNavigation />
+      </NavigationContainer>
+    </RootSiblingParent>
   );
 }

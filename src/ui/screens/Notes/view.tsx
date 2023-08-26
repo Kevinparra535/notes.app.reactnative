@@ -51,7 +51,7 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
 
   useEffect(() => {
     if (isNeedUpdate) viewModel.refresh();
-    console.log(isNeedUpdate)
+    console.log("isNeedUpdate", isNeedUpdate);
   }, [route.params]);
 
   // Renders

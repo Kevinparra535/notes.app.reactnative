@@ -8,11 +8,11 @@ import { ResponseModel } from "@/data/models/ResponseModel";
 import Note from "@/domain/entities/Note";
 
 export interface NoteRepository {
-  lastSynced?: Date,
-  isSyncing?: boolean,
-  syncError?: boolean,
+  lastSynced?: Date;
+  isSyncing?: boolean;
+  syncError?: boolean;
   getNoteById(uuid: string): Promise<Note>;
   getAllNotes(): Promise<ResponseModel<Array<Note>>>;
-  createNote(userId: string, data: Record<string, string>): Promise<void>;
+  createNote(data: Record<string, string>): Promise<string>;
   updateContent(noteId: string, newData: Record<string, string>): Promise<void>;
 }

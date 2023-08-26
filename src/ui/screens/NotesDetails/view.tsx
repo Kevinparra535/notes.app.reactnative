@@ -25,10 +25,12 @@ import HeaderNotesDetails from "@/ui/components/Notes/HeaderNotesDetails";
 
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
+import { useIsFocused } from "@react-navigation/native";
 
 // Tipado
 type Props = {
   route: any;
+  navigation: any;
 };
 
 /**
@@ -48,7 +50,7 @@ type Props = {
  * @beta
  */
 
-const NotesDetails: React.FC<Props> = observer(({ route }) => {
+const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
   // Configs
   const noteId = route.params.id;
 
@@ -57,12 +59,19 @@ const NotesDetails: React.FC<Props> = observer(({ route }) => {
 
   // hooks
   const isNeedUpdate: MutableRefObject<boolean> = useRef(false);
+  const isFocused = useIsFocused();
 
   // Funciones
   const handleTextChange = (id: string, value: string) => {
     viewModel.handleNoteChange({ [id]: value });
     isNeedUpdate.current = true;
   };
+
+  useEffect(() => {
+    if (isFocused) {
+      navigation.setParams({ hideTabBar: true });
+    }
+  }, [isFocused, navigation]);
 
   useEffect(() => {
     return () => {

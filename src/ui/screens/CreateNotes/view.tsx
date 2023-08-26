@@ -85,11 +85,11 @@ const CreateNotes: React.FC = observer(() => {
       lastUpdate={viewModel.note?.updatedAt}
     >
       <KeyboardAwareScrollView
-        style={styles.container}
-        extraHeight={100}
-        extraScrollHeight={100}
         enableOnAndroid
+        extraHeight={100}
         viewIsInsideTabBar
+        extraScrollHeight={100}
+        style={styles.container}
       >
         <TitleInput onChangeText={handleTextChange} />
         <ContentInput onChangeText={handleTextChange} />

@@ -48,7 +48,11 @@ type Props = {
  * @beta
  */
 
-export default ({ state, navigation, descriptors }: Props): JSX.Element => {
+export default ({
+  state,
+  navigation,
+  descriptors,
+}: Props): JSX.Element | null => {
   // Estados
   const { routes } = state;
 
@@ -57,6 +61,10 @@ export default ({ state, navigation, descriptors }: Props): JSX.Element => {
   // Hooks
 
   // Funciones
+  const currentRouteName = state.routes[state.index];
+  const hiddenScreens = ["CreateNotes", "NotesDetails"];
+  const { params } = currentRouteName;
+
   const onPress = (route: any) => {
     navigation.navigate(route.name);
   };
@@ -64,6 +72,14 @@ export default ({ state, navigation, descriptors }: Props): JSX.Element => {
   // UseEffects
 
   // Renders
+  if (params?.hideTabBar) {
+    return null;
+  }
+
+  if (hiddenScreens.includes(currentRouteName.name)) {
+    return null;
+  }
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -108,8 +124,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     flexDirection: "row",
-    justifyContent: "center",
     height: 64,
     shadowColor: "#171717",
     shadowOffset: { width: 1, height: 2 },
@@ -131,7 +147,7 @@ const styles = StyleSheet.create({
 
   tabCenter: {
     padding: 10,
-    position: 'relative',
+    position: "relative",
     top: -30,
     margin: 4,
     width: 70,

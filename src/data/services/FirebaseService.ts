@@ -83,9 +83,8 @@ export class FirebaseService {
     });
   }
 
-  async createNote(userId: string, data: Record<string, string>): Promise<any> {
+  async createNote(data: Record<string, string>): Promise<string> {
     const docRef = await addDoc(collection(db, this.collectionName), {
-      userId,
       tags: [],
       pin: false,
       color: "#FFFFFF",
@@ -94,7 +93,7 @@ export class FirebaseService {
       ...data,
     });
 
-    console.log("FirebaseService: Create Note => ", docRef.id);
+    return docRef.id;
   }
 
   async fetchNoteById(noteId: nodeId): Promise<Note> {
