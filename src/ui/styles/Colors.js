@@ -6,9 +6,9 @@ const Colors = {
 
   variants: {
     one: '#b2b2b2',
-    two: '#F24E1E',
-    three: '#262626',
-    four: '#f8e3bf',
+    two: '#4a97e4',
+    three: '#f6c244',
+    four: '#d73964',
     five: '#e2d3fe',
     six: '#bae5f5',
   },

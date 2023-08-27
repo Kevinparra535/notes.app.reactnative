@@ -31,9 +31,9 @@ import Fonts from "@/ui/styles/Fonts";
  * @beta
  */
 
-type Props = { title: string; content: string; uuid: string };
+type Props = { title: string; content: string; uuid: string; color: string };
 
-const NotesCards = ({ title, content, uuid }: Props) => {
+const NotesCards = ({ title, content, uuid, color }: Props) => {
   // Estados
 
   // Contextos
@@ -50,7 +50,10 @@ const NotesCards = ({ title, content, uuid }: Props) => {
 
   // Renders
   return (
-    <Pressable onPress={handlePress} style={styles.card}>
+    <Pressable
+      onPress={handlePress}
+      style={[styles.card, { backgroundColor: color }]}
+    >
       {title && (
         <View style={styles.cardHeader}>
           <Text style={styles.title} numberOfLines={2}>
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacings.space,
     paddingHorizontal: Spacings.space,
     margin: Spacings.space,
+    minHeight: 70,
     borderColor: Colors.variants.one,
     shadowColor: Colors.oscuro,
     borderRadius: Spacings.spacehalf,

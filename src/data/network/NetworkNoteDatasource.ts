@@ -23,7 +23,7 @@ export class NetworkNoteDatasource implements NoteRepository {
     return this.firebaseService.fetchNoteById(noteId);
   }
 
-  async updateContent(noteId: string, data: Record<string, string>): Promise<void> {
+  async updateContent(noteId: string, data: Record<string, any>): Promise<void> {
     this.firebaseService.updateNoteContent(noteId, data);
   }
 

@@ -8,7 +8,6 @@ export const COLORS_PICKER: Array<string> = [
   "#d0da59",
   "#70b949",
   "#67ab5a",
-  "#8f36aa",
   "#f6c244",
   "#52b9d0",
   "#4595ec",

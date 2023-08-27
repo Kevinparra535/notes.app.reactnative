@@ -8,62 +8,12 @@ import { debounce } from "@/ui/utils/Deboucing";
 import { makeAutoObservable, runInAction } from "mobx";
 import notesStore from "@/ui/store/NotesStore";
 
-// export const NotesDetailsViewModel = (noteId: string) => {
-//   // Estados
-//   const [note, setNote] = useState<Note | null>(null);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [error, setError] = useState<string | null>(null);
-
-//   // Funciones
-//   const datasource = NetworkNoteDatasource.getInstance();
-//   const getNoteById: GetNoteById = new GetNoteById(
-//     new NoteRepositoryImpl(datasource)
-//   );
-
-//   const updateNoteContent: UpdateNoteContent = new UpdateNoteContent(
-//     new NoteRepositoryImpl(datasource)
-//   );
-
-//   const fetchNote = async () => {
-//     try {
-//       setIsLoading(true);
-//       const response: Note = await getNoteById.execute(noteId);
-//       console.log("fetchNote", response);
-//       setNote(response);
-//     } catch (error) {
-//       setError("Failed to fetch the note.");
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const handleNoteChange = debounce(async (newData: Record<string, string>) => {
-//     if (!note) return;
-
-//     // note.setSyncing();
-
-//     try {
-//       await updateNoteContent.execute(noteId, newData);
-//       // note.setSynced();
-//     } catch (error) {
-//       console.log('handleNoteChange.error:', error)
-//       note.setSyncError("Failed to sync the note.");
-//     }
-//   }, 500);
-
-//   useEffect(() => {
-//     fetchNote();
-//   }, [noteId]);
-
-//   return { note, isLoading, error, handleNoteChange };
-// };
-
 export class NotesDetailsViewModel {
   public note: Note | null = null;
   private getNoteById: GetNoteById;
   private updateNoteContent: UpdateNoteContent;
-  private datasource: NetworkNoteDatasource =
-    NetworkNoteDatasource.getInstance();
+  private noteRepositoryImpl: NoteRepositoryImpl;
+  private datasource: NetworkNoteDatasource = NetworkNoteDatasource.getInstance();
 
   private noteId: string;
   public isLoading: boolean = true;
@@ -77,10 +27,9 @@ export class NotesDetailsViewModel {
   constructor(noteId: string) {
     makeAutoObservable(this);
     this.noteId = noteId;
-    this.getNoteById = new GetNoteById(new NoteRepositoryImpl(this.datasource));
-    this.updateNoteContent = new UpdateNoteContent(
-      new NoteRepositoryImpl(this.datasource)
-    );
+    this.noteRepositoryImpl = new NoteRepositoryImpl(this.datasource);
+    this.getNoteById = new GetNoteById(this.noteRepositoryImpl);
+    this.updateNoteContent = new UpdateNoteContent(this.noteRepositoryImpl);
 
     this.fetchNote();
   }
@@ -111,7 +60,6 @@ export class NotesDetailsViewModel {
 
   private setNote(note: Note) {
     this.note = note;
-    console.log(note);
   }
 
   private setError(error: string | unknown) {

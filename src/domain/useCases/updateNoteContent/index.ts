@@ -8,10 +8,7 @@ export class UpdateNoteContent {
     this._noteRepository = noteRepository;
   }
 
-  async execute(
-    noteId: string,
-    newData: Record<string, string>
-  ): Promise<Note> {
+  async execute(noteId: string, newData: Record<string, any>): Promise<Note> {
     const note = await this._noteRepository.getNoteById(noteId);
 
     // console.log("USE CASE UPDATE NOTE ===>: ", note);

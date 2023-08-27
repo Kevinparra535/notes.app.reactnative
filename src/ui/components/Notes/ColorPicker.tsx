@@ -20,6 +20,9 @@ import { COLORS_PICKER } from "@/ui/constants/Colors.type";
 // Estilos
 
 // Tipado
+type Props = {
+  actualColor: string;
+};
 
 /**
  * Descripción del componente.
@@ -38,7 +41,7 @@ import { COLORS_PICKER } from "@/ui/constants/Colors.type";
  * @beta
  */
 
-const ColorPicker = (): JSX.Element => {
+const ColorPicker = ({ actualColor }: Props): JSX.Element => {
   // Estados
 
   // Contextos

@@ -1,20 +1,7 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableHighlight,
-} from "react-native";
-import {
-  EllipsisVerticalIcon,
-  FolderArrowDownIcon,
-  FolderIcon,
-  StarIcon,
-  SwatchIcon,
-} from "react-native-heroicons/outline";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
+import { StarIcon, TrashIcon } from "react-native-heroicons/outline";
 
 // Contextos
 
@@ -31,9 +18,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Estilos
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
-import Modal from "@/ui/components/Modal";
 
 // Tipado
+type Props = {
+  uuid: string;
+  noteIsFavorite: boolean;
+  deleteNote: (uuid: string) => void;
+  setFavouritesNote: (uuid: string, pin: boolean) => void;
+};
 
 /**
  * Descripción del componente.
@@ -52,7 +44,12 @@ import Modal from "@/ui/components/Modal";
  * @beta
  */
 
-const NotesListOptions = (): JSX.Element => {
+const NotesListOptions = ({
+  uuid,
+  deleteNote,
+  noteIsFavorite,
+  setFavouritesNote,
+}: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -61,28 +58,45 @@ const NotesListOptions = (): JSX.Element => {
 
   // Funciones
 
+  const handleDeleteNote = () => {
+    Alert.alert(
+      "Are you sure?",
+      "If you delete this note you will not be able to recover it.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        { text: "Delete", onPress: () => deleteNote(uuid) },
+      ]
+    );
+  };
+
   // UseEffects
 
   // Renders
   return (
     <View style={styles.container}>
       <View style={styles.containerGroups}>
-        <Pressable style={styles.actions}>
-          <StarIcon color={Colors.oscuro} size={20} />
-        </Pressable>
-
-        <Pressable style={styles.actions}>
-          <SwatchIcon color={Colors.oscuro} size={20} />
+        <Pressable
+          onPress={() => setFavouritesNote(uuid, !noteIsFavorite)}
+          style={styles.actions}
+        >
+          <StarIcon
+            color={Colors.variants.three}
+            size={25}
+            fill={noteIsFavorite ? Colors.variants.three : Colors.claro}
+          />
         </Pressable>
       </View>
 
       <View style={styles.containerGroups}>
-        <Pressable style={styles.actions}>
-          <FolderArrowDownIcon color={Colors.oscuro} size={20} />
-        </Pressable>
+        {/* <Pressable style={styles.actions}>
+          <FolderArrowDownIcon color={Colors.oscuro} size={25} />
+        </Pressable> */}
 
-        <Pressable style={styles.actions}>
-          <EllipsisVerticalIcon color={Colors.oscuro} size={20} />
+        <Pressable onPress={handleDeleteNote} style={styles.actions}>
+          <TrashIcon color={Colors.alerts.error} size={25} />
         </Pressable>
       </View>
     </View>
@@ -100,7 +114,7 @@ const styles = StyleSheet.create({
   containerGroups: {
     padding: Spacings.spacehalf,
     flexDirection: "row",
-    width: 200,
+    width: 100,
     height: "100%",
   },
 

@@ -125,7 +125,7 @@ export class FirebaseService {
 
   async updateNoteContent(
     noteId: nodeId,
-    data: Record<string, string>
+    data: Record<string, any>
   ): Promise<void> {
     const notesRef = doc(db, this.collectionName, noteId);
     const updatedData = {

@@ -1,6 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 // Contextos
 
@@ -48,15 +48,24 @@ type Props = {
 const Notes: React.FC<Props> = observer(({ route, navigation }) => {
   const [viewModel] = useState(() => new NotesViewModel());
 
+  // Funciones
+  const handleSetFavorite = (uuid: string, pin: boolean) => {
+    viewModel.setFavouritesNote(uuid, { pin });
+  };
+
   // Renders
   if (viewModel.notes.status === "loading") return <Loader />;
   if (viewModel.notes.status === "error") return <Text>Error</Text>;
 
   return (
-    <NotesList
-      viewModel={viewModel.notes}
-      refresh={() => viewModel.refresh()}
-    />
+    <>
+      <NotesList
+        viewModel={viewModel.notes}
+        refresh={() => viewModel.refresh()}
+        deleteNote={viewModel.deleteNote}
+        setFavouritesNote={handleSetFavorite}
+      />
+    </>
   );
 });
 

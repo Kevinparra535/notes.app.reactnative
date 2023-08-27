@@ -19,15 +19,17 @@ import NotesListOptions from "./NotesListOptions";
 
 // Estilos
 import Colors from "@/ui/styles/Colors";
+import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
 import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
-import Spacings from "@/ui/styles/Spacings";
 
 type Props = {
-  viewModel: ResponseModel<NoteModel[]>;
   refresh: () => void;
+  deleteNote: (uuid: string) => void;
+  viewModel: ResponseModel<NoteModel[]>;
+  setFavouritesNote: (uuid: string, pin: boolean) => void;
 };
 
 /**
@@ -47,7 +49,12 @@ type Props = {
  * @beta
  */
 
-const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
+const NotesList = ({
+  viewModel,
+  refresh,
+  deleteNote,
+  setFavouritesNote,
+}: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -62,17 +69,25 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
   return (
     <SwipeListView
       onRefresh={refresh}
-      leftOpenValue={200}
-      rightOpenValue={-200}
+      leftOpenValue={100}
+      rightOpenValue={-100}
       data={viewModel.data}
       style={styles.container}
       keyExtractor={(item) => item.uuid}
-      renderHiddenItem={NotesListOptions}
+      renderHiddenItem={(data) => (
+        <NotesListOptions
+          uuid={data.item.uuid}
+          deleteNote={deleteNote}
+          noteIsFavorite={data.item.pin}
+          setFavouritesNote={setFavouritesNote}
+        />
+      )}
       refreshing={viewModel.status === "loading"}
       renderItem={({ item }) => (
         <NotesCards
           uuid={item.uuid}
           title={item.title}
+          color={item.color}
           content={item.content}
         />
       )}
@@ -83,7 +98,6 @@ const NotesList = ({ viewModel, refresh }: Props): JSX.Element => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: Spacings.space,
     backgroundColor: Colors.claro,
   },
 });

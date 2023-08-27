@@ -20,7 +20,7 @@ export class NoteRepositoryImpl implements NoteRepository {
 
   async updateContent(
     noteId: string,
-    data: Record<string, string>
+    data: Record<string, any>
   ): Promise<void> {
     this.datasource.updateContent(noteId, data);
   }
