@@ -1,7 +1,7 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { createStackNavigator  } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Contextos
 
@@ -13,6 +13,7 @@ import { createStackNavigator  } from "@react-navigation/stack";
 
 // Navigations
 import DashboardNavigation from "./DashboardNavigation";
+import Colors from "../styles/Colors";
 
 // Imagenes
 
@@ -42,7 +43,13 @@ const Stack = createStackNavigator();
 const RootNavigation = (): JSX.Element => {
   // Renders
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: Colors.claro,
+        },
+      }}
+    >
       <Stack.Screen
         name="DashboardNavigation"
         component={DashboardNavigation}

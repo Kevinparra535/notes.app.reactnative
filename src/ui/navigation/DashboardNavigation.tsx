@@ -6,7 +6,6 @@ import {
   HomeIcon,
   StarIcon,
   PlusIcon,
-  UserCircleIcon,
   FolderIcon,
   RectangleStackIcon,
 } from "react-native-heroicons/outline";

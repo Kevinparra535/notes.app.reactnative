@@ -127,10 +127,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     height: 64,
-    shadowColor: "#171717",
-    shadowOffset: { width: 1, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
     backgroundColor: "white",
   },
 
