@@ -27,6 +27,10 @@ export class NetworkNoteDatasource implements NoteRepository {
     this.firebaseService.updateNoteContent(noteId, data);
   }
 
+  async deleteNote(noteId: string): Promise<void> {
+    await this.firebaseService.deleteNote(noteId);
+  }
+
   public static getInstance(): NetworkNoteDatasource {
     if (!this.instance) {
       this.instance = new NetworkNoteDatasource();

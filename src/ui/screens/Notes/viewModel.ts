@@ -1,3 +1,4 @@
+import { DeleteNote } from "@/domain/useCases/deleteNote";
 import { GetAllNotes } from "@/domain/useCases/getAllNotes";
 import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
@@ -10,6 +11,7 @@ import { debounce } from "@/ui/utils/Deboucing";
 import Toast from "react-native-root-toast";
 
 export class NotesViewModel {
+  private deleteNote: DeleteNote;
   private getAllNotes: GetAllNotes;
   private updateNoteContent: UpdateNoteContent;
   private noteRepositoryImpl: NoteRepositoryImpl;
@@ -27,6 +29,7 @@ export class NotesViewModel {
     this.noteRepositoryImpl = new NoteRepositoryImpl(this.datasource);
     this.getAllNotes = new GetAllNotes(this.noteRepositoryImpl);
     this.updateNoteContent = new UpdateNoteContent(this.noteRepositoryImpl);
+    this.deleteNote = new DeleteNote(this.noteRepositoryImpl);
 
     this.fetchNote();
 
@@ -106,13 +109,25 @@ export class NotesViewModel {
         });
       } catch (error) {
         console.log("NotesViewModel.setFavouritesNote.error:", error);
+        this.setToastMessage(`Error when adding a note.`);
       }
     }, 500);
 
     fun(newData);
   }
 
-  deleteNote(noteId: string) {
-    console.log("deleting note");
+  async deleteNotes(noteId: string) {
+    try {
+      await this.deleteNote.execute(noteId);
+
+      this.setToastMessage(`Note successfully deleted!`);
+
+      runInAction(() => {
+        notesStore.setNoteUpdated(true);
+      });
+    } catch (error) {
+      console.log("NotesViewModel.setFavouritesNote.error:", error);
+      this.setToastMessage(`Error deleting a note.`);
+    }
   }
 }

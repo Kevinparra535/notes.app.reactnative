@@ -24,4 +24,8 @@ export class NoteRepositoryImpl implements NoteRepository {
   ): Promise<void> {
     this.datasource.updateContent(noteId, data);
   }
+
+  async deleteNote(noteId: string): Promise<void> {
+    await this.datasource.deleteNote(noteId);
+  }
 }

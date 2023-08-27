@@ -53,6 +53,10 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
     viewModel.setFavouritesNote(uuid, { pin });
   };
 
+  const handleDeleteNote = (uuid: string) => {
+    viewModel.deleteNotes(uuid);
+  };
+
   // Renders
   if (viewModel.notes.status === "loading") return <Loader />;
   if (viewModel.notes.status === "error") return <Text>Error</Text>;
@@ -61,8 +65,8 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
     <>
       <NotesList
         viewModel={viewModel.notes}
+        deleteNote={handleDeleteNote}
         refresh={() => viewModel.refresh()}
-        deleteNote={viewModel.deleteNote}
         setFavouritesNote={handleSetFavorite}
       />
     </>

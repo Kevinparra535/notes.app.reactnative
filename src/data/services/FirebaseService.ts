@@ -3,9 +3,9 @@ import {
   doc,
   query,
   addDoc,
-  setDoc,
   orderBy,
   updateDoc,
+  deleteDoc,
   collection,
   onSnapshot,
   serverTimestamp,
@@ -134,5 +134,10 @@ export class FirebaseService {
     };
     await updateDoc(notesRef, updatedData);
     this.cacheManager.clear(noteId);
+  }
+
+  async deleteNote(noteId: string): Promise<void> {
+    const notesRef = doc(db, this.collectionName, noteId);
+    await deleteDoc(notesRef);
   }
 }

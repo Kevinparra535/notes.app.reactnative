@@ -12,6 +12,7 @@ export interface NoteRepository {
   isSyncing?: boolean;
   syncError?: boolean;
   getNoteById(uuid: string): Promise<Note>;
+  deleteNote(uuid: string): Promise<void>;
   getAllNotes(): Promise<ResponseModel<Array<Note>>>;
   createNote(data: Record<string, string>): Promise<string>;
   updateContent(noteId: string, newData: Record<string, string>): Promise<void>;
