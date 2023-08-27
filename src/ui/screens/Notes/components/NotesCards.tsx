@@ -64,7 +64,7 @@ const NotesCards = ({ title, content, uuid, color }: Props) => {
 
       {content && (
         <View style={styles.cardBody}>
-          <Text style={styles.content} numberOfLines={4}>
+          <Text style={styles.content} numberOfLines={3}>
             {content}
           </Text>
         </View>

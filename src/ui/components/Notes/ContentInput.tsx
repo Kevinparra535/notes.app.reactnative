@@ -22,7 +22,7 @@ import Spacings from "@/ui/styles/Spacings";
 // Tipado
 type Props = {
   value?: string | undefined;
-  onChangeText(id:string, value: string): void;
+  onChangeText(id: string, value: string): void;
 };
 
 /**
@@ -63,11 +63,12 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
       defaultValue={value}
       scrollEnabled={false}
       keyboardType="default"
+      textAlignVertical="top"
       textBreakStrategy="simple"
       cursorColor={Colors.oscuro}
       lineBreakStrategyIOS="standard"
       autoFocus={!value ? true : false}
-      onChangeText={value => onChangeText('content', value)}
+      onChangeText={(value) => onChangeText("content", value)}
     />
   );
 };
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     flexWrap: "wrap",
+    minHeight: 300,
     ...Fonts.inputsNormal,
   },
 });

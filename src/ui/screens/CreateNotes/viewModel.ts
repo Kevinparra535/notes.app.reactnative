@@ -59,7 +59,7 @@ export class CreateNotesViewModel {
         };
       });
       this.setSynced();
-    }, 1000);
+    }, 500);
 
     fun(newData);
   }

@@ -1,8 +1,16 @@
 // Librerias
 import React, { MutableRefObject, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  ArrowLeftIcon,
+  FolderArrowDownIcon,
+  RectangleStackIcon,
+  StarIcon,
+  SwatchIcon,
+  TagIcon,
+  TrashIcon,
+} from "react-native-heroicons/outline";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 // Contextos
@@ -84,38 +92,53 @@ const HeaderNotesDetails = ({
     <View style={{ flex: 1, paddingTop: insets.top }}>
       <View style={styles.header}>
         <Pressable onPress={handleBackPress}>
-          <AntDesign name="arrowleft" size={24} color={Colors.oscuro} />
+          <ArrowLeftIcon size={24} color={Colors.oscuro} />
         </Pressable>
 
-        <View style={styles.status}>
-          {showLastTimeEdited && (
-            <>
-              <Text style={styles.statusTexts}>
-                Edited:{" "}
-                {lastSynced
-                  ? TimeSince(lastSynced)
-                  : lastUpdate && TimeSince(lastUpdate)}
-              </Text>
-              <Text style={styles.statusTexts}> • </Text>
-            </>
-          )}
+        <View style={{ flexDirection: "row" }}>
+          <Pressable style={styles.actions} onPress={() => null}>
+            <SwatchIcon size={24} color={Colors.oscuro} />
+          </Pressable>
 
-          <Text style={styles.statusTexts}>
-            {isSyncing ? "Synchronizing..." : "Synced"}
-          </Text>
+          <Pressable style={styles.actions} onPress={() => null}>
+            <FolderArrowDownIcon size={24} color={Colors.oscuro} />
+          </Pressable>
 
-          {syncError && <Text style={styles.statusError}>{syncError}</Text>}
+          <Pressable style={styles.actions} onPress={() => null}>
+            <RectangleStackIcon size={24} color={Colors.oscuro} />
+          </Pressable>
+
+          <Pressable style={styles.actions} onPress={() => null}>
+            <StarIcon size={24} color={Colors.oscuro} />
+          </Pressable>
+
+          <Pressable style={styles.actions} onPress={() => null}>
+            <TrashIcon size={24} color={Colors.oscuro} />
+          </Pressable>
         </View>
-
-        <Pressable onPress={() => null}>
-          <MaterialCommunityIcons
-            name="delete-outline"
-            size={24}
-            color={Colors.oscuro}
-          />
-        </Pressable>
       </View>
+
       {children}
+
+      <View style={styles.status}>
+        {showLastTimeEdited && (
+          <>
+            <Text style={styles.statusTexts}>
+              Edited:{" "}
+              {lastSynced
+                ? TimeSince(lastSynced)
+                : lastUpdate && TimeSince(lastUpdate)}
+            </Text>
+            <Text style={styles.statusTexts}> • </Text>
+          </>
+        )}
+
+        <Text style={styles.statusTexts}>
+          {isSyncing ? "Synchronizing..." : "Synced"}
+        </Text>
+
+        {syncError && <Text style={styles.statusError}>{syncError}</Text>}
+      </View>
     </View>
   );
 };
@@ -130,6 +153,7 @@ const styles = StyleSheet.create({
   },
 
   status: {
+    paddingVertical:Spacings.space,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
@@ -145,6 +169,10 @@ const styles = StyleSheet.create({
     ...Fonts.bodyText,
     fontSize: 12,
     color: Colors.alerts.error,
+  },
+
+  actions: {
+    marginLeft: Spacings.space,
   },
 });
 
