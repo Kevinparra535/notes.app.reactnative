@@ -1,6 +1,6 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Alert } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
 
@@ -65,6 +65,30 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
     viewModel.handleNoteChange({ [id]: value });
   };
 
+  const handleDeleteNote = async () => {
+    Alert.alert(
+      "Are you sure?",
+      "If you delete this note you will not be able to recover it.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: async () => {
+            const result = await viewModel.deleteNotes();
+            if (result) navigation.goBack();
+          },
+        },
+      ]
+    );
+  };
+
+  useEffect(() => {
+    console.log(viewModel.note);
+  }, [viewModel.note]);
+
   useEffect(() => {
     if (isFocused) navigation.setParams({ hideTabBar: true });
   }, [isFocused, navigation]);
@@ -75,18 +99,20 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
 
   return (
     <HeaderNotesDetails
+      mode="edit"
       showLastTimeEdited
+      deleteNotes={handleDeleteNote}
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
       lastSynced={viewModel.lastSynced}
       lastUpdate={viewModel.note?.updatedAt}
     >
       <KeyboardAwareScrollView
-        style={styles.container}
-        extraHeight={100}
-        extraScrollHeight={100}
         enableOnAndroid
+        extraHeight={100}
         viewIsInsideTabBar
+        extraScrollHeight={100}
+        style={styles.container}
       >
         <TitleInput
           value={viewModel.note?.title}

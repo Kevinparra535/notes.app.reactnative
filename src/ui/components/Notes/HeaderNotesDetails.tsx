@@ -36,10 +36,12 @@ import Spacings from "@/ui/styles/Spacings";
 type FirebaseDate = { seconds: number; nanoseconds: number };
 
 type Props = {
+  mode: string;
   children: JSX.Element;
   showLastTimeEdited?: boolean;
   isSyncing: boolean | undefined;
   lastSynced?: FirebaseDate | null;
+  deleteNotes?: () => void;
   lastUpdate: FirebaseDate | undefined;
   syncError: string | boolean | null | undefined;
 };
@@ -62,11 +64,13 @@ type Props = {
  */
 
 const HeaderNotesDetails = ({
+  mode,
   children,
   isSyncing,
   syncError,
   lastSynced,
   lastUpdate,
+  deleteNotes,
   showLastTimeEdited,
 }: Props): JSX.Element => {
   // Estados
@@ -100,9 +104,11 @@ const HeaderNotesDetails = ({
             <SwatchIcon size={24} color={Colors.oscuro} />
           </Pressable>
 
-          <Pressable style={styles.actions} onPress={() => null}>
-            <FolderArrowDownIcon size={24} color={Colors.oscuro} />
-          </Pressable>
+          {mode === "edit" && (
+            <Pressable style={styles.actions} onPress={() => null}>
+              <FolderArrowDownIcon size={24} color={Colors.oscuro} />
+            </Pressable>
+          )}
 
           <Pressable style={styles.actions} onPress={() => null}>
             <RectangleStackIcon size={24} color={Colors.oscuro} />
@@ -112,9 +118,11 @@ const HeaderNotesDetails = ({
             <StarIcon size={24} color={Colors.oscuro} />
           </Pressable>
 
-          <Pressable style={styles.actions} onPress={() => null}>
-            <TrashIcon size={24} color={Colors.oscuro} />
-          </Pressable>
+          {mode === "edit" && (
+            <Pressable style={styles.actions} onPress={deleteNotes}>
+              <TrashIcon size={24} color={Colors.oscuro} />
+            </Pressable>
+          )}
         </View>
       </View>
 
@@ -153,7 +161,7 @@ const styles = StyleSheet.create({
   },
 
   status: {
-    paddingVertical:Spacings.space,
+    paddingVertical: Spacings.space,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",

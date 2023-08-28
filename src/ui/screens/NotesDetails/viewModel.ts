@@ -1,19 +1,27 @@
 import { useState, useEffect, useMemo } from "react";
+import { makeAutoObservable, runInAction } from "mobx";
+import Toast from "react-native-root-toast";
+
 import Note from "@/domain/entities/Note";
+
+import { DeleteNote } from "@/domain/useCases/deleteNote";
 import { GetNoteById } from "@/domain/useCases/getNoteById";
 import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
+
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+
 import { debounce } from "@/ui/utils/Deboucing";
-import { makeAutoObservable, runInAction } from "mobx";
 import notesStore from "@/ui/store/NotesStore";
 
 export class NotesDetailsViewModel {
   public note: Note | null = null;
+  private deleteNote: DeleteNote;
   private getNoteById: GetNoteById;
   private updateNoteContent: UpdateNoteContent;
   private noteRepositoryImpl: NoteRepositoryImpl;
-  private datasource: NetworkNoteDatasource = NetworkNoteDatasource.getInstance();
+  private datasource: NetworkNoteDatasource =
+    NetworkNoteDatasource.getInstance();
 
   private noteId: string;
   public isLoading: boolean = true;
@@ -22,6 +30,7 @@ export class NotesDetailsViewModel {
   public error: string | null | unknown = null;
   public lastSynced: { seconds: number; nanoseconds: number } | null = null;
 
+  private toastMessage: any;
   public noteUpdated: boolean = false;
 
   constructor(noteId: string) {
@@ -30,6 +39,7 @@ export class NotesDetailsViewModel {
     this.noteRepositoryImpl = new NoteRepositoryImpl(this.datasource);
     this.getNoteById = new GetNoteById(this.noteRepositoryImpl);
     this.updateNoteContent = new UpdateNoteContent(this.noteRepositoryImpl);
+    this.deleteNote = new DeleteNote(this.noteRepositoryImpl);
 
     this.fetchNote();
   }
@@ -47,6 +57,12 @@ export class NotesDetailsViewModel {
 
     this.isSyncing = false;
     this.lastSynced = { seconds, nanoseconds };
+  }
+
+  private setToastMessage(message: string) {
+    this.toastMessage = Toast.show(message, {
+      duration: Toast.durations.LONG,
+    });
   }
 
   private setSyncError(error: string) {
@@ -100,5 +116,21 @@ export class NotesDetailsViewModel {
     }, 1000);
 
     fun(newData);
+  }
+
+  async deleteNotes(): Promise<boolean> {
+    try {
+      await this.deleteNote.execute(this.noteId);
+      this.setToastMessage(`Note successfully deleted!`);
+
+      runInAction(() => {
+        notesStore.setNoteUpdated(true);
+      });
+      return true;
+    } catch (error) {
+      console.log("NotesDetailsViewModel.deleteNotes.error:", error);
+      this.setToastMessage(`Error deleting a note.`);
+      return false;
+    }
   }
 }

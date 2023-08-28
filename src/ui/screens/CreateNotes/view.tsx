@@ -69,6 +69,7 @@ const CreateNotes: React.FC = observer(() => {
   // Renders
   return (
     <HeaderNotesDetails
+      mode="create"
       showLastTimeEdited
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}

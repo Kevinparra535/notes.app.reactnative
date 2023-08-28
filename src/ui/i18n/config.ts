@@ -14,9 +14,14 @@ const resources = {
   },
 };
 
+const lang = Localization.locale.substr(0, 2);
+
+const formatLang = lang !== "es" && lang !== "en" ? "es" : lang;
+
 i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
   resources,
-  fallbackLng: Localization.locale,
+  fallbackLng: formatLang,
   interpolation: {
     escapeValue: false, // not needed for react!!
   },
