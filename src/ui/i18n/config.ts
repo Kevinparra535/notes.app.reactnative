@@ -1,16 +1,25 @@
-import { I18n } from "i18n-js";
-import { deviceLanguage } from "@/config/expoLocalization";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import Localization from "@/config/expoLocalization";
 
 import SpanishLanguage from "@/config/locales/spanish.json";
 import EnglishLanguage from "@/config/locales/spanish.json";
 
-const i18n = new I18n({
-  en: EnglishLanguage,
-  spa: SpanishLanguage,
+const resources = {
+  en: {
+    translation: EnglishLanguage,
+  },
+  es: {
+    translation: SpanishLanguage,
+  },
+};
+
+i18n.use(initReactI18next).init({
+  resources,
+  fallbackLng: Localization.locale,
+  interpolation: {
+    escapeValue: false, // not needed for react!!
+  },
 });
-
-i18n.locale = deviceLanguage;
-
-i18n.enableFallback = true;
 
 export default i18n;

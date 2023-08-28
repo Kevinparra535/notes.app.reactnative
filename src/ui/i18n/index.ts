@@ -1,3 +1,4 @@
-import i18n from "./config";
+import { TranslateHelper } from "./TranslateHelper";
+import Translate from "./Translate";
 
-export default i18n;
+export { TranslateHelper, Translate };

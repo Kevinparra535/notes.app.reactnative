@@ -39,7 +39,7 @@ type Props = {
   children: JSX.Element;
   showLastTimeEdited?: boolean;
   isSyncing: boolean | undefined;
-  lastSynced: FirebaseDate | null;
+  lastSynced?: FirebaseDate | null;
   lastUpdate: FirebaseDate | undefined;
   syncError: string | boolean | null | undefined;
 };

@@ -9,6 +9,7 @@ import { StyleSheet, TextInput } from "react-native";
 // Screens
 
 // Componentes
+import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
@@ -58,15 +59,15 @@ const TitleInput = ({ value, onChangeText }: Props): JSX.Element => {
     <TextInput
       multiline
       inputMode="text"
-      placeholder="Title"
+      returnKeyType='none'
       defaultValue={value}
       style={styles.input}
       scrollEnabled={false}
       keyboardType="default"
-      returnKeyType='none'
       textBreakStrategy="simple"
       cursorColor={Colors.oscuro}
       lineBreakStrategyIOS="standard"
+      placeholder={TranslateHelper("input.title")}
       onChangeText={value => onChangeText('title', value)}
     />
   );

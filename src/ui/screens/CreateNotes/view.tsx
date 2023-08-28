@@ -69,8 +69,10 @@ const CreateNotes: React.FC = observer(() => {
   // Renders
   return (
     <HeaderNotesDetails
+      showLastTimeEdited
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
+      lastSynced={viewModel.lastSynced}
       lastUpdate={viewModel.note?.updatedAt}
     >
       <KeyboardAwareScrollView

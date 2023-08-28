@@ -9,6 +9,7 @@ import { StyleSheet, TextInput } from "react-native";
 // Screens
 
 // Componentes
+import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
@@ -58,7 +59,6 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
     <TextInput
       multiline
       inputMode="text"
-      placeholder="Note"
       style={styles.input}
       defaultValue={value}
       scrollEnabled={false}
@@ -68,6 +68,7 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
       cursorColor={Colors.oscuro}
       lineBreakStrategyIOS="standard"
       autoFocus={!value ? true : false}
+      placeholder={TranslateHelper("input.content")}
       onChangeText={(value) => onChangeText("content", value)}
     />
   );

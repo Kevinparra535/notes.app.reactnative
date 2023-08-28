@@ -15,7 +15,7 @@ export class CreateNotesViewModel {
 
   public isLoading: boolean = true;
   public isSyncing: boolean = false;
-  public lastSynced: Date | null = null;
+  public lastSynced: { seconds: number; nanoseconds: number } | null = null;
   public syncError: string | null = null;
   public error: string | null | unknown = null;
 
@@ -38,8 +38,13 @@ export class CreateNotesViewModel {
   }
 
   private setSynced() {
+    const now = new Date().getTime();
+    const totalSeconds = now / 1000;
+    const seconds = Math.floor(totalSeconds);
+    const nanoseconds = Math.floor((totalSeconds - seconds) * 1e9);
+
     this.isSyncing = false;
-    this.lastSynced = new Date();
+    this.lastSynced = { seconds, nanoseconds };
   }
 
   private setSyncError(error: string) {

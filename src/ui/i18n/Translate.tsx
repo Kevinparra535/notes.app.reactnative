@@ -19,7 +19,7 @@ import i18n from "./config";
 
 // Tipado
 type Props ={
-  lankey: string
+  langkey: string
 }
 
 /**
@@ -39,7 +39,7 @@ type Props ={
  * @beta
  */
 
-const Translate = ({lankey}: Props): JSX.Element => {
+const Translate = ({langkey}: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -52,11 +52,10 @@ const Translate = ({lankey}: Props): JSX.Element => {
 
   // Renders
   return (
-    <Text>{i18n.t(lankey)}</Text>
+    <Text>{i18n.t(langkey)}</Text>
   );
 };
 
-Translate.defaultProps = {};
 
 const styles = StyleSheet.create({});
 
