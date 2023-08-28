@@ -37,11 +37,13 @@ type FirebaseDate = { seconds: number; nanoseconds: number };
 
 type Props = {
   mode: string;
+  isFavorite?: boolean;
   children: JSX.Element;
+  deleteNotes?: () => void;
   showLastTimeEdited?: boolean;
+  setFavouritesNote?: () => void;
   isSyncing: boolean | undefined;
   lastSynced?: FirebaseDate | null;
-  deleteNotes?: () => void;
   lastUpdate: FirebaseDate | undefined;
   syncError: string | boolean | null | undefined;
 };
@@ -68,9 +70,11 @@ const HeaderNotesDetails = ({
   children,
   isSyncing,
   syncError,
+  isFavorite,
   lastSynced,
   lastUpdate,
   deleteNotes,
+  setFavouritesNote,
   showLastTimeEdited,
 }: Props): JSX.Element => {
   // Estados
@@ -114,8 +118,12 @@ const HeaderNotesDetails = ({
             <RectangleStackIcon size={24} color={Colors.oscuro} />
           </Pressable>
 
-          <Pressable style={styles.actions} onPress={() => null}>
-            <StarIcon size={24} color={Colors.oscuro} />
+          <Pressable style={styles.actions} onPress={setFavouritesNote}>
+            <StarIcon
+              size={24}
+              color={Colors.oscuro}
+              fill={isFavorite ? Colors.variants.three : Colors.claro}
+            />
           </Pressable>
 
           {mode === "edit" && (

@@ -85,6 +85,10 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
     );
   };
 
+  const handleSetFavorite = () => {
+    viewModel.setFavouritesNote({ pin: !viewModel.note?.pin });
+  };
+
   useEffect(() => {
     console.log(viewModel.note);
   }, [viewModel.note]);
@@ -104,7 +108,9 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
       deleteNotes={handleDeleteNote}
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
+      isFavorite={viewModel.note?.pin}
       lastSynced={viewModel.lastSynced}
+      setFavouritesNote={handleSetFavorite}
       lastUpdate={viewModel.note?.updatedAt}
     >
       <KeyboardAwareScrollView
