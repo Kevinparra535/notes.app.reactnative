@@ -18,6 +18,7 @@ import TitleInput from "@/ui/components/Notes/TitleInput";
 import Loader from "@/ui/components/Loader";
 import ContentInput from "../../components/Notes/ContentInput";
 import HeaderNotesDetails from "@/ui/components/Notes/HeaderNotesDetails";
+import ModalColorPicker from "./components/ModalColorPicker";
 
 // Navigations
 
@@ -56,6 +57,7 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
 
   // Estados
   const [viewModel] = useState(() => new NotesDetailsViewModel(noteId));
+  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   // hooks
   const isFocused = useIsFocused();
@@ -89,6 +91,10 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
     viewModel.setFavouritesNote({ pin: !viewModel.note?.pin });
   };
 
+  const handleSetColor = (id: string, value: string) => {
+    viewModel.setNewColorNote({ [id]: value });
+  };
+
   useEffect(() => {
     console.log(viewModel.note);
   }, [viewModel.note]);
@@ -105,6 +111,7 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
     <HeaderNotesDetails
       mode="edit"
       showLastTimeEdited
+      color={viewModel.note?.color}
       deleteNotes={handleDeleteNote}
       isSyncing={viewModel.isSyncing}
       syncError={viewModel.syncError}
@@ -112,23 +119,32 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
       lastSynced={viewModel.lastSynced}
       setFavouritesNote={handleSetFavorite}
       lastUpdate={viewModel.note?.updatedAt}
+      setModalIsVisible={() => setModalIsVisible(!modalIsVisible)}
     >
-      <KeyboardAwareScrollView
-        enableOnAndroid
-        extraHeight={100}
-        viewIsInsideTabBar
-        extraScrollHeight={100}
-        style={styles.container}
-      >
-        <TitleInput
-          value={viewModel.note?.title}
-          onChangeText={handleTextChange}
+      <>
+        <KeyboardAwareScrollView
+          enableOnAndroid
+          extraHeight={100}
+          viewIsInsideTabBar
+          extraScrollHeight={100}
+          style={[styles.container, { backgroundColor: viewModel.note?.color }]}
+        >
+          <TitleInput
+            value={viewModel.note?.title}
+            onChangeText={handleTextChange}
+          />
+          <ContentInput
+            value={viewModel.note?.content}
+            onChangeText={handleTextChange}
+          />
+        </KeyboardAwareScrollView>
+
+        <ModalColorPicker
+          visible={modalIsVisible}
+          onColorChange={handleSetColor}
+          onRequestClose={() => setModalIsVisible(!modalIsVisible)}
         />
-        <ContentInput
-          value={viewModel.note?.content}
-          onChangeText={handleTextChange}
-        />
-      </KeyboardAwareScrollView>
+      </>
     </HeaderNotesDetails>
   );
 });

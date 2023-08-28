@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootSiblingParent } from "react-native-root-siblings";
+import { StatusBar } from "expo-status-bar";
+
 import "react-native-gesture-handler";
 
 import loadFonts from "@/ui/utils/FontLoader";
@@ -23,10 +25,13 @@ export default function App() {
   }
 
   return (
-    <RootSiblingParent>
-      <NavigationContainer>
-        <RootNavigation />
-      </NavigationContainer>
-    </RootSiblingParent>
+    <>
+      <RootSiblingParent>
+        <NavigationContainer>
+          <RootNavigation />
+        </NavigationContainer>
+      </RootSiblingParent>
+      <StatusBar style="dark" />
+    </>
   );
 }

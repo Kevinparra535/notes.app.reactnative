@@ -37,10 +37,12 @@ type FirebaseDate = { seconds: number; nanoseconds: number };
 
 type Props = {
   mode: string;
+  color?: string;
   isFavorite?: boolean;
   children: JSX.Element;
   deleteNotes?: () => void;
   showLastTimeEdited?: boolean;
+  setModalIsVisible: () => void;
   setFavouritesNote?: () => void;
   isSyncing: boolean | undefined;
   lastSynced?: FirebaseDate | null;
@@ -67,6 +69,7 @@ type Props = {
 
 const HeaderNotesDetails = ({
   mode,
+  color,
   children,
   isSyncing,
   syncError,
@@ -76,6 +79,7 @@ const HeaderNotesDetails = ({
   deleteNotes,
   setFavouritesNote,
   showLastTimeEdited,
+  setModalIsVisible,
 }: Props): JSX.Element => {
   // Estados
 
@@ -98,13 +102,13 @@ const HeaderNotesDetails = ({
   // Renders
   return (
     <View style={{ flex: 1, paddingTop: insets.top }}>
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: color }]}>
         <Pressable onPress={handleBackPress}>
           <ArrowLeftIcon size={24} color={Colors.oscuro} />
         </Pressable>
 
         <View style={{ flexDirection: "row" }}>
-          <Pressable style={styles.actions} onPress={() => null}>
+          <Pressable style={styles.actions} onPress={setModalIsVisible}>
             <SwatchIcon size={24} color={Colors.oscuro} />
           </Pressable>
 
@@ -122,7 +126,7 @@ const HeaderNotesDetails = ({
             <StarIcon
               size={24}
               color={Colors.oscuro}
-              fill={isFavorite ? Colors.variants.three : Colors.claro}
+              fill={isFavorite ? Colors.variants.three : "transparent"}
             />
           </Pressable>
 
@@ -136,7 +140,7 @@ const HeaderNotesDetails = ({
 
       {children}
 
-      <View style={styles.status}>
+      <View style={[styles.status, { backgroundColor: color }]}>
         {showLastTimeEdited && (
           <>
             <Text style={styles.statusTexts}>
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
   statusTexts: {
     ...Fonts.bodyText,
     fontSize: 12,
-    color: Colors.variants.one,
+    color: Colors.oscuro,
   },
 
   statusError: {

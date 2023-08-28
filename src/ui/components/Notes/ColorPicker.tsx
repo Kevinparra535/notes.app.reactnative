@@ -1,8 +1,13 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import NativeColorPicker from "native-color-picker";
-import { SafeAreaView } from "react-native-safe-area-context";
+import ColorPicker, {
+  Panel1,
+  Swatches,
+  Preview,
+  OpacitySlider,
+  HueSlider,
+} from "reanimated-color-picker";
 
 // Contextos
 
@@ -12,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // Componentes
 import { COLORS_PICKER } from "@/ui/constants/Colors.type";
+import Spacings from "@/ui/styles/Spacings";
 
 // Navigations
 
@@ -22,6 +28,7 @@ import { COLORS_PICKER } from "@/ui/constants/Colors.type";
 // Tipado
 type Props = {
   actualColor: string;
+  onColorChange: (id: string, value: string) => void;
 };
 
 /**
@@ -33,7 +40,7 @@ type Props = {
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <ColorPicker />
+ * <ColorsPicker />
  * ```
  *
  * @returns `JSX.Element`
@@ -41,7 +48,7 @@ type Props = {
  * @beta
  */
 
-const ColorPicker = ({ actualColor }: Props): JSX.Element => {
+const ColorsPicker = ({ actualColor, onColorChange }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -49,27 +56,36 @@ const ColorPicker = ({ actualColor }: Props): JSX.Element => {
   // Hooks
 
   // Funciones
+  const onSelectColor = ({ hex }: { hex: string }) => {
+    onColorChange("color", hex);
+  };
 
   // UseEffects
 
   // Renders
   return (
-    <NativeColorPicker
-      colors={COLORS_PICKER}
-      // selectedColor={selected}
-      gradient
-      sort
-      shadow
-      markerType="checkmark"
-      markerDisplay="adjust"
-      // onSelect={(item) => setSelected(item)}
-      scrollEnabled={false}
-    />
+    <ColorPicker
+      value={actualColor}
+      style={styles.container}
+      onComplete={onSelectColor}
+    >
+      <Swatches colors={COLORS_PICKER} swatchStyle={styles.spot} />
+    </ColorPicker>
   );
 };
 
-ColorPicker.defaultProps = {};
+const styles = StyleSheet.create({
+  container: {
+    padding: Spacings.spacex2,
+    width: "100%",
+  },
 
-const styles = StyleSheet.create({});
+  spot: {
+    width: 40,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 100,
+  },
+});
 
-export default ColorPicker;
+export default ColorsPicker;

@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import ColorsPicker from "@/ui/components/Notes/ColorPicker";
 
 // Navigations
 
@@ -23,9 +24,9 @@ import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
 type Props = {
-  children: JSX.Element;
   visible: boolean;
   onRequestClose: () => void;
+  onColorChange: (id: string, value: string) => void;
 };
 
 /**
@@ -46,8 +47,8 @@ type Props = {
  */
 
 const ModalColorPicker = ({
-  children,
   visible,
+  onColorChange,
   onRequestClose,
 }: Props): JSX.Element => {
   // Estados
@@ -70,7 +71,7 @@ const ModalColorPicker = ({
             <XCircleIcon color={Colors.oscuro} size={22} />
           </Pressable>
         </View>
-        {children}
+        <ColorsPicker onColorChange={onColorChange} actualColor="#ffffff" />
       </View>
     </Modal>
   );
@@ -84,6 +85,11 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopRightRadius: Spacings.spacex2,
     borderTopLeftRadius: Spacings.spacex2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
     backgroundColor: Colors.claro,
   },
   titleContainer: {
@@ -91,10 +97,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
+    height: "16%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
     borderTopRightRadius: Spacings.space,
     borderTopLeftRadius: Spacings.space,
-    height: "16%",
-    backgroundColor: Colors.bg.claro,
+    backgroundColor: Colors.claro,
   },
   title: {
     ...Fonts.bodyText,

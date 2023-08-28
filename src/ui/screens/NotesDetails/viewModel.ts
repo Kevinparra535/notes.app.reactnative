@@ -117,6 +117,22 @@ export class NotesDetailsViewModel {
     fun(newData);
   }
 
+  async setNewColorNote(newData: Record<string, string>) {
+
+    console.log(newData)
+
+    try {
+      await this.updateNoteContent.execute(this.noteId, newData);
+
+      runInAction(() => {
+        this.fetchNote();
+        notesStore.setNoteUpdated(true);
+      });
+    } catch (error) {
+      console.log("NotesViewModel.setFavouritesNote.error:", error);
+    }
+  }
+
   handleNoteChange(newData: Record<string, any>) {
     this.setSyncing();
 
