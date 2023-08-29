@@ -24,10 +24,10 @@ export class NotesDetailsViewModel {
     NetworkNoteDatasource.getInstance();
 
   private noteId: string;
+  public error: unknown = null;
   public isLoading: boolean = true;
   public isSyncing: boolean = false;
   public syncError: string | null = null;
-  public error: string | null | unknown = null;
   public lastSynced: { seconds: number; nanoseconds: number } | null = null;
 
   private toastMessage: any;
@@ -78,7 +78,7 @@ export class NotesDetailsViewModel {
     this.note = note;
   }
 
-  private setError(error: string | unknown) {
+  private setError(error: unknown) {
     this.error = error;
   }
 
@@ -87,12 +87,35 @@ export class NotesDetailsViewModel {
       const response: Note = await this.getNoteById.execute(this.noteId);
       this.setNote(response);
       this.setLoading(false);
-    } catch (error) {
-      console.log("NotesDetailsViewModel.fetchNotes.error ==> ", error);
+    } catch (error: unknown) {
       this.setError(error);
+      console.log("NotesDetailsViewModel.fetchNotes.error ==> ", error);
     } finally {
       this.setLoading(false);
     }
+  }
+
+  handleNoteChange(newData: Record<string, any>) {
+    this.setSyncing();
+
+    if (!this.note) return;
+
+    const fun = debounce(async (newData: Record<string, string>) => {
+      try {
+        await this.updateNoteContent.execute(this.noteId, newData);
+        this.setSynced();
+
+        runInAction(() => {
+          this.noteUpdated = true;
+          notesStore.setNoteUpdated(true);
+        });
+      } catch (error) {
+        console.log("NotesDetailsViewModel.handleNoteChange.error:", error);
+        this.setSyncError("Failed to fetch note.");
+      }
+    }, 1000);
+
+    fun(newData);
   }
 
   setFavouritesNote(newData: Record<string, boolean>) {
@@ -131,29 +154,6 @@ export class NotesDetailsViewModel {
     } catch (error) {
       console.log("NotesViewModel.setFavouritesNote.error:", error);
     }
-  }
-
-  handleNoteChange(newData: Record<string, any>) {
-    this.setSyncing();
-
-    if (!this.note) return;
-
-    const fun = debounce(async (newData: Record<string, string>) => {
-      try {
-        await this.updateNoteContent.execute(this.noteId, newData);
-        this.setSynced();
-
-        runInAction(() => {
-          this.noteUpdated = true;
-          notesStore.setNoteUpdated(true);
-        });
-      } catch (error) {
-        console.log("NotesDetailsViewModel.handleNoteChange.error:", error);
-        this.setSyncError("Failed to fetch note.");
-      }
-    }, 1000);
-
-    fun(newData);
   }
 
   async deleteNotes(): Promise<boolean> {

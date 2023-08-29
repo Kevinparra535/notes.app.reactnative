@@ -1,8 +1,8 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, Alert } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
+import { useIsFocused } from "@react-navigation/native";
 
 // Contextos
 
@@ -10,14 +10,13 @@ import { observer } from "mobx-react-lite";
 
 // ViewModels
 import { NotesDetailsViewModel } from "./viewModel";
+import NoteBody from "@/ui/components/Notes/NoteBody";
 
 // Screens
 
 // Componentes
-import TitleInput from "@/ui/components/Notes/TitleInput";
 import Loader from "@/ui/components/Loader";
-import ContentInput from "../../components/Notes/ContentInput";
-import HeaderNotesDetails from "@/ui/components/Notes/HeaderNotesDetails";
+import NoteHeader from "@/ui/components/Notes/NoteHeader";
 import ModalColorPicker from "./components/ModalColorPicker";
 
 // Navigations
@@ -25,8 +24,6 @@ import ModalColorPicker from "./components/ModalColorPicker";
 // Imagenes
 
 // Estilos
-import Spacings from "@/ui/styles/Spacings";
-import { useIsFocused } from "@react-navigation/native";
 
 // Tipado
 type Props = {
@@ -108,36 +105,21 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
   if (viewModel.error) return <Text>Error</Text>;
 
   return (
-    <HeaderNotesDetails
+    <NoteHeader
       mode="edit"
       showLastTimeEdited
-      color={viewModel.note?.color}
+      viewModel={viewModel}
       deleteNotes={handleDeleteNote}
-      isSyncing={viewModel.isSyncing}
-      syncError={viewModel.syncError}
-      isFavorite={viewModel.note?.pin}
-      lastSynced={viewModel.lastSynced}
       setFavouritesNote={handleSetFavorite}
-      lastUpdate={viewModel.note?.updatedAt}
       setModalIsVisible={() => setModalIsVisible(!modalIsVisible)}
     >
       <>
-        <KeyboardAwareScrollView
-          enableOnAndroid
-          extraHeight={100}
-          viewIsInsideTabBar
-          extraScrollHeight={100}
-          style={[styles.container, { backgroundColor: viewModel.note?.color }]}
-        >
-          <TitleInput
-            value={viewModel.note?.title}
-            onChangeText={handleTextChange}
-          />
-          <ContentInput
-            value={viewModel.note?.content}
-            onChangeText={handleTextChange}
-          />
-        </KeyboardAwareScrollView>
+        <NoteBody
+          color={viewModel.note?.color}
+          title={viewModel.note?.title}
+          onChangeText={handleTextChange}
+          content={viewModel.note?.content}
+        />
 
         <ModalColorPicker
           visible={modalIsVisible}
@@ -145,15 +127,10 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
           onRequestClose={() => setModalIsVisible(!modalIsVisible)}
         />
       </>
-    </HeaderNotesDetails>
+    </NoteHeader>
   );
 });
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: Spacings.spacex2,
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default NotesDetails;

@@ -12,7 +12,7 @@ import { observer } from "mobx-react-lite";
 
 // Componentes
 import ContentInput from "@/ui/components/Notes/ContentInput";
-import HeaderNotesDetails from "@/ui/components/Notes/HeaderNotesDetails";
+import NoteHeader from "@/ui/components/Notes/NoteHeader";
 import TitleInput from "@/ui/components/Notes/TitleInput";
 import { CreateNotesViewModel } from "./viewModel";
 
@@ -68,7 +68,7 @@ const CreateNotes: React.FC = observer(() => {
 
   // Renders
   return (
-    <HeaderNotesDetails
+    <NoteHeader
       mode="create"
       showLastTimeEdited
       isSyncing={viewModel.isSyncing}
@@ -92,7 +92,7 @@ const CreateNotes: React.FC = observer(() => {
           onChangeText={handleTextChange}
         />
       </KeyboardAwareScrollView>
-    </HeaderNotesDetails>
+    </NoteHeader>
   );
 });
 
