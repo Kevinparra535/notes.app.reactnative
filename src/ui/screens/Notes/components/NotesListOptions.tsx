@@ -1,7 +1,8 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
+import React from "react";
+import { View, StyleSheet, Pressable, Alert } from "react-native";
 import { StarIcon, TrashIcon } from "react-native-heroicons/outline";
+import { TranslateHelper } from "@/ui/i18n";
 
 // Contextos
 
@@ -18,7 +19,6 @@ import { StarIcon, TrashIcon } from "react-native-heroicons/outline";
 // Estilos
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
-import { TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 type Props = {

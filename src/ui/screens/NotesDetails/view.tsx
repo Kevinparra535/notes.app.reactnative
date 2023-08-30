@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, Alert } from "react-native";
 import { observer } from "mobx-react-lite";
 import { useIsFocused } from "@react-navigation/native";
+import { TranslateHelper } from "@/ui/i18n";
 
 // Contextos
 
@@ -18,7 +19,6 @@ import NoteBody from "@/ui/components/Notes/NoteBody";
 import Loader from "@/ui/components/Loader";
 import NoteHeader from "@/ui/components/Notes/NoteHeader";
 import ModalColorPicker from "../../components/Notes/ModalColorPicker";
-import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
