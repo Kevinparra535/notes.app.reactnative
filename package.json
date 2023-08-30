@@ -51,8 +51,8 @@
     "typescript": "^5.1.3"
   },
   "private": true,
-  "description": "",
-  "keywords": [],
+  "description": " Una aplicación donde los usuarios puedan crear, editar y eliminar notas. Además, estas notas se sincronizarán en tiempo real entre dispositivos utilizando un backend común.",
+  "keywords": ["typescript", "reactnative", "mvvm", "clean architecture", "solid", "firebase", "expo"],
   "author": "Kevin Parra Lopez <kevinparra535@gmail.com>",
   "license": "MIT"
 }
