@@ -1,4 +1,4 @@
-#Real-Time Note App
+# Real-Time Note App
 ### Expo with React Native, Clean Architecture, MVVM, SOLID, Firebase, and TypeScript
 
 ![App Logo](/path/to/logo.png)
