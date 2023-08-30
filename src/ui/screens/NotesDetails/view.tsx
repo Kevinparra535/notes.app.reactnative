@@ -17,7 +17,7 @@ import NoteBody from "@/ui/components/Notes/NoteBody";
 // Componentes
 import Loader from "@/ui/components/Loader";
 import NoteHeader from "@/ui/components/Notes/NoteHeader";
-import ModalColorPicker from "./components/ModalColorPicker";
+import ModalColorPicker from "../../components/Notes/ModalColorPicker";
 
 // Navigations
 

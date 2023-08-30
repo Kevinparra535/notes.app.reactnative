@@ -1,14 +1,19 @@
+import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { TranslateHelper } from "@/ui/i18n";
+import Toast from "react-native-root-toast";
+
 import { DeleteNote } from "@/domain/useCases/deleteNote";
 import { GetAllNotes } from "@/domain/useCases/getAllNotes";
 import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
-import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
+
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
+
 import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
-import { makeAutoObservable, reaction, runInAction } from "mobx";
+
 import notesStore from "@/ui/store/NotesStore";
 import { debounce } from "@/ui/utils/Deboucing";
-import Toast from "react-native-root-toast";
 
 export class NotesViewModel {
   private deleteNote: DeleteNote;
@@ -101,7 +106,9 @@ export class NotesViewModel {
         await this.updateNoteContent.execute(noteId, newData);
 
         this.setToastMessage(
-          `Note ${newData.pin ? "added to" : "removed of"}  favorites`
+          newData.pin === true
+            ? TranslateHelper("messages.notes.favorites.success")
+            : TranslateHelper("messages.notes.favorites.removed")
         );
 
         runInAction(() => {
@@ -109,7 +116,7 @@ export class NotesViewModel {
         });
       } catch (error) {
         console.log("NotesViewModel.setfavoritesNote.error:", error);
-        this.setToastMessage(`Error when adding a note.`);
+        this.setToastMessage(TranslateHelper("messages.notes.favorites.error"));
       }
     }, 500);
 
@@ -120,14 +127,14 @@ export class NotesViewModel {
     try {
       await this.deleteNote.execute(noteId);
 
-      this.setToastMessage(`Note successfully deleted!`);
+      this.setToastMessage(TranslateHelper("messages.notes.delete.success"));
 
       runInAction(() => {
         notesStore.setNoteUpdated(true);
       });
     } catch (error) {
       console.log("NotesViewModel.setfavoritesNote.error:", error);
-      this.setToastMessage(`Error deleting a note.`);
+      this.setToastMessage(TranslateHelper("messages.notes.delete.error"));
     }
   }
 }

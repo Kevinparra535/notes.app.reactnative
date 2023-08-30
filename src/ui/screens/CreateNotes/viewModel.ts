@@ -1,10 +1,14 @@
 import Note from "@/domain/entities/Note";
-import { action, makeAutoObservable, runInAction } from "mobx";
-import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+import { makeAutoObservable, runInAction } from "mobx";
+
 import { CreateNote } from "@/domain/useCases/createNote";
+
+import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
-import { debounce } from "@/ui/utils/Deboucing";
+
 import notesStore from "@/ui/store/NotesStore";
+import { debounce } from "@/ui/utils/Deboucing";
+import { TranslateHelper } from "@/ui/i18n";
 
 export class CreateNotesViewModel {
   private userId: string;
@@ -24,6 +28,7 @@ export class CreateNotesViewModel {
     title: "",
     content: "",
     userId: "",
+    color: "#FFFFFF",
   };
 
   constructor(userId: string) {
@@ -82,8 +87,12 @@ export class CreateNotesViewModel {
         });
       } catch (error) {
         console.log("CreateNotesViewModel.handleNoteChange.error:", error);
-        this.setSyncError("Failed to fetch note.");
+        this.setSyncError(TranslateHelper("messages.notes.update.error"));
       }
+    }
+
+    if (!this.newNoteContent.title && this.newNoteContent.color !== "#FFFF") {
+      this.newNoteContent.color = "#FFFFFF";
     }
   }
 }

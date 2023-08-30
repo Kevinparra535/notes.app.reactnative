@@ -11,10 +11,9 @@ import { observer } from "mobx-react-lite";
 // Screens
 
 // Componentes
-import ContentInput from "@/ui/components/Notes/ContentInput";
-import NoteHeader from "@/ui/components/Notes/NoteHeader";
-import TitleInput from "@/ui/components/Notes/TitleInput";
 import { CreateNotesViewModel } from "./viewModel";
+import NoteBody from "@/ui/components/Notes/NoteBody";
+import NoteHeader from "@/ui/components/Notes/NoteHeader";
 
 // Navigations
 
@@ -23,6 +22,7 @@ import { CreateNotesViewModel } from "./viewModel";
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
 import { useFocusEffect } from "@react-navigation/native";
+import ModalColorPicker from "@/ui/components/Notes/ModalColorPicker";
 
 // Tipado
 
@@ -48,6 +48,7 @@ const CreateNotes: React.FC = observer(() => {
 
   // Estados
   const [viewModel] = useState(() => new CreateNotesViewModel(userId));
+  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   // Contextos
 
@@ -71,27 +72,24 @@ const CreateNotes: React.FC = observer(() => {
     <NoteHeader
       mode="create"
       showLastTimeEdited
-      isSyncing={viewModel.isSyncing}
-      syncError={viewModel.syncError}
-      lastSynced={viewModel.lastSynced}
-      lastUpdate={viewModel.note?.updatedAt}
+      viewModel={viewModel}
+      color={viewModel.newNoteContent.color}
+      setModalIsVisible={() => setModalIsVisible(!modalIsVisible)}
     >
-      <KeyboardAwareScrollView
-        enableOnAndroid
-        extraHeight={100}
-        viewIsInsideTabBar
-        extraScrollHeight={100}
-        style={styles.container}
-      >
-        <TitleInput
-          value={viewModel.newNoteContent?.title}
+      <>
+        <NoteBody
+          color={viewModel.newNoteContent.color}
+          title={viewModel.note?.title}
           onChangeText={handleTextChange}
+          content={viewModel.note?.content}
         />
-        <ContentInput
-          value={viewModel.newNoteContent?.content}
-          onChangeText={handleTextChange}
+
+        <ModalColorPicker
+          visible={modalIsVisible}
+          onColorChange={handleTextChange}
+          onRequestClose={() => setModalIsVisible(!modalIsVisible)}
         />
-      </KeyboardAwareScrollView>
+      </>
     </NoteHeader>
   );
 });

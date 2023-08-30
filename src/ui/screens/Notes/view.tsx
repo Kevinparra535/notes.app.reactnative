@@ -1,6 +1,8 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { observer } from "mobx-react-lite";
 
 // Contextos
 
@@ -14,13 +16,13 @@ import { NotesViewModel } from "./viewModel";
 // Componentes
 import Loader from "@/ui/components/Loader";
 import NotesList from "./components/NotesList";
-import { observer } from "mobx-react-lite";
 
 // Navigations
 
 // Imagenes
 
 // Estilos
+import Colors from "@/ui/styles/Colors";
 
 // Tipado
 type Props = {
@@ -69,6 +71,8 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
         refresh={() => viewModel.refresh()}
         setfavoritesNote={handleSetFavorite}
       />
+
+      <StatusBar translucent style="dark" backgroundColor={Colors.claro} />
     </>
   );
 });

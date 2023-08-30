@@ -1,7 +1,7 @@
 // Librerias
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   StarIcon,
@@ -27,20 +27,21 @@ import NoteStatus from "./NoteStatus";
 // Imagenes
 
 // Estilos
-import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
 import { NotesDetailsViewModel } from "@/ui/screens/NotesDetails/viewModel";
+import { CreateNotesViewModel } from "@/ui/screens/CreateNotes/viewModel";
 
 // Tipado
 type Props = {
   mode: string;
   children: JSX.Element;
+  color?: string;
   deleteNotes?: () => void;
   showLastTimeEdited?: boolean;
-  setModalIsVisible: () => void;
+  setModalIsVisible?: () => void;
   setfavoritesNote?: () => void;
-  viewModel: NotesDetailsViewModel;
+  viewModel: NotesDetailsViewModel | CreateNotesViewModel;
 };
 
 /**
@@ -62,6 +63,7 @@ type Props = {
 
 const NoteHeader = ({
   mode,
+  color,
   children,
   viewModel,
   deleteNotes,
@@ -92,7 +94,10 @@ const NoteHeader = ({
     <>
       <View style={{ flex: 1, paddingTop: insets.top }}>
         <View
-          style={[styles.header, { backgroundColor: viewModel.note?.color }]}
+          style={[
+            styles.header,
+            { backgroundColor: color ? color : viewModel.note?.color },
+          ]}
         >
           <Pressable onPress={handleBackPress}>
             <ArrowLeftIcon size={24} color={Colors.oscuro} />
@@ -135,7 +140,7 @@ const NoteHeader = ({
 
         <NoteStatus
           showLastTimeEdited
-          color={viewModel.note?.color}
+          color={color ? color : viewModel.note?.color}
           isSyncing={viewModel.isSyncing}
           syncError={viewModel.syncError}
           lastSynced={viewModel.lastSynced}
@@ -146,7 +151,7 @@ const NoteHeader = ({
       <StatusBar
         translucent
         style="dark"
-        backgroundColor={viewModel.note?.color}
+        backgroundColor={color ? color : viewModel.note?.color}
       />
     </>
   );
