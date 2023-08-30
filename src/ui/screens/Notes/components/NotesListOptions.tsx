@@ -18,6 +18,7 @@ import { StarIcon, TrashIcon } from "react-native-heroicons/outline";
 // Estilos
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
+import { TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 type Props = {
@@ -60,14 +61,17 @@ const NotesListOptions = ({
 
   const handleDeleteNote = () => {
     Alert.alert(
-      "Are you sure?",
-      "If you delete this note you will not be able to recover it.",
+      TranslateHelper("alerts.notes.delete.title"),
+      TranslateHelper("alerts.notes.delete.message"),
       [
         {
-          text: "Cancel",
           style: "cancel",
+          text: TranslateHelper("alerts.notes.delete.cancel"),
         },
-        { text: "Delete", onPress: () => deleteNote(uuid) },
+        {
+          onPress: () => deleteNote(uuid),
+          text: TranslateHelper("alerts.notes.delete.delete"),
+        },
       ]
     );
   };

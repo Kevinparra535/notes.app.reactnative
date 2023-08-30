@@ -8,6 +8,17 @@
     "title": "Choose a color:"
   },
 
+  "alerts": {
+    "notes": {
+      "delete": {
+        "title": "Are you sure?",
+        "message": "If you delete this note you will not be able to recover it.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
+    }
+  },
+
   "messages": {
     "notes": {
       "times": {

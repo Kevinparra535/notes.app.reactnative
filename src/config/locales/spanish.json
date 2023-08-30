@@ -8,6 +8,17 @@
     "title": "Selecciona un color:"
   },
 
+  "alerts": {
+    "notes": {
+      "delete": {
+        "title": "¿Estás seguro?",
+        "message": "Si eliminas esta nota, no podrás recuperarla.",
+        "cancel": "Cancelar",
+        "delete": "Eliminar"
+      }
+    }
+  },
+
   "messages": {
     "notes": {
       "times": {

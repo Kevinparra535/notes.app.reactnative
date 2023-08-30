@@ -18,6 +18,7 @@ import NoteBody from "@/ui/components/Notes/NoteBody";
 import Loader from "@/ui/components/Loader";
 import NoteHeader from "@/ui/components/Notes/NoteHeader";
 import ModalColorPicker from "../../components/Notes/ModalColorPicker";
+import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
@@ -66,16 +67,16 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
 
   const handleDeleteNote = async () => {
     Alert.alert(
-      "Are you sure?",
-      "If you delete this note you will not be able to recover it.",
+      TranslateHelper("alerts.notes.delete.title"),
+      TranslateHelper("alerts.notes.delete.message"),
       [
         {
-          text: "Cancel",
           style: "cancel",
+          text: TranslateHelper("alerts.notes.delete.cancel"),
         },
         {
-          text: "Delete",
-          onPress: async () => {
+          text: TranslateHelper("alerts.notes.delete.delete"),
+          onPress: async (): Promise<void> => {
             const result = await viewModel.deleteNotes();
             if (result) navigation.goBack();
           },
