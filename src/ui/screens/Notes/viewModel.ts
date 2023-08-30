@@ -95,20 +95,20 @@ export class NotesViewModel {
     );
   }
 
-  setFavouritesNote(noteId: string, newData: Record<string, boolean>) {
+  setfavoritesNote(noteId: string, newData: Record<string, boolean>) {
     const fun = debounce(async (newData: Record<string, any>) => {
       try {
         await this.updateNoteContent.execute(noteId, newData);
 
         this.setToastMessage(
-          `Note ${newData.pin ? "added to" : "removed of"}  favourites`
+          `Note ${newData.pin ? "added to" : "removed of"}  favorites`
         );
 
         runInAction(() => {
           notesStore.setNoteUpdated(true);
         });
       } catch (error) {
-        console.log("NotesViewModel.setFavouritesNote.error:", error);
+        console.log("NotesViewModel.setfavoritesNote.error:", error);
         this.setToastMessage(`Error when adding a note.`);
       }
     }, 500);
@@ -126,7 +126,7 @@ export class NotesViewModel {
         notesStore.setNoteUpdated(true);
       });
     } catch (error) {
-      console.log("NotesViewModel.setFavouritesNote.error:", error);
+      console.log("NotesViewModel.setfavoritesNote.error:", error);
       this.setToastMessage(`Error deleting a note.`);
     }
   }

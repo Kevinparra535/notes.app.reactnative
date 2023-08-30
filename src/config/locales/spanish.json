@@ -1,6 +1,52 @@
 {
   "input": {
-    "title": "Titulo",
+    "title": "Título",
     "content": "Nota"
+  },
+
+  "colorPicker": {
+    "title": "Selecciona un color:"
+  },
+
+  "messages": {
+    "notes": {
+      "times": {
+        "moment_ago": "hace un momento",
+        "minutes_ago": "hace {{minutes}} minutos",
+        "an_hour_ago": "hace una hora",
+        "yesterday": "ayer",
+        "day_before_yesterday": "antier",
+        "days": [
+          "domingo",
+          "lunes",
+          "martes",
+          "miércoles",
+          "jueves",
+          "viernes",
+          "sábado"
+        ],
+        "date_format": "{{day}}/{{month}}/{{year}}"
+      },
+
+      "sync": {
+        "synced": "Sincronizado",
+        "synchronizing": "Sincronizando..."
+      },
+
+      "update": {
+        "error": "Error al sincronizar la nota."
+      },
+
+      "delete": {
+        "error": "Error al eliminar una nota.",
+        "success": "¡Nota eliminada exitosamente!"
+      },
+
+      "favorites": {
+        "error": "Error al agregar una nota.",
+        "success": "Nota añadida a favoritos.",
+        "removed": "Nota eliminada de favoritos."
+      }
+    }
   }
 }

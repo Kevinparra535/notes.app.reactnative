@@ -1,7 +1,6 @@
 // Librerias
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 // Contextos
 
@@ -11,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // Componentes
 import { TimeSince } from "@/ui/utils/TimeSince";
+import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
@@ -81,25 +81,23 @@ const NoteStatus = ({
       {showLastTimeEdited && (
         <>
           <Text style={styles.statusTexts}>
-            Edited:{" "}
             {lastSynced
-              ? TimeSince(lastSynced)
-              : lastUpdate && TimeSince(lastUpdate)}
+              ? `${TimeSince(lastSynced)}  •  `
+              : lastUpdate && `${TimeSince(lastUpdate)}  •  `}
           </Text>
-          <Text style={styles.statusTexts}> • </Text>
         </>
       )}
 
       <Text style={styles.statusTexts}>
-        {isSyncing ? "Synchronizing..." : "Synced"}
+        {isSyncing === true
+          ? TranslateHelper("messages.notes.sync.synchronizing")
+          : TranslateHelper("messages.notes.sync.synced")}
       </Text>
 
       {syncError && <Text style={styles.statusError}>{syncError}</Text>}
     </View>
   );
 };
-
-NoteStatus.defaultProps = {};
 
 const styles = StyleSheet.create({
   status: {
@@ -111,6 +109,7 @@ const styles = StyleSheet.create({
 
   statusTexts: {
     ...Fonts.bodyText,
+    textTransform: "capitalize",
     fontSize: 12,
     color: Colors.oscuro,
   },

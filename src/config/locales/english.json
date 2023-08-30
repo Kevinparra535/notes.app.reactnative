@@ -1,6 +1,52 @@
 {
   "input": {
     "title": "Title",
-    "content": "Note"
+    "content": "Content"
+  },
+
+  "colorPicker": {
+    "title": "Choose a color:"
+  },
+
+  "messages": {
+    "notes": {
+      "times": {
+        "moment_ago": "a moment ago",
+        "minutes_ago": "about {{minutes}} minutes ago",
+        "an_hour_ago": "about an hour ago",
+        "yesterday": "yesterday",
+        "day_before_yesterday": "the day before yesterday",
+        "days": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "date_format": "{{day}}/{{month}}/{{year}}"
+      },
+
+      "sync": {
+        "synced": "Synced",
+        "synchronizing": "Synchronizing..."
+      },
+
+      "update": {
+        "error": "Error syncing the note."
+      },
+
+      "delete": {
+        "error": "Error deleting a note.",
+        "success": "Note successfully deleted!"
+      },
+
+      "favorites": {
+        "error": "Error adding a note.",
+        "success": "Note added to favorites.",
+        "removed": "Note removed from favorites."
+      }
+    }
   }
 }

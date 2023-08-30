@@ -85,16 +85,12 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
   };
 
   const handleSetFavorite = () => {
-    viewModel.setFavouritesNote({ pin: !viewModel.note?.pin });
+    viewModel.setfavoritesNote({ pin: !viewModel.note?.pin });
   };
 
   const handleSetColor = (id: string, value: string) => {
     viewModel.setNewColorNote({ [id]: value });
   };
-
-  useEffect(() => {
-    console.log(viewModel.note);
-  }, [viewModel.note]);
 
   useEffect(() => {
     if (isFocused) navigation.setParams({ hideTabBar: true });
@@ -110,7 +106,7 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
       showLastTimeEdited
       viewModel={viewModel}
       deleteNotes={handleDeleteNote}
-      setFavouritesNote={handleSetFavorite}
+      setfavoritesNote={handleSetFavorite}
       setModalIsVisible={() => setModalIsVisible(!modalIsVisible)}
     >
       <>

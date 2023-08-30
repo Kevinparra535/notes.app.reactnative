@@ -29,7 +29,7 @@ type Props = {
   refresh: () => void;
   deleteNote: (uuid: string) => void;
   viewModel: ResponseModel<NoteModel[]>;
-  setFavouritesNote: (uuid: string, pin: boolean) => void;
+  setfavoritesNote: (uuid: string, pin: boolean) => void;
 };
 
 /**
@@ -53,7 +53,7 @@ const NotesList = ({
   viewModel,
   refresh,
   deleteNote,
-  setFavouritesNote,
+  setfavoritesNote,
 }: Props): JSX.Element => {
   // Estados
 
@@ -79,7 +79,7 @@ const NotesList = ({
           uuid={data.item.uuid}
           deleteNote={deleteNote}
           noteIsFavorite={data.item.pin}
-          setFavouritesNote={setFavouritesNote}
+          setfavoritesNote={setfavoritesNote}
         />
       )}
       refreshing={viewModel.status === "loading"}

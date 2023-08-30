@@ -1,6 +1,6 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { Text } from "react-native";
 import i18n from "./config";
 
 // Contextos
@@ -18,9 +18,10 @@ import i18n from "./config";
 // Estilos
 
 // Tipado
-type Props ={
-  langkey: string
-}
+type Props = {
+  langkey: string;
+  style?: Record<string, unknown> | Array<Record<string, unknown>>;
+};
 
 /**
  * Descripción del componente.
@@ -39,7 +40,7 @@ type Props ={
  * @beta
  */
 
-const Translate = ({langkey}: Props): JSX.Element => {
+const Translate = ({ langkey, style }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -51,12 +52,7 @@ const Translate = ({langkey}: Props): JSX.Element => {
   // UseEffects
 
   // Renders
-  return (
-    <Text>{i18n.t(langkey)}</Text>
-  );
+  return <Text style={{ ...style }}>{i18n.t(langkey)}</Text>;
 };
-
-
-const styles = StyleSheet.create({});
 
 export default Translate;

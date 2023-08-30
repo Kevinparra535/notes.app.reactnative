@@ -24,7 +24,7 @@ type Props = {
   uuid: string;
   noteIsFavorite: boolean;
   deleteNote: (uuid: string) => void;
-  setFavouritesNote: (uuid: string, pin: boolean) => void;
+  setfavoritesNote: (uuid: string, pin: boolean) => void;
 };
 
 /**
@@ -48,7 +48,7 @@ const NotesListOptions = ({
   uuid,
   deleteNote,
   noteIsFavorite,
-  setFavouritesNote,
+  setfavoritesNote,
 }: Props): JSX.Element => {
   // Estados
 
@@ -79,7 +79,7 @@ const NotesListOptions = ({
     <View style={styles.container}>
       <View style={styles.containerGroups}>
         <Pressable
-          onPress={() => setFavouritesNote(uuid, !noteIsFavorite)}
+          onPress={() => setfavoritesNote(uuid, !noteIsFavorite)}
           style={styles.actions}
         >
           <StarIcon

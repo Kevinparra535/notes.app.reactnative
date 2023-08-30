@@ -1,4 +1,3 @@
-import { useState, useEffect, useMemo } from "react";
 import { makeAutoObservable, runInAction } from "mobx";
 import Toast from "react-native-root-toast";
 
@@ -11,8 +10,9 @@ import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 
-import { debounce } from "@/ui/utils/Deboucing";
 import notesStore from "@/ui/store/NotesStore";
+import { debounce } from "@/ui/utils/Deboucing";
+import { TranslateHelper } from "@/ui/i18n";
 
 export class NotesDetailsViewModel {
   public note: Note | null = null;
@@ -111,20 +111,24 @@ export class NotesDetailsViewModel {
         });
       } catch (error) {
         console.log("NotesDetailsViewModel.handleNoteChange.error:", error);
-        this.setSyncError("Failed to fetch note.");
+        this.setSyncError(TranslateHelper("messages.notes.update.error"));
       }
     }, 1000);
 
     fun(newData);
   }
 
-  setFavouritesNote(newData: Record<string, boolean>) {
+  setfavoritesNote(newData: Record<string, boolean>) {
+    this.setSyncing();
+
     const fun = debounce(async (newData: Record<string, any>) => {
       try {
         await this.updateNoteContent.execute(this.noteId, newData);
-
+        this.setSynced();
         this.setToastMessage(
-          `Note ${newData.pin ? "added to" : "removed of"}  favourites`
+          newData.pin === true
+            ? TranslateHelper("messages.notes.favorites.success")
+            : TranslateHelper("messages.notes.favorites.removed")
         );
 
         runInAction(() => {
@@ -132,8 +136,8 @@ export class NotesDetailsViewModel {
           notesStore.setNoteUpdated(true);
         });
       } catch (error) {
-        console.log("NotesViewModel.setFavouritesNote.error:", error);
-        this.setToastMessage(`Error when adding a note.`);
+        console.log("NotesViewModel.setfavoritesNote.error:", error);
+        this.setToastMessage(TranslateHelper("messages.notes.favorites.error"));
       }
     }, 500);
 
@@ -141,25 +145,24 @@ export class NotesDetailsViewModel {
   }
 
   async setNewColorNote(newData: Record<string, string>) {
-
-    console.log(newData)
+    this.setSyncing();
 
     try {
       await this.updateNoteContent.execute(this.noteId, newData);
-
+      this.setSynced();
       runInAction(() => {
         this.fetchNote();
         notesStore.setNoteUpdated(true);
       });
     } catch (error) {
-      console.log("NotesViewModel.setFavouritesNote.error:", error);
+      console.log("NotesViewModel.setfavoritesNote.error:", error);
     }
   }
 
   async deleteNotes(): Promise<boolean> {
     try {
       await this.deleteNote.execute(this.noteId);
-      this.setToastMessage(`Note successfully deleted!`);
+      this.setToastMessage(TranslateHelper("messages.notes.delete.success"));
 
       runInAction(() => {
         notesStore.setNoteUpdated(true);
@@ -167,7 +170,7 @@ export class NotesDetailsViewModel {
       return true;
     } catch (error) {
       console.log("NotesDetailsViewModel.deleteNotes.error:", error);
-      this.setToastMessage(`Error deleting a note.`);
+      this.setToastMessage(TranslateHelper("messages.notes.delete.error"));
       return false;
     }
   }

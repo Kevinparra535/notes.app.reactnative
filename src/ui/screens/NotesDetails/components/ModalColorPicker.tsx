@@ -1,8 +1,7 @@
 // Librerias
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, Modal, Pressable } from "react-native";
 import { XCircleIcon } from "react-native-heroicons/outline";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 // Contextos
 
@@ -11,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import { Translate } from "@/ui/i18n";
 import ColorsPicker from "@/ui/components/Notes/ColorPicker";
 
 // Navigations
@@ -66,7 +66,7 @@ const ModalColorPicker = ({
     <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
       <View style={styles.modalContent}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Choose a sticker</Text>
+          <Translate langkey="colorPicker.title" style={styles.title} />
           <Pressable onPress={onRequestClose}>
             <XCircleIcon color={Colors.oscuro} size={22} />
           </Pressable>

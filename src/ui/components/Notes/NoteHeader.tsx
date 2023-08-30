@@ -39,7 +39,7 @@ type Props = {
   deleteNotes?: () => void;
   showLastTimeEdited?: boolean;
   setModalIsVisible: () => void;
-  setFavouritesNote?: () => void;
+  setfavoritesNote?: () => void;
   viewModel: NotesDetailsViewModel;
 };
 
@@ -65,7 +65,7 @@ const NoteHeader = ({
   children,
   viewModel,
   deleteNotes,
-  setFavouritesNote,
+  setfavoritesNote,
   setModalIsVisible,
   showLastTimeEdited,
 }: Props): JSX.Element => {
@@ -113,7 +113,7 @@ const NoteHeader = ({
               <RectangleStackIcon size={24} color={Colors.oscuro} />
             </Pressable>
 
-            <Pressable style={styles.actions} onPress={setFavouritesNote}>
+            <Pressable style={styles.actions} onPress={setfavoritesNote}>
               <StarIcon
                 size={24}
                 color={Colors.oscuro}
@@ -144,7 +144,6 @@ const NoteHeader = ({
       </View>
 
       <StatusBar
-        animated
         translucent
         style="dark"
         backgroundColor={viewModel.note?.color}

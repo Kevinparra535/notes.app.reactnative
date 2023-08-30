@@ -50,7 +50,7 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
 
   // Funciones
   const handleSetFavorite = (uuid: string, pin: boolean) => {
-    viewModel.setFavouritesNote(uuid, { pin });
+    viewModel.setfavoritesNote(uuid, { pin });
   };
 
   const handleDeleteNote = (uuid: string) => {
@@ -67,7 +67,7 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
         viewModel={viewModel.notes}
         deleteNote={handleDeleteNote}
         refresh={() => viewModel.refresh()}
-        setFavouritesNote={handleSetFavorite}
+        setfavoritesNote={handleSetFavorite}
       />
     </>
   );
