@@ -28,7 +28,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <view />
+ * <SignUp />
  * ```
  *
  * @returns `JSX.Element`
@@ -36,7 +36,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * @beta
  */
 
-const Login = (): JSX.Element => {
+const SignUp = (): JSX.Element => {
   // Estados
 
   // Contextos
@@ -51,7 +51,7 @@ const Login = (): JSX.Element => {
   return (
     <SafeAreaView>
       <View>
-        <Text></Text>
+        <Text>Sign up</Text>
       </View>
     </SafeAreaView>
   );
@@ -59,4 +59,4 @@ const Login = (): JSX.Element => {
 
 const styles = StyleSheet.create({});
 
-export default Login;
+export default SignUp;

@@ -1,4 +1,13 @@
 {
+  "prelogin": {
+    "title": "Bienvenid@!",
+    "subtitle": "Captura tus ideas rápidamente, accede a ellas sin conexión desde cualquier lugar y sincronízalas con todos tus dispositivos.",
+    "google": "Continua con Google",
+    "apple": "Continua con Apple",
+    "email": "Continua con Correo",
+    "signup": "¿Aún no tiene una cuenta? Regístrate"
+  },
+
   "input": {
     "title": "Título",
     "content": "Nota"

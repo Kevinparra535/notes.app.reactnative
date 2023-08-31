@@ -9,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 // Screens
 import PreLogin from "../screens/PreLogin";
+import SignUp from "../screens/SignUp";
 
 // Componentes
 
@@ -40,7 +41,6 @@ import Colors from "../styles/Colors";
 
 const Stack = createStackNavigator();
 
-
 const LoginNavigation = (): JSX.Element => {
   // Estados
 
@@ -65,6 +65,12 @@ const LoginNavigation = (): JSX.Element => {
         name="PreLogin"
         component={PreLogin}
         options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="SignUp"
+        component={SignUp}
+        // options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

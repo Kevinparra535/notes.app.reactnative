@@ -1,4 +1,15 @@
 {
+
+  "prelogin": {
+    "title": "Welcome!",
+    "subtitle": "Capture your ideas quickly, access them offline from anywhere and sync them to all your devices.",
+    "google": "Continue with Google",
+    "apple": "Continue with Apple",
+    "email": "Continue with Correo",
+    "signup": "Do not you have an account yet? Sign up"
+  },
+
+
   "input": {
     "title": "Title",
     "content": "Content"

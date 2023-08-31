@@ -27,6 +27,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
+import { Link } from "@react-navigation/native";
+import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 
@@ -82,25 +84,27 @@ const PreLogin = (): JSX.Element => {
         )}
       </View>
 
-      <Text style={styles.title}>Welcome!</Text>
-      <Text style={styles.subTitle}>
-        Capture your ideas quickly, access hem offline from anywhere and sync
-        them with all your devices.
-      </Text>
+      <Translate langkey="prelogin.title" style={styles.title} />
+      <Translate langkey="prelogin.subtitle" style={styles.subTitle} />
 
       <Pressable style={[styles.buttons, { backgroundColor: Colors.oscuro }]}>
-        <Text style={[styles.buttonsLabel, { color: Colors.claro }]}>
-          Continue with Google
-        </Text>
+        <Translate
+          langkey="prelogin.google"
+          style={[styles.buttonsLabel, { color: Colors.claro }]}
+        />
       </Pressable>
 
       <Pressable style={styles.buttons}>
-        <Text style={styles.buttonsLabel}>Continue with Apple</Text>
+        <Translate langkey="prelogin.apple" style={styles.buttonsLabel} />
       </Pressable>
 
       <Pressable style={styles.buttons}>
-        <Text style={styles.buttonsLabel}>Continue with Email</Text>
+        <Translate langkey="prelogin.email" style={styles.buttonsLabel} />
       </Pressable>
+
+      <Link style={styles.links} to={{ screen: "SignUp" }}>
+        {TranslateHelper("prelogin.signup")}
+      </Link>
     </SafeAreaView>
   );
 };
@@ -138,8 +142,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacings.spacex3,
     textAlign: "center",
     ...Fonts.header4,
-    fontSize: 19,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 19,
     color: Colors.variants.one,
   },
 
@@ -155,6 +159,14 @@ const styles = StyleSheet.create({
 
   buttonsLabel: {
     ...Fonts.callToActions,
+  },
+
+  links: {
+    marginTop: Spacings.space,
+    textDecorationLine: "underline",
+    ...Fonts.callToActions,
+    fontSize: 14,
+    color: Colors.bg.oscuro,
   },
 });
 

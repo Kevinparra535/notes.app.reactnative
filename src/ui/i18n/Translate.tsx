@@ -52,7 +52,7 @@ const Translate = ({ langkey, style }: Props): JSX.Element => {
   // UseEffects
 
   // Renders
-  return <Text style={{ ...style }}>{i18n.t(langkey)}</Text>;
+  return <Text style={style}>{i18n.t(langkey)}</Text>;
 };
 
 export default Translate;
