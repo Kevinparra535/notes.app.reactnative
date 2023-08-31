@@ -8,6 +8,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@dotlottie/react-player": "^1.4.0",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-masked-view/masked-view": "0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.8",
@@ -52,7 +53,15 @@
   },
   "private": true,
   "description": " Una aplicación donde los usuarios puedan crear, editar y eliminar notas. Además, estas notas se sincronizarán en tiempo real entre dispositivos utilizando un backend común.",
-  "keywords": ["typescript", "reactnative", "mvvm", "clean architecture", "solid", "firebase", "expo"],
+  "keywords": [
+    "typescript",
+    "reactnative",
+    "mvvm",
+    "clean architecture",
+    "solid",
+    "firebase",
+    "expo"
+  ],
   "author": "Kevin Parra Lopez <kevinparra535@gmail.com>",
   "license": "MIT"
 }

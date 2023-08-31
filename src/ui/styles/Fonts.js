@@ -50,8 +50,7 @@ const Fonts = {
   callToActions: {
     fontSize: 16,
     fontFamily: "poppins-semibold",
-    textAlign: "center",
-    color: Colors.claro,
+    color: Colors.oscuro,
   },
 
   links: {

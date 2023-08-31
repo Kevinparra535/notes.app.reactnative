@@ -1,9 +1,7 @@
 // Librerias
-import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useEffect, useRef } from "react";
+import { View, StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
-import Colors from "../styles/Colors";
 
 // Contextos
 
@@ -18,6 +16,8 @@ import Colors from "../styles/Colors";
 // Imagenes
 
 // Estilos
+import Colors from "../styles/Colors";
+
 
 // Tipado
 

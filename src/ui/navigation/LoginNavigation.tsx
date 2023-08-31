@@ -8,12 +8,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 // Hooks
 
 // Screens
+import PreLogin from "../screens/PreLogin";
 
 // Componentes
 
 // Navigations
-import DashboardNavigation from "./DashboardNavigation";
-import LoginNavigation from "./LoginNavigation";
 
 // Imagenes
 
@@ -26,12 +25,12 @@ import Colors from "../styles/Colors";
  * Descripción del componente.
  *
  * @remarks
- * Este componente se encarga de el enrutamiento raiz, autentifica y condiciona
+ * Este navigation se encarga de enrutar todo lo relacionado con el inicio de sesion o registro
  *
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <RootNavigation />
+ * <LoginNavigation />
  * ```
  *
  * @returns `JSX.Element`
@@ -41,8 +40,17 @@ import Colors from "../styles/Colors";
 
 const Stack = createStackNavigator();
 
-const RootNavigation = (): JSX.Element => {
-  const isSessionActive = false;
+
+const LoginNavigation = (): JSX.Element => {
+  // Estados
+
+  // Contextos
+
+  // Hooks
+
+  // Funciones
+
+  // UseEffects
 
   // Renders
   return (
@@ -53,23 +61,17 @@ const RootNavigation = (): JSX.Element => {
         },
       }}
     >
-      {!isSessionActive ? (
-        <Stack.Screen
-          name="LoginNavigation"
-          component={LoginNavigation}
-          options={{ headerShown: false }}
-        />
-      ) : (
-        <Stack.Screen
-          name="DashboardNavigation"
-          component={DashboardNavigation}
-          options={{ headerShown: false }}
-        />
-      )}
+      <Stack.Screen
+        name="PreLogin"
+        component={PreLogin}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
 
+LoginNavigation.defaultProps = {};
+
 const styles = StyleSheet.create({});
 
-export default RootNavigation;
+export default LoginNavigation;
