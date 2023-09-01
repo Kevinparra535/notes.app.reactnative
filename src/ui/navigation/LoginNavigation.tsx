@@ -72,8 +72,9 @@ const LoginNavigation = (): JSX.Element => {
         name="SignUp"
         component={SignUp}
         options={{
-          headerShadowVisible: false,
           title: "",
+          headerShadowVisible: false,
+          headerTransparent: true,
           headerBackTitleVisible: false,
           headerTintColor: Colors.oscuro
         }}
@@ -82,7 +83,6 @@ const LoginNavigation = (): JSX.Element => {
   );
 };
 
-LoginNavigation.defaultProps = {};
 
 const styles = StyleSheet.create({});
 

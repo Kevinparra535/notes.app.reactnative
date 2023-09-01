@@ -1,7 +1,6 @@
 // Librerias
 import React from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 // Contextos
 
@@ -57,13 +56,16 @@ const SignUp = ({ navigation }: Props): JSX.Element => {
 
   // Renders
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <SignupHeader />
 
       <SignupForm />
 
       <SignupFooter />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -72,8 +74,8 @@ const styles = StyleSheet.create({
     padding: Spacings.spacex2,
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
     flexDirection: "column",
+    justifyContent: "center",
     backgroundColor: Colors.claro,
   },
 });

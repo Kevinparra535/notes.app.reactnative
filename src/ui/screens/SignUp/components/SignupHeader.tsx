@@ -52,18 +52,16 @@ const SignupHeader = (): JSX.Element => {
 
   // Renders
   return (
-    <>
-      <View style={styles.animationContainer}>
-        <Image
-          resizeMethod="auto"
-          resizeMode="contain"
-          style={styles.image}
-          source={require("@/ui/assets/images/static/Notes_signup.png")}
-        />
-      </View>
+    <View style={styles.animationContainer}>
+      <Image
+        resizeMethod="auto"
+        resizeMode="contain"
+        style={styles.image}
+        source={require("@/ui/assets/images/static/Notes_signup.png")}
+      />
 
       <Translate langkey="signup.title" style={styles.title} />
-    </>
+    </View>
   );
 };
 
@@ -71,18 +69,18 @@ const styles = StyleSheet.create({
   animationContainer: {
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: Spacings.spacex3,
     width: "100%",
     height: "30%",
   },
 
   image: {
-    marginBottom: Spacings.space,
-    width: "100%",
-    height: "100%",
+    marginBottom: Spacings.spacex2,
+    width: "90%",
+    height: "90%",
   },
 
   title: {
-    marginBottom: Spacings.spacex2,
     ...Fonts.header1,
     fontSize: 30,
     lineHeight: 35,
