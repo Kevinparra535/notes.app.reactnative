@@ -1,5 +1,4 @@
 {
-
   "prelogin": {
     "title": "Welcome!",
     "subtitle": "Capture your ideas quickly, access them offline from anywhere and sync them to all your devices.",
@@ -9,6 +8,14 @@
     "signup": "Do not you have an account yet? Sign up"
   },
 
+  "signup": {
+    "title": "Join Notes",
+    "google": "Google",
+    "apple": "Apple",
+    "terms": "I agree with the Terms & Conditions",
+    "button": "Sign up with email",
+    "label": "or continue with"
+  },
 
   "input": {
     "title": "Title",

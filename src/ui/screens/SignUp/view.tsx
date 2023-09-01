@@ -1,6 +1,6 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Contextos
@@ -10,20 +10,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import SignupFooter from "./components/SignupFooter";
+import SignupForm from "./components/SignupForm";
+import SignupHeader from "./components/SignupHeader";
 
 // Navigations
 
 // Imagenes
 
 // Estilos
+import Colors from "@/ui/styles/Colors";
+import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
+type Props = {
+  navigation: any;
+};
 
 /**
  * Descripción del componente.
  *
  * @remarks
- * Esta es una descripción más detallada del componente. Puedes hablar sobre su funcionamiento, cómo se utiliza, etc.
+ * Esta pantalla se muestra cuando el usuario decide registrarse, le proporcionamos las diferentes opciones posibles
  *
  * @example
  * Ejemplo de uso:
@@ -36,7 +44,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * @beta
  */
 
-const SignUp = (): JSX.Element => {
+const SignUp = ({ navigation }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -49,14 +57,25 @@ const SignUp = (): JSX.Element => {
 
   // Renders
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Sign up</Text>
-      </View>
+    <SafeAreaView style={styles.container}>
+      <SignupHeader />
+
+      <SignupForm />
+
+      <SignupFooter />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    padding: Spacings.spacex2,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    backgroundColor: Colors.claro,
+  },
+});
 
 export default SignUp;

@@ -78,8 +78,10 @@ const PreLogin = (): JSX.Element => {
           />
         ) : (
           <Image
+            resizeMethod="auto"
+            resizeMode="contain"
             style={styles.image}
-            source={require("@/ui/assets/images/static/Notesprelogin.png")}
+            source={require("@/ui/assets/images/static/Notes_prelogin.jpg")}
           />
         )}
       </View>
@@ -111,7 +113,7 @@ const PreLogin = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacings.spacex3,
+    padding: Spacings.spacex2,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -127,23 +129,23 @@ const styles = StyleSheet.create({
   },
 
   image: {
+    marginBottom: Spacings.space,
     width: "100%",
     height: "100%",
   },
 
   title: {
-    marginBottom: Spacings.space,
     ...Fonts.header1,
-    fontSize: 40,
-    lineHeight: 45,
+    fontSize: 30,
+    lineHeight: 35,
   },
 
   subTitle: {
-    marginBottom: Spacings.spacex3,
+    marginVertical: Spacings.spacex2,
     textAlign: "center",
     ...Fonts.header4,
     fontSize: 16,
-    lineHeight: 19,
+    lineHeight: 18,
     color: Colors.variants.one,
   },
 
@@ -159,13 +161,14 @@ const styles = StyleSheet.create({
 
   buttonsLabel: {
     ...Fonts.callToActions,
+    fontSize: 14,
   },
 
   links: {
     marginTop: Spacings.space,
     textDecorationLine: "underline",
     ...Fonts.callToActions,
-    fontSize: 14,
+    fontSize: 13,
     color: Colors.bg.oscuro,
   },
 });

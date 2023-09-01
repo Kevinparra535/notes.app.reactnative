@@ -8,6 +8,15 @@
     "signup": "¿Aún no tiene una cuenta? Regístrate"
   },
 
+  "signup": {
+    "title": "Unete a Notes",
+    "google": "Google",
+    "apple": "Apple",
+    "terms": "Acepto los términos y condiciones",
+    "button": "Registrate con tu correo",
+    "label": "o continua con"
+  },
+
   "input": {
     "title": "Título",
     "content": "Nota"

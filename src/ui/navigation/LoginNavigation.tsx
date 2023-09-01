@@ -1,6 +1,6 @@
 // Librerias
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // Contextos
@@ -19,6 +19,7 @@ import SignUp from "../screens/SignUp";
 
 // Estilos
 import Colors from "../styles/Colors";
+import { ArrowLeftIcon } from "react-native-heroicons/outline";
 
 // Tipado
 
@@ -70,7 +71,12 @@ const LoginNavigation = (): JSX.Element => {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
-        // options={{ headerShown: false }}
+        options={{
+          headerShadowVisible: false,
+          title: "",
+          headerBackTitleVisible: false,
+          headerTintColor: Colors.oscuro
+        }}
       />
     </Stack.Navigator>
   );
