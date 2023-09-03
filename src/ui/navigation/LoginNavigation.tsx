@@ -56,8 +56,9 @@ const LoginNavigation = (): JSX.Element => {
   // Renders
   return (
     <Stack.Navigator
-      initialRouteName="PickAvatar"
+      initialRouteName="PreLogin"
       screenOptions={{
+        gestureEnabled: false,
         cardStyle: {
           backgroundColor: Colors.claro,
         },
