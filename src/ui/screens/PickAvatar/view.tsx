@@ -1,9 +1,8 @@
 // Librerias
-import React from "react";
-import { Image } from "expo-image";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import PagerView from "react-native-pager-view";
+import { Link } from "@react-navigation/native";
 
 // Contextos
 
@@ -12,6 +11,7 @@ import PagerView from "react-native-pager-view";
 // Screens
 
 // Componentes
+import ImageSlider from "./components/ImageSlider";
 
 // Navigations
 
@@ -43,15 +43,33 @@ import Spacings from "@/ui/styles/Spacings";
 
 const PickAvatar = (): JSX.Element => {
   // Estados
+  const [page, setPage] = useState(0);
 
   // Contextos
 
   // Hooks
 
   // Funciones
-  const blurhash = "L6PZfSi_.AyE_3t7t7R**0o#DgR4";
+  const items = [
+    require("@/ui/assets/images/static/avatar1.png"),
+    require("@/ui/assets/images/static/avatar2.png"),
+    require("@/ui/assets/images/static/avatar3.png"),
+    require("@/ui/assets/images/static/avatar4.png"),
+    require("@/ui/assets/images/static/avatar5.png"),
+    require("@/ui/assets/images/static/avatar6.png"),
+    require("@/ui/assets/images/static/avatar7.png"),
+    require("@/ui/assets/images/static/avatar8.png"),
+    require("@/ui/assets/images/static/avatar9.png"),
+  ];
+
+  const handleScroll = (e: any) => {
+    setPage(e.nativeEvent.position);
+  };
 
   // UseEffects
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
 
   // Renders
   return (
@@ -61,50 +79,16 @@ const PickAvatar = (): JSX.Element => {
         Choose from our fun and unique collection of illustrations
       </Text>
 
-      <View style={{ flex: 1 }}>
-        <PagerView style={styles.viewPager} initialPage={0}>
-          <View style={styles.page} key="1">
-            <Image
-              contentFit="cover"
-              transition={200}
-              style={styles.image}
-              placeholder={blurhash}
-              source={require("@/ui/assets/images/static/avatar1.png")}
-            />
-            <Text>Swipe ➡️</Text>
-          </View>
-          <View style={styles.page} key="2">
-            <Image
-              contentFit="cover"
-              transition={200}
-              style={styles.image}
-              placeholder={blurhash}
-              source={require("@/ui/assets/images/static/avatar2.png")}
-            />
-            <Text>Swipe ➡️</Text>
-          </View>
-          <View style={styles.page} key="3">
-            <Image
-              contentFit="cover"
-              transition={200}
-              style={styles.image}
-              placeholder={blurhash}
-              source={require("@/ui/assets/images/static/avatar3.png")}
-            />
-            <Text>Swipe ➡️</Text>
-          </View>
+      <ImageSlider handleScroll={handleScroll} items={items} />
 
-          <View style={styles.page} key="4">
-            <Image
-              contentFit="cover"
-              transition={200}
-              style={styles.image}
-              placeholder={blurhash}
-              source={require("@/ui/assets/images/static/avatar4.png")}
-            />
-            <Text>Swipe ➡️</Text>
-          </View>
-        </PagerView>
+      <View style={{ alignItems: "center", width: "100%" }}>
+        <Pressable style={styles.buttons}>
+          <Text style={styles.buttonsLabel}>Choose avatar</Text>
+        </Pressable>
+
+        <Link style={styles.links} to={{ screen: "SignUp" }}>
+          Skip
+        </Link>
       </View>
     </SafeAreaView>
   );
@@ -114,7 +98,7 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacings.spacex3,
     flex: 1,
-    // alignItems: "center",
+    alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
     backgroundColor: Colors.claro,
@@ -157,23 +141,6 @@ const styles = StyleSheet.create({
     ...Fonts.callToActions,
     fontSize: 13,
     color: Colors.bg.oscuro,
-  },
-
-  viewPager: {
-    flex: 1,
-    borderWidth: 1,
-  },
-
-  page: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-  },
-
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
   },
 });
 
