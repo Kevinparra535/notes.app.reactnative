@@ -1,7 +1,11 @@
 // Librerias
 import React from "react";
 import { Image } from "expo-image";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "react-native-heroicons/outline";
+import { View, StyleSheet } from "react-native";
 import PagerView from "react-native-pager-view";
 
 // Contextos
@@ -18,10 +22,12 @@ import PagerView from "react-native-pager-view";
 
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
+import Colors from "@/ui/styles/Colors";
 
 // Tipado
 type Props = {
   items: Array<string>;
+  page: number;
   handleScroll: (e: any) => void;
 };
 
@@ -29,7 +35,7 @@ type Props = {
  * Descripción del componente.
  *
  * @remarks
- * Esta es una descripción más detallada del componente. Puedes hablar sobre su funcionamiento, cómo se utiliza, etc.
+ * Este componente se encarga de crear un carousel para seleccionar el avatar, este avatar es es el que se almacenara en la base de datos
  *
  * @example
  * Ejemplo de uso:
@@ -44,7 +50,7 @@ type Props = {
 
 const blurhash = "L6PZfSi_.AyE_3t7t7R**0o#DgR4";
 
-const ImageSlider = ({ handleScroll, items }: Props): JSX.Element => {
+const ImageSlider = ({ handleScroll, page, items }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -64,6 +70,11 @@ const ImageSlider = ({ handleScroll, items }: Props): JSX.Element => {
     >
       {items.map((item, index) => (
         <View style={styles.page} key={String(index)}>
+          <ChevronLeftIcon
+            size={24}
+            color={page !== 0 ? Colors.oscuro : Colors.variants.one}
+          />
+
           <Image
             source={item}
             transition={200}
@@ -71,7 +82,11 @@ const ImageSlider = ({ handleScroll, items }: Props): JSX.Element => {
             style={styles.image}
             placeholder={blurhash}
           />
-          <Text>Swipe ➡️</Text>
+
+          <ChevronRightIcon
+            size={24}
+            color={page !== 8 ? Colors.oscuro : Colors.variants.one}
+          />
         </View>
       ))}
     </PagerView>
@@ -86,8 +101,10 @@ const styles = StyleSheet.create({
   },
 
   page: {
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "100%",
   },
 
   image: {

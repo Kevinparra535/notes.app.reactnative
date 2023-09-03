@@ -17,6 +17,13 @@
     "label": "o continua con"
   },
 
+  "pickavatar": {
+    "title": "Selecciona tu avatar",
+    "subtitle": "Elija entre nuestra divertida y exclusiva colección de ilustraciones.",
+    "button": "Selecciona un avatar",
+    "link": "Omitir"
+  },
+
   "input": {
     "title": "Título",
     "content": "Nota"

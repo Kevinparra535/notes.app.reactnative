@@ -21,6 +21,7 @@ import ImageSlider from "./components/ImageSlider";
 import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
+import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 
@@ -28,7 +29,7 @@ import Spacings from "@/ui/styles/Spacings";
  * Descripción del componente.
  *
  * @remarks
- * Esta es una descripción más detallada del componente. Puedes hablar sobre su funcionamiento, cómo se utiliza, etc.
+ * Esta vista se encarga de mostrarle al usuario una serie de avatars para poder selccionar el que mejor lo identifique
  *
  * @example
  * Ejemplo de uso:
@@ -74,20 +75,18 @@ const PickAvatar = (): JSX.Element => {
   // Renders
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Pick your avatar</Text>
-      <Text style={styles.subTitle}>
-        Choose from our fun and unique collection of illustrations
-      </Text>
+      <Translate langkey="pickavatar.title" style={styles.title} />
+      <Translate langkey="pickavatar.subtitle" style={styles.subTitle} />
 
-      <ImageSlider handleScroll={handleScroll} items={items} />
+      <ImageSlider page={page} handleScroll={handleScroll} items={items} />
 
       <View style={{ alignItems: "center", width: "100%" }}>
         <Pressable style={styles.buttons}>
-          <Text style={styles.buttonsLabel}>Choose avatar</Text>
+          <Translate langkey="pickavatar.button" style={styles.buttonsLabel} />
         </Pressable>
 
         <Link style={styles.links} to={{ screen: "SignUp" }}>
-          Skip
+          {TranslateHelper('pickavatar.link')}
         </Link>
       </View>
     </SafeAreaView>
@@ -96,7 +95,7 @@ const PickAvatar = (): JSX.Element => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacings.spacex3,
+    padding: Spacings.spacex2,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
