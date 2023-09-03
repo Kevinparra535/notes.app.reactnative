@@ -1,14 +1,9 @@
 // Librerias
-import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Platform,
-  Image,
-} from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, StyleSheet, Pressable, Platform, Image } from "react-native";
 import LottieView from "lottie-react-native";
+import { Link } from "@react-navigation/native";
+import { Translate, TranslateHelper } from "@/ui/i18n";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Contextos
@@ -27,8 +22,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
-import { Link } from "@react-navigation/native";
-import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 

@@ -10,6 +10,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 // Screens
 import PreLogin from "../screens/PreLogin";
 import SignUp from "../screens/SignUp";
+import PickAvatar from "../screens/PickAvatar";
 
 // Componentes
 
@@ -19,7 +20,6 @@ import SignUp from "../screens/SignUp";
 
 // Estilos
 import Colors from "../styles/Colors";
-import { ArrowLeftIcon } from "react-native-heroicons/outline";
 
 // Tipado
 
@@ -56,6 +56,7 @@ const LoginNavigation = (): JSX.Element => {
   // Renders
   return (
     <Stack.Navigator
+      initialRouteName="PickAvatar"
       screenOptions={{
         cardStyle: {
           backgroundColor: Colors.claro,
@@ -76,13 +77,20 @@ const LoginNavigation = (): JSX.Element => {
           headerShadowVisible: false,
           headerTransparent: true,
           headerBackTitleVisible: false,
-          headerTintColor: Colors.oscuro
+          headerTintColor: Colors.oscuro,
+        }}
+      />
+
+      <Stack.Screen
+        name="PickAvatar"
+        component={PickAvatar}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
   );
 };
-
 
 const styles = StyleSheet.create({});
 
