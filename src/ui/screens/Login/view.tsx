@@ -1,7 +1,6 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 // Contextos
 
@@ -10,25 +9,33 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import LoginFooter from "./components/LoginFooter";
+import LoginForm from "./components/LoginForm";
+import LoginHeader from "./components/LoginHeader";
 
 // Navigations
 
 // Imagenes
 
 // Estilos
+import Colors from "@/ui/styles/Colors";
+import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
+type Props = {
+  navigation: any;
+};
 
 /**
  * Descripción del componente.
  *
  * @remarks
- * Esta es una descripción más detallada del componente. Puedes hablar sobre su funcionamiento, cómo se utiliza, etc.
+ * Esta pantalla se muestra cuando el usuario decide registrarse, le proporcionamos las diferentes opciones posibles
  *
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <view />
+ * <Login />
  * ```
  *
  * @returns `JSX.Element`
@@ -36,7 +43,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * @beta
  */
 
-const Login = (): JSX.Element => {
+const Login = ({ navigation }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -49,14 +56,28 @@ const Login = (): JSX.Element => {
 
   // Renders
   return (
-    <SafeAreaView>
-      <View>
-        <Text></Text>
-      </View>
-    </SafeAreaView>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <LoginHeader />
+
+      <LoginForm />
+
+      <LoginFooter />
+    </KeyboardAvoidingView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    padding: Spacings.spacex2,
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: Colors.claro,
+  },
+});
 
 export default Login;

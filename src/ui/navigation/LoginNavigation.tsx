@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 // Hooks
 
 // Screens
+import Login from "../screens/Login";
 import PreLogin from "../screens/PreLogin";
 import SignUp from "../screens/SignUp";
 import PickAvatar from "../screens/PickAvatar";
@@ -64,6 +65,18 @@ const LoginNavigation = (): JSX.Element => {
         },
       }}
     >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          title: "",
+          headerShadowVisible: false,
+          headerTransparent: true,
+          headerBackTitleVisible: false,
+          headerTintColor: Colors.oscuro,
+        }}
+      />
+
       <Stack.Screen
         name="PreLogin"
         component={PreLogin}

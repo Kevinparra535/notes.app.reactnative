@@ -1,6 +1,7 @@
 // Librerias
-import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Translate, TranslateHelper } from "@/ui/i18n";
 import { useForm, Controller } from "react-hook-form";
 
 // Contextos
@@ -19,8 +20,6 @@ import { useForm, Controller } from "react-hook-form";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
 import Fonts from "@/ui/styles/Fonts";
-import Checkbox from "expo-checkbox";
-import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 
@@ -33,7 +32,7 @@ import { Translate, TranslateHelper } from "@/ui/i18n";
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <SignupForm />
+ * <LoginForm />
  * ```
  *
  * @returns `JSX.Element`
@@ -41,7 +40,7 @@ import { Translate, TranslateHelper } from "@/ui/i18n";
  * @beta
  */
 
-const SignupForm = (): JSX.Element => {
+const LoginForm = (): JSX.Element => {
   // Estados
   const [isChecked, setChecked] = useState(false);
 
@@ -54,10 +53,8 @@ const SignupForm = (): JSX.Element => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      repeatPassword: "",
     },
   });
 
@@ -70,34 +67,6 @@ const SignupForm = (): JSX.Element => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.inputsContainers}>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              value={value}
-              onBlur={onBlur}
-              inputMode="text"
-              placeholder={TranslateHelper('input.username')}
-              autoComplete="name"
-              onChangeText={onChange}
-              placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
-              }
-              style={[
-                styles.inputs,
-                {
-                  borderColor: errors.name
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
-                },
-              ]}
-            />
-          )}
-          name="name"
-        />
 
         <Controller
           control={control}
@@ -115,12 +84,12 @@ const SignupForm = (): JSX.Element => {
               keyboardType="email-address"
               textContentType="emailAddress"
               placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
+                errors.email ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.name
+                  borderColor: errors.email
                     ? Colors.alerts.error
                     : Colors.oscuro,
                 },
@@ -146,12 +115,12 @@ const SignupForm = (): JSX.Element => {
               autoComplete="password"
               textContentType="password"
               placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
+                errors.password ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.name
+                  borderColor: errors.password
                     ? Colors.alerts.error
                     : Colors.oscuro,
                 },
@@ -160,47 +129,6 @@ const SignupForm = (): JSX.Element => {
           )}
           name="password"
         />
-
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              secureTextEntry
-              inputMode="text"
-              contextMenuHidden
-              value={value}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              textContentType="password"
-              placeholder={TranslateHelper('input.confirmpassword')}
-              keyboardType="visible-password"
-              placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
-              }
-              style={[
-                styles.inputs,
-                {
-                  borderColor: errors.name
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
-                },
-              ]}
-            />
-          )}
-          name="repeatPassword"
-        />
-
-        <View style={styles.terms}>
-          <Checkbox
-            value={isChecked}
-            onValueChange={setChecked}
-            color={Colors.oscuro}
-          />
-          <Translate langkey="signup.terms" style={styles.termsLabel} />
-        </View>
 
         <Pressable
           disabled={!isChecked}
@@ -211,7 +139,7 @@ const SignupForm = (): JSX.Element => {
           ]}
         >
           <Translate
-            langkey="signup.button"
+            langkey="login.button"
             style={[styles.buttonsLabel, { color: Colors.claro }]}
           />
         </Pressable>
@@ -262,4 +190,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignupForm;
+export default LoginForm;

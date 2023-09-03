@@ -24,6 +24,9 @@ import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
+type Props = {
+  navigation: any;
+};
 
 /**
  * Descripción del componente.
@@ -42,7 +45,7 @@ import Spacings from "@/ui/styles/Spacings";
  * @beta
  */
 
-const PreLogin = (): JSX.Element => {
+const PreLogin = ({ navigation }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -93,7 +96,7 @@ const PreLogin = (): JSX.Element => {
         <Translate langkey="prelogin.apple" style={styles.buttonsLabel} />
       </Pressable>
 
-      <Pressable style={styles.buttons}>
+      <Pressable onPress={() => navigation.navigate('Login')} style={styles.buttons}>
         <Translate langkey="prelogin.email" style={styles.buttonsLabel} />
       </Pressable>
 

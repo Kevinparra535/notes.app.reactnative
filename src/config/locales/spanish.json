@@ -8,6 +8,14 @@
     "signup": "¿Aún no tiene una cuenta? Regístrate"
   },
 
+  "login": {
+    "title": "Hola de nuevo!",
+    "google": "Google",
+    "apple": "Apple",
+    "button": "Iniciar sesion",
+    "label": "o continua con"
+  },
+
   "signup": {
     "title": "Unete a Notes",
     "google": "Google",
@@ -25,6 +33,10 @@
   },
 
   "input": {
+    "username": "Nombre completo",
+    "email": "Correo",
+    "password": "Contrasena",
+    "confirmpassword": "Confirma contrasena",
     "title": "Título",
     "content": "Nota"
   },

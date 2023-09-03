@@ -8,6 +8,14 @@
     "signup": "Do not you have an account yet? Sign up"
   },
 
+  "login": {
+    "title": "Welcome back!",
+    "google": "Google",
+    "apple": "Apple",
+    "button": "Sign in",
+    "label": "or continue with"
+  },
+
   "signup": {
     "title": "Join Notes",
     "google": "Google",
@@ -25,6 +33,10 @@
   },
 
   "input": {
+    "username": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmpassword": "Confirm password",
     "title": "Title",
     "content": "Content"
   },
