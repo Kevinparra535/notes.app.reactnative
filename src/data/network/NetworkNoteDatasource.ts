@@ -11,6 +11,12 @@ export class NetworkNoteDatasource implements NoteRepository {
     this.firebaseService = new FirebaseService();
   }
 
+  async getUser(data: Record<string, string>): Promise<any> {
+    return this.firebaseService.getUser(data);
+  }
+
+
+  // Notes
   async getAllNotes(): Promise<ResponseModel<Array<Note>>> {
     return this.firebaseService.fetchAllNotes();
   }
@@ -23,7 +29,10 @@ export class NetworkNoteDatasource implements NoteRepository {
     return this.firebaseService.fetchNoteById(noteId);
   }
 
-  async updateContent(noteId: string, data: Record<string, any>): Promise<void> {
+  async updateContent(
+    noteId: string,
+    data: Record<string, any>
+  ): Promise<void> {
     this.firebaseService.updateNoteContent(noteId, data);
   }
 

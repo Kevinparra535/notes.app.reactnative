@@ -1,4 +1,8 @@
 import { initializeApp } from "firebase/app";
+
+
+import { getAuth, signInWithEmailAndPassword} from "firebase/auth";
+
 import {
   doc,
   query,
@@ -18,7 +22,6 @@ import {
 import { config } from "@/config/config";
 
 // Optionally import the services that you want to use
-// import {...} from "firebase/auth";
 // import {...} from "firebase/database";
 // import {...} from "firebase/functions";
 // import {...} from "firebase/storage";
@@ -36,10 +39,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth();
 
 export {
   db,
   doc,
+  auth,
   query,
   limit,
   setDoc,
@@ -53,6 +58,7 @@ export {
   onSnapshot,
   getFirestore,
   serverTimestamp,
+  signInWithEmailAndPassword,
 };
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase

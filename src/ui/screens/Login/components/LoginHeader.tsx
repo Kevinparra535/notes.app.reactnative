@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   animationContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: Spacings.spacex3,
+    marginBottom: Spacings.spacex2,
     width: "100%",
     height: "30%",
   },

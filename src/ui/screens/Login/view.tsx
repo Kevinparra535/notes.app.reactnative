@@ -1,5 +1,5 @@
 // Librerias
-import React from "react";
+import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 // Contextos
@@ -20,6 +20,8 @@ import LoginHeader from "./components/LoginHeader";
 // Estilos
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
+import { LoginViewModel } from "./viewModel";
+import { observer } from "mobx-react-lite";
 
 // Tipado
 type Props = {
@@ -42,32 +44,41 @@ type Props = {
  *
  * @beta
  */
+const Login: React.FC<Props> = observer(
+  ({ navigation }: Props): JSX.Element => {
+    // Estados
+    const [viewModel] = useState(() => new LoginViewModel());
 
-const Login = ({ navigation }: Props): JSX.Element => {
-  // Estados
+    // Contextos
 
-  // Contextos
+    // Hooks
 
-  // Hooks
+    // Funciones
+    const handleEmailSubmit = (data: Record<string, string>) => {
+      viewModel.signInWithEmailAndPassword(data);
+    };
 
-  // Funciones
+    // UseEffects
 
-  // UseEffects
+    // Renders
+    return (
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <LoginHeader />
 
-  // Renders
-  return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <LoginHeader />
+        <LoginForm
+          isError={viewModel.syncError}
+          isLoading={viewModel.isLoading}
+          handleEmailSubmit={handleEmailSubmit}
+        />
 
-      <LoginForm />
-
-      <LoginFooter />
-    </KeyboardAvoidingView>
-  );
-};
+        <LoginFooter />
+      </KeyboardAvoidingView>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

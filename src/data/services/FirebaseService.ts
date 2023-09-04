@@ -1,6 +1,7 @@
 import {
   db,
   doc,
+  auth,
   query,
   addDoc,
   orderBy,
@@ -9,8 +10,11 @@ import {
   collection,
   onSnapshot,
   serverTimestamp,
+  signInWithEmailAndPassword,
 } from "@/config/firebaseConfig";
+
 import Note from "@/domain/entities/Note";
+import Session from "@/domain/entities/Session";
 import { ResponseModel } from "../models/ResponseModel";
 import { NotesCacheManager } from "../../ui/store/NotesCacheManager";
 
@@ -20,6 +24,24 @@ export class FirebaseService {
   private cacheManager = new NotesCacheManager();
   private collectionName: string = "notes";
 
+  async getUser(credentials: Record<string, string>): Promise<Session> {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        credentials.email,
+        credentials.password
+      );
+
+      const user = userCredential.user;
+
+      return { email: user.email, uid: user.uid };
+    } catch (error: any) {
+      const errorCode = error?.code;
+      return { errorCode };
+    }
+  }
+
+  // Note
   async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {
     // const cacheKey = "all-notes";
 
@@ -98,24 +120,17 @@ export class FirebaseService {
 
   async fetchNoteById(noteId: nodeId): Promise<Note> {
     return new Promise((resolve, reject) => {
-      // Establece el listener
       const unsub = onSnapshot(
         doc(db, this.collectionName, noteId),
         (docSnap) => {
-          // Se puede descomentar si quieres saber si los datos provienen del servidor o del cache local
-          // const source = docSnap.metadata.hasPendingWrites ? "Local" : "Server";
-          // console.log(source, " data: ", docSnap.data());
-
           if (docSnap.exists()) {
             const noteData: Note = docSnap.data() as Note;
             resolve(noteData);
 
-            // Después de obtener los datos por primera vez, desvincula el listener
             unsub();
           } else {
             reject(new Error("Note not found"));
 
-            // Después de recibir el error, desvincula el listener
             unsub();
           }
         }

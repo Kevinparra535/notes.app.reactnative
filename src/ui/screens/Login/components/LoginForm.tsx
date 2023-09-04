@@ -1,6 +1,15 @@
 // Librerias
-import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
+import React from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ActivityIndicator,
+} from "react-native";
 import { Translate, TranslateHelper } from "@/ui/i18n";
 import { useForm, Controller } from "react-hook-form";
 
@@ -22,6 +31,11 @@ import Spacings from "@/ui/styles/Spacings";
 import Fonts from "@/ui/styles/Fonts";
 
 // Tipado
+type Props = {
+  isError: string | null;
+  isLoading: boolean;
+  handleEmailSubmit: (data: Record<string, string>) => void;
+};
 
 /**
  * Descripción del componente.
@@ -40,9 +54,12 @@ import Fonts from "@/ui/styles/Fonts";
  * @beta
  */
 
-const LoginForm = (): JSX.Element => {
+const LoginForm = ({
+  handleEmailSubmit,
+  isLoading,
+  isError,
+}: Props): JSX.Element => {
   // Estados
-  const [isChecked, setChecked] = useState(false);
 
   // Contextos
 
@@ -59,7 +76,7 @@ const LoginForm = (): JSX.Element => {
   });
 
   // Funciones
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: Record<string, string>) => handleEmailSubmit(data);
 
   // UseEffects
 
@@ -67,7 +84,6 @@ const LoginForm = (): JSX.Element => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.inputsContainers}>
-
         <Controller
           control={control}
           rules={{
@@ -76,7 +92,7 @@ const LoginForm = (): JSX.Element => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               inputMode="email"
-              placeholder={TranslateHelper('input.email')}
+              placeholder={TranslateHelper("input.email")}
               autoComplete="email"
               value={value}
               onBlur={onBlur}
@@ -84,14 +100,15 @@ const LoginForm = (): JSX.Element => {
               keyboardType="email-address"
               textContentType="emailAddress"
               placeholderTextColor={
-                errors.email ? Colors.alerts.error : Colors.oscuro
+                errors.email || isError ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.email
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
+                  borderColor:
+                    errors.email || isError
+                      ? Colors.alerts.error
+                      : Colors.oscuro,
                 },
               ]}
             />
@@ -111,18 +128,19 @@ const LoginForm = (): JSX.Element => {
               value={value}
               onBlur={onBlur}
               onChangeText={onChange}
-              placeholder={TranslateHelper('input.password')}
+              placeholder={TranslateHelper("input.password")}
               autoComplete="password"
               textContentType="password"
               placeholderTextColor={
-                errors.password ? Colors.alerts.error : Colors.oscuro
+                errors.password || isError ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.password
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
+                  borderColor:
+                    errors.password || isError
+                      ? Colors.alerts.error
+                      : Colors.oscuro,
                 },
               ]}
             />
@@ -130,18 +148,24 @@ const LoginForm = (): JSX.Element => {
           name="password"
         />
 
+        {isError && <Text style={styles.errorMessage}>{isError}</Text>}
+
+        {(errors.password || errors.email) && (
+          <Text style={styles.errorMessage}>All fields are required!.</Text>
+        )}
+
         <Pressable
-          disabled={!isChecked}
           onPress={handleSubmit(onSubmit)}
-          style={[
-            styles.buttons,
-            { backgroundColor: Colors.oscuro, opacity: isChecked ? 1 : 0.5 },
-          ]}
+          style={[styles.buttons, { backgroundColor: Colors.oscuro }]}
         >
-          <Translate
-            langkey="login.button"
-            style={[styles.buttonsLabel, { color: Colors.claro }]}
-          />
+          {isLoading === true ? (
+            <ActivityIndicator size="small" color={Colors.claro} />
+          ) : (
+            <Translate
+              langkey="login.button"
+              style={[styles.buttonsLabel, { color: Colors.claro }]}
+            />
+          )}
         </Pressable>
       </View>
     </TouchableWithoutFeedback>
@@ -156,28 +180,24 @@ const styles = StyleSheet.create({
 
   inputs: {
     padding: Spacings.space,
-    marginBottom: Spacings.space,
+    marginTop: Spacings.space,
     ...Fonts.callToActions,
     borderWidth: 1,
     borderRadius: Spacings.spacehalf,
   },
 
-  terms: {
-    paddingTop: Spacings.spacehalf,
-    paddingBottom: Spacings.spacex2,
-    alignItems: "center",
-    flexDirection: "row",
-  },
-
-  termsLabel: {
-    paddingLeft: Spacings.space,
-    ...Fonts.bodyText,
-    fontSize: 15,
+  errorMessage: {
+    marginTop: 2,
+    textAlign: 'right',
+    ...Fonts.header4,
+    fontSize: 13,
+    color: Colors.alerts.error,
   },
 
   buttons: {
     paddingVertical: Spacings.space,
     paddingHorizontal: Spacings.spacex2,
+    marginTop: Spacings.space,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: Spacings.spacehalf,
