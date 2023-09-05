@@ -1,16 +1,19 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 import { SignUpWithEmailAndPassword } from "@/domain/useCases/signUpUser";
 
-import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+import { NetworkSessionDatasource } from "@/data/network/NetworkSessionDatasource";
 import { SessionRepositoryImpl } from "@/data/repositories/SessionRepositoryImpl";
+import rootStore from "@/ui/store/RootStore";
+import User from "@/domain/entities/User";
 
 export class SignUpViewModel {
   private signUpEmail: SignUpWithEmailAndPassword;
   private sessionRepositoryImpl: SessionRepositoryImpl;
-  private datasource: NetworkNoteDatasource =
-    NetworkNoteDatasource.getInstance();
+  private datasource: NetworkSessionDatasource =
+    NetworkSessionDatasource.getInstance();
 
+  public user: User | null = null;
   public isLoading: boolean = false;
   public syncError: string | null = null;
   public error: string | null = null;
@@ -40,17 +43,20 @@ export class SignUpViewModel {
   async signUpWithEmailAndPassword(
     data: Record<string, string>
   ): Promise<void> {
-
-    this.setSyncing()
+    this.setSyncing();
 
     try {
       const response = await this.signUpEmail.execute(data);
-      console.log(response)
       this.setSynced();
 
       if (response.errorCode) {
         this.setSyncError("El email ya se encuentra registrado");
       }
+
+      runInAction(() => {
+        this.user = response;
+        rootStore.authStore.setUser(response);
+      });
     } catch (error) {
       console.log("SignUpViewModel.signUpWithEmailAndPassword.error:", error);
       this.setSyncError("Algo ha salido mal.");

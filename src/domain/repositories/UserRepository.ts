@@ -4,9 +4,10 @@
  * El repositorio SessionRepository debe definir todos los métodos necesarios para interactuar con las notas desde el punto de vista del almacenamiento.
  */
 
-import Session from "../entities/Session";
+import User from "../entities/User";
 
-export interface SessionRepository {
-  loginUser(data: Record<string, string>): Promise<Session>;
-  registerUser(data: Record<string, string>): Promise<any>;
+export interface UserRepository {
+  getUser(data: Record<string, string>): Promise<User>;
+  updateUser(data: Record<string, unknown>): Promise<User>;
+  deleteUser(data: Record<string, string>): Promise<any>;
 }

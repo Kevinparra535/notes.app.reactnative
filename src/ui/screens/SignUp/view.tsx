@@ -1,5 +1,5 @@
 // Librerias
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 // Contextos
@@ -59,6 +59,9 @@ const SignUp: React.FC<Props> = observer(({ navigation }) => {
   };
 
   // UseEffects
+  useEffect(() => {
+    if (viewModel.user) navigation.navigate("PickAvatar");
+  }, [viewModel.user]);
 
   // Renders
   return (

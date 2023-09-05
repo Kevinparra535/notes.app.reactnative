@@ -1,18 +1,15 @@
 import Session from "@/domain/entities/Session";
-import { NetworkNoteDatasource } from "../network/NetworkNoteDatasource";
+import { NetworkSessionDatasource } from "../network/NetworkSessionDatasource";
+import { SessionRepository } from "@/domain/repositories/SessionRepository";
 
-export class SessionRepositoryImpl {
-  constructor(private datasource: NetworkNoteDatasource) {}
+export class SessionRepositoryImpl implements SessionRepository {
+  constructor(private datasource: NetworkSessionDatasource) {}
 
-  async createUser(data: Record<string, string>): Promise<Session> {
-    return this.datasource.createUser(data);
+  async registerUser(data: Record<string, string>): Promise<Session> {
+    return this.datasource.registerUser(data);
   }
 
-  async updateUser(): Promise<void> {}
-
-  async getUser(data: Record<string, string>): Promise<Session> {
-    return this.datasource.getUser(data);
+  async loginUser(data: Record<string, string>): Promise<Session> {
+    return this.datasource.loginUser(data);
   }
-
-  async deleteUser(): Promise<void> {}
 }

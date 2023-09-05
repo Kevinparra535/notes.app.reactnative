@@ -1,11 +1,10 @@
 // Librerias
 import React from "react";
-import { Image } from "expo-image";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "react-native-heroicons/outline";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import PagerView from "react-native-pager-view";
 
 // Contextos
@@ -75,13 +74,7 @@ const ImageSlider = ({ handleScroll, page, items }: Props): JSX.Element => {
             color={page !== 0 ? Colors.oscuro : Colors.variants.one}
           />
 
-          <Image
-            source={item}
-            transition={200}
-            contentFit="cover"
-            style={styles.image}
-            placeholder={blurhash}
-          />
+          <Image source={item} style={styles.image} />
 
           <ChevronRightIcon
             size={24}

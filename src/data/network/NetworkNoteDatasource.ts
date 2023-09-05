@@ -12,16 +12,6 @@ export class NetworkNoteDatasource implements NoteRepository {
     this.firebaseService = new FirebaseService();
   }
 
-  async getUser(data: Record<string, string>): Promise<Session> {
-    return this.firebaseService.getUser(data);
-  }
-
-  async createUser(data: Record<string, string>): Promise<Session> {
-    return this.firebaseService.createUser(data);
-  }
-
-
-  // Notes
   async getAllNotes(): Promise<ResponseModel<Array<Note>>> {
     return this.firebaseService.fetchAllNotes();
   }

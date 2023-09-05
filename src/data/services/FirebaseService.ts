@@ -1,15 +1,18 @@
 import {
   db,
   doc,
+  ref,
   auth,
   query,
   addDoc,
   orderBy,
   updateDoc,
   deleteDoc,
-  collection,
+  storageRef,
   onSnapshot,
+  collection,
   updateProfile,
+  getDownloadURL,
   serverTimestamp,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -19,6 +22,7 @@ import Note from "@/domain/entities/Note";
 import Session from "@/domain/entities/Session";
 import { ResponseModel } from "../models/ResponseModel";
 import { NotesCacheManager } from "../../ui/store/NotesCacheManager";
+import User from "@/domain/entities/User";
 
 type nodeId = string;
 
@@ -26,7 +30,7 @@ export class FirebaseService {
   private cacheManager = new NotesCacheManager();
   private collectionName: string = "notes";
 
-  async getUser(credentials: Record<string, string>): Promise<Session> {
+  async loginUser(credentials: Record<string, string>): Promise<Session> {
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -39,7 +43,6 @@ export class FirebaseService {
       return {
         uid: user.uid,
         email: user.email,
-        displayName: user.displayName,
       };
     } catch (error: any) {
       const errorCode = error?.code;
@@ -47,7 +50,7 @@ export class FirebaseService {
     }
   }
 
-  async createUser(credentials: Record<string, string>): Promise<Session> {
+  async registerUser(credentials: Record<string, string>): Promise<Session> {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -61,7 +64,6 @@ export class FirebaseService {
       return {
         uid: user.uid,
         email: user.email,
-        displayName: user.displayName,
       };
     } catch (error: any) {
       const errorCode = error?.code;
@@ -69,14 +71,32 @@ export class FirebaseService {
     }
   }
 
-  async updateUser(credentials: Record<string, string>): Promise<any> {
+  async updateUser(credentials: Record<string, unknown>): Promise<User> {
+    const imagesRef = ref(storageRef, "avatars");
+    const fileName = credentials.photoURL || null;
+    const avatarRef = ref(imagesRef, fileName);
     const user = auth.currentUser;
 
-    if (user)
-      return updateProfile(user, {
-        displayName: credentials.displayName,
+    try {
+      const downloadURL = await getDownloadURL(avatarRef);
+
+      await updateProfile(user!, {
+        ...credentials,
+        photoURL: downloadURL || null,
       });
+
+      return {
+        uid: user!.uid,
+        email: user!.email,
+        displayName: user!.displayName,
+        photoURL: user!.photoURL,
+      };
+    } catch (error: any) {
+      return error;
+    }
   }
+
+  async deleteUser(credentials: Record<string, string>): Promise<any> {}
 
   // Note
   async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {

@@ -1,6 +1,6 @@
 // Librerias
-import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // Contextos

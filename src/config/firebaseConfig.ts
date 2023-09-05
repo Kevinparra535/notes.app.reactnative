@@ -19,12 +19,14 @@ import {
   getFirestore,
   serverTimestamp,
 } from "firebase/firestore";
+
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+
 import { config } from "@/config/config";
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/database";
 // import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -40,10 +42,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
+const storage = getStorage();
+const storageRef = ref(storage);
 
 export {
   db,
   doc,
+  ref,
   auth,
   query,
   limit,
@@ -52,12 +57,15 @@ export {
   addDoc,
   getDocs,
   orderBy,
+  storage,
   updateDoc,
   deleteDoc,
   collection,
+  storageRef,
   onSnapshot,
   getFirestore,
   updateProfile,
+  getDownloadURL,
   serverTimestamp,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword ,

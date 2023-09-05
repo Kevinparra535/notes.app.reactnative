@@ -1,6 +1,7 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { observer } from "mobx-react-lite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "@react-navigation/native";
 
@@ -11,7 +12,9 @@ import { Link } from "@react-navigation/native";
 // Screens
 
 // Componentes
+import { PickAvatarViewModel } from "./viewModel";
 import ImageSlider from "./components/ImageSlider";
+import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
@@ -21,7 +24,6 @@ import ImageSlider from "./components/ImageSlider";
 import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
-import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 
@@ -42,8 +44,9 @@ import { Translate, TranslateHelper } from "@/ui/i18n";
  * @beta
  */
 
-const PickAvatar = (): JSX.Element => {
+const PickAvatar: React.FC = observer(() => {
   // Estados
+  const [viewModel] = useState(() => new PickAvatarViewModel());
   const [page, setPage] = useState(0);
 
   // Contextos
@@ -67,10 +70,12 @@ const PickAvatar = (): JSX.Element => {
     setPage(e.nativeEvent.position);
   };
 
+  const handlePickAvatar = () => {
+    viewModel.setNewAvatar(`avatar${page + 1}.png`);
+  };
+
   // UseEffects
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
+  
 
   // Renders
   return (
@@ -81,17 +86,17 @@ const PickAvatar = (): JSX.Element => {
       <ImageSlider page={page} handleScroll={handleScroll} items={items} />
 
       <View style={{ alignItems: "center", width: "100%" }}>
-        <Pressable style={styles.buttons}>
+        <Pressable onPress={handlePickAvatar} style={styles.buttons}>
           <Translate langkey="pickavatar.button" style={styles.buttonsLabel} />
         </Pressable>
 
         <Link style={styles.links} to={{ screen: "SignUp" }}>
-          {TranslateHelper('pickavatar.link')}
+          {TranslateHelper("pickavatar.link")}
         </Link>
       </View>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
