@@ -1,7 +1,8 @@
 // Librerias
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { observer } from "mobx-react-lite";
 
 // Contextos
 
@@ -19,6 +20,7 @@ import LoginNavigation from "./LoginNavigation";
 
 // Estilos
 import Colors from "../styles/Colors";
+import RootStoreContext from "../context/RootStoreContext";
 
 // Tipado
 
@@ -41,8 +43,10 @@ import Colors from "../styles/Colors";
 
 const Stack = createStackNavigator();
 
-const RootNavigation = (): JSX.Element => {
-  const isSessionActive = false;
+const RootNavigation = observer(() => {
+  const rootContext = useContext(RootStoreContext);
+
+  const isSessionActive = rootContext?.authStore.user?.uid;
 
   // Renders
   return (
@@ -53,7 +57,7 @@ const RootNavigation = (): JSX.Element => {
         },
       }}
     >
-      {!isSessionActive ? (
+      {isSessionActive !== null ? (
         <Stack.Screen
           name="LoginNavigation"
           component={LoginNavigation}
@@ -68,7 +72,7 @@ const RootNavigation = (): JSX.Element => {
       )}
     </Stack.Navigator>
   );
-};
+});
 
 const styles = StyleSheet.create({});
 

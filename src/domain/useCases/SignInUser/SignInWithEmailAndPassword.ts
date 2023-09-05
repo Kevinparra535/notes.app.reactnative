@@ -5,6 +5,6 @@ export class SignInWithEmailAndPassword {
   constructor(private _noteRepository: SessionRepository) {}
 
   async execute(data: Record<string, string>): Promise<Session> {
-    return this._noteRepository.getUser(data);
+    return this._noteRepository.loginUser(data);
   }
 }

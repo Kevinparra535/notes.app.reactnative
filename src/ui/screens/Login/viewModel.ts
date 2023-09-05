@@ -1,14 +1,17 @@
-import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
+import { NetworkSessionDatasource } from "@/data/network/NetworkSessionDatasource";
 import { SessionRepositoryImpl } from "@/data/repositories/SessionRepositoryImpl";
+import User from "@/domain/entities/User";
 import { SignInWithEmailAndPassword } from "@/domain/useCases/signInUser";
-import { makeAutoObservable } from "mobx";
+import rootStore from "@/ui/store/RootStore";
+import { makeAutoObservable, runInAction } from "mobx";
 
 export class LoginViewModel {
   private signInEmail: SignInWithEmailAndPassword;
   private sessionRepositoryImpl: SessionRepositoryImpl;
-  private datasource: NetworkNoteDatasource =
-    NetworkNoteDatasource.getInstance();
+  private datasource: NetworkSessionDatasource =
+    NetworkSessionDatasource.getInstance();
 
+  public user: User | null = null;
   public isLoading: boolean = false;
   public syncError: string | null = null;
   public error: string | null = null;
@@ -47,6 +50,11 @@ export class LoginViewModel {
       if (response.errorCode) {
         this.setSyncError("Correo o contresena erroneos");
       }
+
+      runInAction(() => {
+        this.user = response;
+        rootStore.authStore.setUser(response);
+      });
     } catch (error) {
       console.log("LoginViewModel.signInWithEmailAndPassword.error:", error);
       this.setSyncError("Algo ha salido mal.");

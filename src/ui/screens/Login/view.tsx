@@ -1,5 +1,5 @@
 // Librerias
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 // Contextos
@@ -59,6 +59,9 @@ const Login: React.FC<Props> = observer(
     };
 
     // UseEffects
+    useEffect(() => {
+      console.log(viewModel.user)
+    }, [viewModel.user]);
 
     // Renders
     return (
