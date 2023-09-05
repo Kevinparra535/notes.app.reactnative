@@ -26,6 +26,9 @@ import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
+type Props = {
+  navigation: any;
+};
 
 /**
  * Descripción del componente.
@@ -44,7 +47,7 @@ import Spacings from "@/ui/styles/Spacings";
  * @beta
  */
 
-const PickAvatar: React.FC = observer(() => {
+const PickAvatar: React.FC<Props> = observer(({ navigation }) => {
   // Estados
   const [viewModel] = useState(() => new PickAvatarViewModel());
   const [page, setPage] = useState(0);
@@ -75,7 +78,14 @@ const PickAvatar: React.FC = observer(() => {
   };
 
   // UseEffects
-  
+  useEffect(() => {
+    if (viewModel.user) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginNavigation" }],
+      });
+    }
+  }, [viewModel.user]);
 
   // Renders
   return (

@@ -11,6 +11,7 @@ import { observer } from "mobx-react-lite";
 // Screens
 
 // Componentes
+import rootStore, { RootStore } from "../store/RootStore";
 
 // Navigations
 import DashboardNavigation from "./DashboardNavigation";
@@ -20,7 +21,6 @@ import LoginNavigation from "./LoginNavigation";
 
 // Estilos
 import Colors from "../styles/Colors";
-import RootStoreContext from "../context/RootStoreContext";
 
 // Tipado
 
@@ -43,10 +43,10 @@ import RootStoreContext from "../context/RootStoreContext";
 
 const Stack = createStackNavigator();
 
-const RootNavigation = observer(() => {
-  const rootContext = useContext(RootStoreContext);
+const RootNavigation = () => {
+  const isSessionActive = rootStore.authStore.user?.uid;
 
-  const isSessionActive = rootContext?.authStore.user?.uid;
+  console.log(isSessionActive);
 
   // Renders
   return (
@@ -57,7 +57,7 @@ const RootNavigation = observer(() => {
         },
       }}
     >
-      {isSessionActive !== null ? (
+      {!isSessionActive ? (
         <Stack.Screen
           name="LoginNavigation"
           component={LoginNavigation}
@@ -72,7 +72,7 @@ const RootNavigation = observer(() => {
       )}
     </Stack.Navigator>
   );
-});
+};
 
 const styles = StyleSheet.create({});
 

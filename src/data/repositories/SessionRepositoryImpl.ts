@@ -5,6 +5,10 @@ import { SessionRepository } from "@/domain/repositories/SessionRepository";
 export class SessionRepositoryImpl implements SessionRepository {
   constructor(private datasource: NetworkSessionDatasource) {}
 
+  checkActiveSession(): Promise<Session> {
+    return this.datasource.checkActiveSession();
+  }
+
   async registerUser(data: Record<string, string>): Promise<Session> {
     return this.datasource.registerUser(data);
   }

@@ -14,6 +14,10 @@ export class NetworkSessionDatasource implements SessionRepository {
     return this.firebaseService.loginUser(data);
   }
 
+  async checkActiveSession(): Promise<Session> {
+    return this.firebaseService.checkSession();
+  }
+
   async registerUser(data: Record<string, string>): Promise<Session> {
     return this.firebaseService.registerUser(data);
   }

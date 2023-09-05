@@ -49,14 +49,14 @@ export class SignUpViewModel {
       const response = await this.signUpEmail.execute(data);
       this.setSynced();
 
-      if (response.errorCode) {
+      if (response.errorCode)
         this.setSyncError("El email ya se encuentra registrado");
-      }
 
-      runInAction(() => {
-        this.user = response;
-        rootStore.authStore.setUser(response);
-      });
+      if (response.uid)
+        runInAction(() => {
+          this.user = response;
+          rootStore.authStore.setUser(response);
+        });
     } catch (error) {
       console.log("SignUpViewModel.signUpWithEmailAndPassword.error:", error);
       this.setSyncError("Algo ha salido mal.");

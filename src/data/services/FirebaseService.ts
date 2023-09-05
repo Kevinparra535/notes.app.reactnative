@@ -8,9 +8,9 @@ import {
   orderBy,
   updateDoc,
   deleteDoc,
+  collection,
   storageRef,
   onSnapshot,
-  collection,
   updateProfile,
   getDownloadURL,
   serverTimestamp,
@@ -18,17 +18,31 @@ import {
   createUserWithEmailAndPassword,
 } from "@/config/firebaseConfig";
 
+import User from "@/domain/entities/User";
 import Note from "@/domain/entities/Note";
 import Session from "@/domain/entities/Session";
 import { ResponseModel } from "../models/ResponseModel";
 import { NotesCacheManager } from "../../ui/store/NotesCacheManager";
-import User from "@/domain/entities/User";
 
 type nodeId = string;
 
 export class FirebaseService {
   private cacheManager = new NotesCacheManager();
   private collectionName: string = "notes";
+
+  async checkSession(): Promise<User> {
+    try {
+      const user = auth.currentUser;
+
+      return {
+        uid: user!.uid,
+        email: user!.email,
+      };
+    } catch (error: any) {
+      const errorCode = error?.code;
+      return errorCode;
+    }
+  }
 
   async loginUser(credentials: Record<string, string>): Promise<Session> {
     try {
@@ -59,7 +73,9 @@ export class FirebaseService {
       );
 
       const user = userCredential.user;
-      await this.updateUser(credentials);
+      await updateProfile(user, {
+        displayName: credentials.displayName,
+      });
 
       return {
         uid: user.uid,
@@ -213,3 +229,23 @@ export class FirebaseService {
     await deleteDoc(notesRef);
   }
 }
+
+const texto = {
+  user: {
+    _redirectEventId: undefined,
+    apiKey: "AIzaSyBfsZOS68bX6W_AyChJ0wGlZddF4tXJr1c",
+    appName: "[DEFAULT]",
+    createdAt: "1693956886340",
+    displayName: undefined,
+    email: "kevinparra535@gmail.com",
+    emailVerified: false,
+    isAnonymous: false,
+    lastLoginAt: "1693956886340",
+    phoneNumber: undefined,
+    photoURL: undefined,
+    providerData: [Array],
+    stsTokenManager: [Object],
+    tenantId: undefined,
+    uid: "k33CySprHgg5Pvdp87yocoR5KOu1",
+  },
+};

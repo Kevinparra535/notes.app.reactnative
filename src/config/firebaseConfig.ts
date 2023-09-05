@@ -1,7 +1,11 @@
 import { initializeApp } from "firebase/app";
 
-
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 import {
   doc,
@@ -68,7 +72,7 @@ export {
   getDownloadURL,
   serverTimestamp,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword ,
+  createUserWithEmailAndPassword,
 };
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
