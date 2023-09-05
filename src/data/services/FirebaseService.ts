@@ -9,8 +9,10 @@ import {
   deleteDoc,
   collection,
   onSnapshot,
+  updateProfile,
   serverTimestamp,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from "@/config/firebaseConfig";
 
 import Note from "@/domain/entities/Note";
@@ -34,11 +36,46 @@ export class FirebaseService {
 
       const user = userCredential.user;
 
-      return { email: user.email, uid: user.uid };
+      return {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+      };
     } catch (error: any) {
       const errorCode = error?.code;
       return { errorCode };
     }
+  }
+
+  async createUser(credentials: Record<string, string>): Promise<Session> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        credentials.email,
+        credentials.password
+      );
+
+      const user = userCredential.user;
+      await this.updateUser(credentials);
+
+      return {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+      };
+    } catch (error: any) {
+      const errorCode = error?.code;
+      return { errorCode };
+    }
+  }
+
+  async updateUser(credentials: Record<string, string>): Promise<any> {
+    const user = auth.currentUser;
+
+    if (user)
+      return updateProfile(user, {
+        displayName: credentials.displayName,
+      });
   }
 
   // Note

@@ -2,6 +2,7 @@ import Note from "@/domain/entities/Note";
 import { NoteRepository } from "@/domain/repositories/NoteRepository";
 import { FirebaseService } from "../services/FirebaseService";
 import { ResponseModel } from "../models/ResponseModel";
+import Session from "@/domain/entities/Session";
 
 export class NetworkNoteDatasource implements NoteRepository {
   private static instance: NetworkNoteDatasource;
@@ -11,8 +12,12 @@ export class NetworkNoteDatasource implements NoteRepository {
     this.firebaseService = new FirebaseService();
   }
 
-  async getUser(data: Record<string, string>): Promise<any> {
+  async getUser(data: Record<string, string>): Promise<Session> {
     return this.firebaseService.getUser(data);
+  }
+
+  async createUser(data: Record<string, string>): Promise<Session> {
+    return this.firebaseService.createUser(data);
   }
 
 
@@ -21,7 +26,7 @@ export class NetworkNoteDatasource implements NoteRepository {
     return this.firebaseService.fetchAllNotes();
   }
 
-  async createNote(data: Record<string, string>): Promise<string> {
+  async createNote(data: Record<string, string>): Promise<any> {
     return this.firebaseService.createNote(data);
   }
 

@@ -1,6 +1,15 @@
 // Librerias
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable, TouchableWithoutFeedback, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ActivityIndicator,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 
 // Contextos
@@ -23,6 +32,11 @@ import Checkbox from "expo-checkbox";
 import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
+type Props = {
+  isError: string | null;
+  isLoading: boolean;
+  handleEmailSubmit: (data: Record<string, string>) => void;
+};
 
 /**
  * Descripción del componente.
@@ -41,7 +55,11 @@ import { Translate, TranslateHelper } from "@/ui/i18n";
  * @beta
  */
 
-const SignupForm = (): JSX.Element => {
+const SignupForm = ({
+  isError,
+  isLoading,
+  handleEmailSubmit,
+}: Props): JSX.Element => {
   // Estados
   const [isChecked, setChecked] = useState(false);
 
@@ -50,19 +68,21 @@ const SignupForm = (): JSX.Element => {
   // Hooks
   const {
     control,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
+      displayName: "",
       repeatPassword: "",
     },
   });
 
   // Funciones
-  const onSubmit = (data: any) => console.log(data);
+
+  const password = watch("password", "");
 
   // UseEffects
 
@@ -80,23 +100,24 @@ const SignupForm = (): JSX.Element => {
               value={value}
               onBlur={onBlur}
               inputMode="text"
-              placeholder={TranslateHelper('input.username')}
+              placeholder={TranslateHelper("input.username")}
               autoComplete="name"
               onChangeText={onChange}
               placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
+                errors.displayName || isError ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.name
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
+                  borderColor:
+                    errors.displayName || isError
+                      ? Colors.alerts.error
+                      : Colors.oscuro,
                 },
               ]}
             />
           )}
-          name="name"
+          name="displayName"
         />
 
         <Controller
@@ -107,7 +128,7 @@ const SignupForm = (): JSX.Element => {
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               inputMode="email"
-              placeholder={TranslateHelper('input.email')}
+              placeholder={TranslateHelper("input.email")}
               autoComplete="email"
               value={value}
               onBlur={onBlur}
@@ -115,14 +136,15 @@ const SignupForm = (): JSX.Element => {
               keyboardType="email-address"
               textContentType="emailAddress"
               placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
+                errors.email || isError ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.name
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
+                  borderColor:
+                    errors.email || isError
+                      ? Colors.alerts.error
+                      : Colors.oscuro,
                 },
               ]}
             />
@@ -142,18 +164,19 @@ const SignupForm = (): JSX.Element => {
               value={value}
               onBlur={onBlur}
               onChangeText={onChange}
-              placeholder={TranslateHelper('input.password')}
+              placeholder={TranslateHelper("input.password")}
               autoComplete="password"
               textContentType="password"
               placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
+                errors.password || isError ? Colors.alerts.error : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.name
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
+                  borderColor:
+                    errors.password || isError
+                      ? Colors.alerts.error
+                      : Colors.oscuro,
                 },
               ]}
             />
@@ -165,6 +188,8 @@ const SignupForm = (): JSX.Element => {
           control={control}
           rules={{
             required: true,
+            validate: (value) =>
+              value === password || "Las contraseñas no coinciden",
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -175,23 +200,34 @@ const SignupForm = (): JSX.Element => {
               onBlur={onBlur}
               onChangeText={onChange}
               textContentType="password"
-              placeholder={TranslateHelper('input.confirmpassword')}
+              placeholder={TranslateHelper("input.confirmpassword")}
               keyboardType="visible-password"
               placeholderTextColor={
-                errors.name ? Colors.alerts.error : Colors.oscuro
+                errors.repeatPassword || isError
+                  ? Colors.alerts.error
+                  : Colors.oscuro
               }
               style={[
                 styles.inputs,
                 {
-                  borderColor: errors.name
-                    ? Colors.alerts.error
-                    : Colors.oscuro,
+                  borderColor:
+                    errors.repeatPassword || isError
+                      ? Colors.alerts.error
+                      : Colors.oscuro,
                 },
               ]}
             />
           )}
           name="repeatPassword"
         />
+
+        {isError && <Text style={styles.errorMessage}>{isError}</Text>}
+
+        {errors.repeatPassword && (
+          <Text style={styles.errorMessage}>
+            {errors.repeatPassword.message}
+          </Text>
+        )}
 
         <View style={styles.terms}>
           <Checkbox
@@ -204,16 +240,20 @@ const SignupForm = (): JSX.Element => {
 
         <Pressable
           disabled={!isChecked}
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit(handleEmailSubmit)}
           style={[
             styles.buttons,
             { backgroundColor: Colors.oscuro, opacity: isChecked ? 1 : 0.5 },
           ]}
         >
-          <Translate
-            langkey="signup.button"
-            style={[styles.buttonsLabel, { color: Colors.claro }]}
-          />
+          {isLoading ? (
+            <ActivityIndicator color={Colors.claro} size="small" />
+          ) : (
+            <Translate
+              langkey="signup.button"
+              style={[styles.buttonsLabel, { color: Colors.claro }]}
+            />
+          )}
         </Pressable>
       </View>
     </TouchableWithoutFeedback>
@@ -228,10 +268,18 @@ const styles = StyleSheet.create({
 
   inputs: {
     padding: Spacings.space,
-    marginBottom: Spacings.space,
+    marginTop: Spacings.space,
     ...Fonts.callToActions,
     borderWidth: 1,
     borderRadius: Spacings.spacehalf,
+  },
+
+  errorMessage: {
+    marginTop: 2,
+    textAlign: "right",
+    ...Fonts.header4,
+    fontSize: 13,
+    color: Colors.alerts.error,
   },
 
   terms: {

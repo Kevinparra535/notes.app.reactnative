@@ -21,6 +21,9 @@ import Fonts from "@/ui/styles/Fonts";
 import { Translate } from "@/ui/i18n";
 
 // Tipado
+type Props = {
+  isLoading?: boolean;
+};
 
 /**
  * Descripción del componente.
@@ -39,7 +42,7 @@ import { Translate } from "@/ui/i18n";
  * @beta
  */
 
-const LoginFooter = (): JSX.Element => {
+const LoginFooter = ({ isLoading }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -60,11 +63,11 @@ const LoginFooter = (): JSX.Element => {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Pressable style={styles.buttons}>
+        <Pressable disabled={isLoading} style={styles.buttons}>
           <Translate langkey="login.google" style={styles.buttonsLabel} />
         </Pressable>
 
-        <Pressable style={styles.buttons}>
+        <Pressable disabled={isLoading} style={styles.buttons}>
           <Translate langkey="login.apple" style={styles.buttonsLabel} />
         </Pressable>
       </View>

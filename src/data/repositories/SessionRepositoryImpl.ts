@@ -4,7 +4,9 @@ import { NetworkNoteDatasource } from "../network/NetworkNoteDatasource";
 export class SessionRepositoryImpl {
   constructor(private datasource: NetworkNoteDatasource) {}
 
-  async createUser(): Promise<void> {}
+  async createUser(data: Record<string, string>): Promise<Session> {
+    return this.datasource.createUser(data);
+  }
 
   async updateUser(): Promise<void> {}
 

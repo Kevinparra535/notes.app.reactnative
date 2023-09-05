@@ -1,6 +1,6 @@
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 import { SessionRepositoryImpl } from "@/data/repositories/SessionRepositoryImpl";
-import { SignInWithEmailAndPassword } from "@/domain/useCases/SignInUser";
+import { SignInWithEmailAndPassword } from "@/domain/useCases/signInUser";
 import { makeAutoObservable } from "mobx";
 
 export class LoginViewModel {

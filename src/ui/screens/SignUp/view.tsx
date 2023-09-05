@@ -1,5 +1,5 @@
 // Librerias
-import React from "react";
+import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 // Contextos
@@ -20,6 +20,8 @@ import SignupHeader from "./components/SignupHeader";
 // Estilos
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
+import { SignUpViewModel } from "./viewModel";
+import { observer } from "mobx-react-lite";
 
 // Tipado
 type Props = {
@@ -43,14 +45,18 @@ type Props = {
  * @beta
  */
 
-const SignUp = ({ navigation }: Props): JSX.Element => {
+const SignUp: React.FC<Props> = observer(({ navigation }) => {
   // Estados
+  const [viewModel] = useState(() => new SignUpViewModel());
 
   // Contextos
 
   // Hooks
 
   // Funciones
+  const handleSubmit = (data: Record<string, string>) => {
+    viewModel.signUpWithEmailAndPassword(data);
+  };
 
   // UseEffects
 
@@ -62,12 +68,16 @@ const SignUp = ({ navigation }: Props): JSX.Element => {
     >
       <SignupHeader />
 
-      <SignupForm />
+      <SignupForm
+        isError={viewModel.syncError}
+        isLoading={viewModel.isLoading}
+        handleEmailSubmit={handleSubmit}
+      />
 
       <SignupFooter />
     </KeyboardAvoidingView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

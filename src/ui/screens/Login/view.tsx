@@ -74,7 +74,7 @@ const Login: React.FC<Props> = observer(
           handleEmailSubmit={handleEmailSubmit}
         />
 
-        <LoginFooter />
+        <LoginFooter isLoading={viewModel.isLoading} />
       </KeyboardAvoidingView>
     );
   }

@@ -8,7 +8,7 @@ import Session from "../entities/Session";
 
 export interface SessionRepository {
   getUser(data: Record<string, string>): Promise<Session>;
-  updateUser(): Promise<any>;
-  createUser(): Promise<any>;
+  updateUser(data: Record<string, string>): Promise<any>;
+  createUser(data: Record<string, string>): Promise<any>;
   deleteUser(): Promise<any>;
 }
