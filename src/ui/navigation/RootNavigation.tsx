@@ -11,7 +11,8 @@ import { observer } from "mobx-react-lite";
 // Screens
 
 // Componentes
-import rootStore, { RootStore } from "../store/RootStore";
+import rootStore from "../store/RootStore";
+import Loader from "../components/Loader";
 
 // Navigations
 import DashboardNavigation from "./DashboardNavigation";
@@ -43,10 +44,13 @@ import Colors from "../styles/Colors";
 
 const Stack = createStackNavigator();
 
-const RootNavigation = () => {
+const RootNavigation = observer(() => {
   const isSessionActive = rootStore.authStore.user?.uid;
+  const isLoading = rootStore.authStore.isLoading;
 
-  console.log(isSessionActive);
+  if (isLoading) {
+    return <Loader />;
+  }
 
   // Renders
   return (
@@ -72,7 +76,7 @@ const RootNavigation = () => {
       )}
     </Stack.Navigator>
   );
-};
+});
 
 const styles = StyleSheet.create({});
 

@@ -55,7 +55,6 @@ export class SignUpViewModel {
       if (response.uid)
         runInAction(() => {
           this.user = response;
-          rootStore.authStore.setUser(response);
         });
     } catch (error) {
       console.log("SignUpViewModel.signUpWithEmailAndPassword.error:", error);

@@ -1,5 +1,5 @@
 // Librerias
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { observer } from "mobx-react-lite";
@@ -23,7 +23,6 @@ import NotesList from "./components/NotesList";
 
 // Estilos
 import Colors from "@/ui/styles/Colors";
-import RootStoreContext from "@/ui/context/RootStoreContext";
 
 // Tipado
 type Props = {
@@ -59,9 +58,6 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
   const handleDeleteNote = (uuid: string) => {
     viewModel.deleteNotes(uuid);
   };
-
-  const first = useContext(RootStoreContext)
-  console.log(first)
 
   // Renders
   if (viewModel.notes.status === "loading") return <Loader />;

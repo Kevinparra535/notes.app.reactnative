@@ -52,7 +52,5 @@ export class PickAvatarViewModel {
       console.log("PickAvatarViewModel.setNewAvatar.error:", error);
       this.setSyncError("Algo ha salido mal.");
     }
-
-    console.log("Avatar selected:", avatar);
   }
 }

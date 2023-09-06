@@ -2,9 +2,10 @@ import { initializeApp } from "firebase/app";
 
 import {
   getAuth,
+  updateProfile,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  updateProfile,
 } from "firebase/auth";
 
 import {
@@ -71,6 +72,7 @@ export {
   updateProfile,
   getDownloadURL,
   serverTimestamp,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 };

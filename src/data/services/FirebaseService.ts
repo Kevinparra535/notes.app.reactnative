@@ -14,6 +14,7 @@ import {
   updateProfile,
   getDownloadURL,
   serverTimestamp,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "@/config/firebaseConfig";
@@ -31,17 +32,21 @@ export class FirebaseService {
   private collectionName: string = "notes";
 
   async checkSession(): Promise<User> {
-    try {
-      const user = auth.currentUser;
+    return new Promise((resolve, reject) => {
+      const unsub = onAuthStateChanged(
+        auth,
+        (user) => {
+          if (user) resolve({ uid: user!.uid, email: user!.email });
+          else resolve({ uid: null, email: null });
+        },
+        (error: any) => {
+          const errorCode = error?.code;
+          reject(new Error(errorCode));
+        }
+      );
 
-      return {
-        uid: user!.uid,
-        email: user!.email,
-      };
-    } catch (error: any) {
-      const errorCode = error?.code;
-      return errorCode;
-    }
+      return unsub;
+    });
   }
 
   async loginUser(credentials: Record<string, string>): Promise<Session> {
@@ -229,23 +234,3 @@ export class FirebaseService {
     await deleteDoc(notesRef);
   }
 }
-
-const texto = {
-  user: {
-    _redirectEventId: undefined,
-    apiKey: "AIzaSyBfsZOS68bX6W_AyChJ0wGlZddF4tXJr1c",
-    appName: "[DEFAULT]",
-    createdAt: "1693956886340",
-    displayName: undefined,
-    email: "kevinparra535@gmail.com",
-    emailVerified: false,
-    isAnonymous: false,
-    lastLoginAt: "1693956886340",
-    phoneNumber: undefined,
-    photoURL: undefined,
-    providerData: [Array],
-    stsTokenManager: [Object],
-    tenantId: undefined,
-    uid: "k33CySprHgg5Pvdp87yocoR5KOu1",
-  },
-};

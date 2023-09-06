@@ -78,14 +78,6 @@ const PickAvatar: React.FC<Props> = observer(({ navigation }) => {
   };
 
   // UseEffects
-  useEffect(() => {
-    if (viewModel.user) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "LoginNavigation" }],
-      });
-    }
-  }, [viewModel.user]);
 
   // Renders
   return (

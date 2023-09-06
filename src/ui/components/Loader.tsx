@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: 'auto',
+    width: 300,
     backgroundColor: Colors.bg.claro,
   },
 });

@@ -1,7 +1,7 @@
-import { AuthStore } from "./AuthStore";
+import authStore from "./AuthStore";
 
 export class RootStore {
-  authStore = new AuthStore();
+  authStore = authStore;
 }
 
 const rootStore = new RootStore();

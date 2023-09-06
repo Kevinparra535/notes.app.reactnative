@@ -12,10 +12,16 @@ export class AuthStore {
   private datasource: NetworkSessionDatasource =
     NetworkSessionDatasource.getInstance();
 
+  public isLoading: boolean = false;
+
   constructor() {
     makeAutoObservable(this);
     this.sessionRepositoryImpl = new SessionRepositoryImpl(this.datasource);
     this.checkSession = new CheckActiveSession(this.sessionRepositoryImpl);
+  }
+
+  private setLoading(state: boolean) {
+    this.isLoading = state;
   }
 
   setUser(user: User | null) {
@@ -23,11 +29,26 @@ export class AuthStore {
   }
 
   async checkActiveSession() {
-    const user = await this.checkSession.execute();
-    if (user) {
-      this.setUser(user);
-    } else {
-      this.setUser(null);
+    this.setLoading(true);
+
+    try {
+      const user = await this.checkSession.execute();
+
+      this.setLoading(false);
+
+      if (user) {
+        this.setUser(user);
+        this.setLoading(false);
+      } else {
+        this.setUser(null);
+        this.setLoading(false);
+      }
+    } catch (error) {
+      this.setLoading(false);
+      console.log("AuthStore.checkActiveSession: ", error);
     }
   }
 }
+
+const authStore = new AuthStore();
+export default authStore;
