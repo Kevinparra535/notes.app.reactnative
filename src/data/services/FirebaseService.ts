@@ -4,6 +4,7 @@ import {
   ref,
   auth,
   query,
+  where,
   addDoc,
   orderBy,
   updateDoc,
@@ -147,9 +148,10 @@ export class FirebaseService {
     // }
 
     return new Promise((resolve, reject) => {
+      const user = auth.currentUser;
       const formatedResponse: Array<Note> = [];
       const notesCol = collection(db, this.collectionName);
-      const q = query(notesCol, orderBy("updatedAt", "desc"));
+      const q = query(notesCol, where("userId", "==", user?.uid), orderBy("updatedAt", "desc"));
 
       // Set up the listener
       const unsub = onSnapshot(

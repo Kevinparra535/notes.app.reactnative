@@ -1,5 +1,5 @@
 // Librerias
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
@@ -23,6 +23,7 @@ import NoteHeader from "@/ui/components/Notes/NoteHeader";
 import Spacings from "@/ui/styles/Spacings";
 import { useFocusEffect } from "@react-navigation/native";
 import ModalColorPicker from "@/ui/components/Notes/ModalColorPicker";
+import RootStoreContext from "@/ui/context/RootStoreContext";
 
 // Tipado
 
@@ -44,7 +45,9 @@ import ModalColorPicker from "@/ui/components/Notes/ModalColorPicker";
  */
 
 const CreateNotes: React.FC = observer(() => {
-  const userId = "test-id";
+  const auth = useContext(RootStoreContext);
+
+  const userId = auth?.authStore.user?.uid || '';
 
   // Estados
   const [viewModel] = useState(() => new CreateNotesViewModel(userId));
@@ -66,6 +69,10 @@ const CreateNotes: React.FC = observer(() => {
       };
     }, [])
   );
+
+  useEffect(() => {
+    console.log(auth);
+  }, [auth]);
 
   // Renders
   return (

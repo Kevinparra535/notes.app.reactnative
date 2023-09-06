@@ -18,7 +18,6 @@ import LottieView from "lottie-react-native";
 // Estilos
 import Colors from "../styles/Colors";
 
-
 // Tipado
 
 /**
@@ -56,6 +55,7 @@ const Loader = (): JSX.Element => {
     <View style={styles.animationContainer}>
       <LottieView
         autoPlay
+        style={{ width: 150 }}
         ref={animation}
         source={require("@/ui/assets/animations/loader.json")}
       />
@@ -68,8 +68,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 'auto',
-    width: 300,
     backgroundColor: Colors.bg.claro,
   },
 });
