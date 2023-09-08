@@ -37,7 +37,13 @@ export class FirebaseService {
       const unsub = onAuthStateChanged(
         auth,
         (user) => {
-          if (user) resolve({ uid: user!.uid, email: user!.email });
+          if (user)
+            resolve({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+            });
           else resolve({ uid: null, email: null });
         },
         (error: any) => {
@@ -151,7 +157,11 @@ export class FirebaseService {
       const user = auth.currentUser;
       const formatedResponse: Array<Note> = [];
       const notesCol = collection(db, this.collectionName);
-      const q = query(notesCol, where("userId", "==", user?.uid), orderBy("updatedAt", "desc"));
+      const q = query(
+        notesCol,
+        where("userId", "==", user?.uid),
+        orderBy("updatedAt", "desc")
+      );
 
       // Set up the listener
       const unsub = onSnapshot(

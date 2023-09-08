@@ -47,12 +47,17 @@ const NotesNavigation = ({ navigation, route }: Props): JSX.Element => {
   // Renders
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Notes" component={Notes} />
+      <Stack.Screen
+        name="Notes"
+        component={Notes}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="NotesDetails"
         component={NotesDetails}
         options={{
-          title: "",
           headerShown: false,
         }}
         listeners={() => ({
