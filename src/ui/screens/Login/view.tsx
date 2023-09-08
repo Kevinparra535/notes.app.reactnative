@@ -58,9 +58,13 @@ const Login: React.FC<Props> = observer(
       viewModel.signInWithEmailAndPassword(data);
     };
 
+    const handleGoogle = () => {
+      viewModel.signInWithGoogle();
+    };
+
     // UseEffects
     useEffect(() => {
-      console.log(viewModel.user)
+      console.log(viewModel.user);
     }, [viewModel.user]);
 
     // Renders
@@ -77,7 +81,10 @@ const Login: React.FC<Props> = observer(
           handleEmailSubmit={handleEmailSubmit}
         />
 
-        <LoginFooter isLoading={viewModel.isLoading} />
+        <LoginFooter
+          handleGoogle={handleGoogle}
+          isLoading={viewModel.isLoading}
+        />
       </KeyboardAvoidingView>
     );
   }

@@ -16,4 +16,8 @@ export class SessionRepositoryImpl implements SessionRepository {
   async loginUser(data: Record<string, string>): Promise<Session> {
     return this.datasource.loginUser(data);
   }
+
+  async loginWithProvider(): Promise<Session> {
+    return this.datasource.loginWithProvider();
+  }
 }

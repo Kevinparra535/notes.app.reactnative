@@ -14,6 +14,10 @@ export class NetworkSessionDatasource implements SessionRepository {
     return this.firebaseService.loginUser(data);
   }
 
+  async loginWithProvider(): Promise<Session> {
+    return this.firebaseService.loginGoogle();
+  }
+
   async checkActiveSession(): Promise<Session> {
     return this.firebaseService.checkSession();
   }

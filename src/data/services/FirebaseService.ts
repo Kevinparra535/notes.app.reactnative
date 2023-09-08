@@ -14,8 +14,11 @@ import {
   onSnapshot,
   updateProfile,
   getDownloadURL,
+  googleProvider,
   serverTimestamp,
+  signInWithPopup,
   onAuthStateChanged,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "@/config/firebaseConfig";
@@ -72,6 +75,26 @@ export class FirebaseService {
       };
     } catch (error: any) {
       const errorCode = error?.code;
+      return { errorCode };
+    }
+  }
+
+  async loginGoogle(): Promise<Session> {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const user = result.user;
+      console.log("loginGoogle =>", user);
+
+      return {
+        ...user,
+      };
+    } catch (error: any) {
+      const errorCode = error?.code;
+      const errorMessage = error?.message;
+
+      console.error("loginGoogle Error =>", errorMessage);
+
       return { errorCode };
     }
   }

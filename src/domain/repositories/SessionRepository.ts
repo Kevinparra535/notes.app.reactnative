@@ -9,6 +9,7 @@ import User from "../entities/User";
 
 export interface SessionRepository {
   checkActiveSession(): Promise<User>;
+  loginWithProvider(): Promise<Session>;
   loginUser(data: Record<string, string>): Promise<Session>;
   registerUser(data: Record<string, unknown>): Promise<Session>;
 }

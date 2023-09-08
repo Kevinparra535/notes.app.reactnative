@@ -1,11 +1,15 @@
 import { NetworkSessionDatasource } from "@/data/network/NetworkSessionDatasource";
 import { SessionRepositoryImpl } from "@/data/repositories/SessionRepositoryImpl";
 import User from "@/domain/entities/User";
-import { SignInWithEmailAndPassword } from "@/domain/useCases/signInUser";
+import {
+  SignInWithEmailAndPassword,
+  SignInWithGoogle,
+} from "@/domain/useCases/signInUser";
 import rootStore from "@/ui/store/RootStore";
 import { makeAutoObservable, runInAction } from "mobx";
 
 export class LoginViewModel {
+  private signInGoogle: SignInWithGoogle;
   private signInEmail: SignInWithEmailAndPassword;
   private sessionRepositoryImpl: SessionRepositoryImpl;
   private datasource: NetworkSessionDatasource =
@@ -22,6 +26,8 @@ export class LoginViewModel {
     this.signInEmail = new SignInWithEmailAndPassword(
       this.sessionRepositoryImpl
     );
+
+    this.signInGoogle = new SignInWithGoogle(this.sessionRepositoryImpl);
   }
 
   private setSyncing() {
@@ -55,6 +61,29 @@ export class LoginViewModel {
         this.user = response;
         rootStore.authStore.setUser(response);
       });
+    } catch (error) {
+      console.log("LoginViewModel.signInWithEmailAndPassword.error:", error);
+      this.setSyncError("Algo ha salido mal.");
+    }
+  }
+
+  async signInWithGoogle(): Promise<void> {
+    // this.setSyncing();
+
+    try {
+      const response = await this.signInGoogle.execute();
+      // this.setSynced();
+
+      console.log(response);
+
+      if (response.errorCode) {
+        this.setSyncError("Correo o contresena erroneos");
+      }
+
+      // runInAction(() => {
+      //   this.user = response;
+      //   rootStore.authStore.setUser(response);
+      // });
     } catch (error) {
       console.log("LoginViewModel.signInWithEmailAndPassword.error:", error);
       this.setSyncError("Algo ha salido mal.");

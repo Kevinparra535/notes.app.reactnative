@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import {
   getAuth,
   updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -46,10 +48,14 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 const auth = getAuth();
 const storage = getStorage();
+const db = getFirestore(app);
 const storageRef = ref(storage);
+const googleProvider = new GoogleAuthProvider();
+
+
+auth.useDeviceLanguage();
 
 export {
   db,
@@ -73,7 +79,10 @@ export {
   getFirestore,
   updateProfile,
   getDownloadURL,
+  googleProvider,
   serverTimestamp,
+  signInWithPopup,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,

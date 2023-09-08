@@ -23,6 +23,7 @@ import { Translate } from "@/ui/i18n";
 // Tipado
 type Props = {
   isLoading?: boolean;
+  handleGoogle: () => void;
 };
 
 /**
@@ -42,7 +43,7 @@ type Props = {
  * @beta
  */
 
-const LoginFooter = ({ isLoading }: Props): JSX.Element => {
+const LoginFooter = ({ isLoading, handleGoogle }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -63,7 +64,11 @@ const LoginFooter = ({ isLoading }: Props): JSX.Element => {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Pressable disabled={isLoading} style={styles.buttons}>
+        <Pressable
+          disabled={isLoading}
+          style={styles.buttons}
+          onPress={handleGoogle}
+        >
           <Translate langkey="login.google" style={styles.buttonsLabel} />
         </Pressable>
 
