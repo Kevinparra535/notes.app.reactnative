@@ -71,13 +71,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: Spacings.spacex3,
     width: "100%",
-    height: "30%",
+    height: "25%",
   },
 
   image: {
-    marginBottom: Spacings.spacex2,
-    width: "90%",
-    height: "90%",
+    marginBottom: Spacings.space,
+    width: '100%',
+    height: '100%',
   },
 
   title: {

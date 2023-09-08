@@ -77,7 +77,7 @@ const SignUp: React.FC<Props> = observer(({ navigation }) => {
         handleEmailSubmit={handleSubmit}
       />
 
-      <SignupFooter />
+      {/* <SignupFooter /> */}
     </KeyboardAvoidingView>
   );
 });

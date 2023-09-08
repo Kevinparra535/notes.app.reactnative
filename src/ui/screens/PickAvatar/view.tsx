@@ -1,6 +1,12 @@
 // Librerias
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { observer } from "mobx-react-lite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link } from "@react-navigation/native";
@@ -89,12 +95,19 @@ const PickAvatar: React.FC<Props> = observer(({ navigation }) => {
 
       <View style={{ alignItems: "center", width: "100%" }}>
         <Pressable onPress={handlePickAvatar} style={styles.buttons}>
-          <Translate langkey="pickavatar.button" style={styles.buttonsLabel} />
+          {viewModel.isLoading ? (
+            <ActivityIndicator size="small" color={Colors.claro} />
+          ) : (
+            <Translate
+              langkey="pickavatar.button"
+              style={styles.buttonsLabel}
+            />
+          )}
         </Pressable>
 
-        <Link style={styles.links} to={{ screen: "SignUp" }}>
+        {/* <Link style={styles.links} to={{ screen: "SignUp" }}>
           {TranslateHelper("pickavatar.link")}
-        </Link>
+        </Link> */}
       </View>
     </SafeAreaView>
   );
@@ -102,7 +115,8 @@ const PickAvatar: React.FC<Props> = observer(({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacings.spacex2,
+    paddingVertical: Spacings.spacex2,
+    paddingHorizontal: Spacings.space,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

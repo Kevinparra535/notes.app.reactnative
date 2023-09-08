@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   },
 
   terms: {
-    paddingTop: Spacings.spacehalf,
+    paddingTop: Spacings.space,
     paddingBottom: Spacings.spacex2,
     alignItems: "center",
     flexDirection: "row",
@@ -293,6 +293,7 @@ const styles = StyleSheet.create({
     paddingLeft: Spacings.space,
     ...Fonts.bodyText,
     fontSize: 15,
+    lineHeight: 20
   },
 
   buttons: {

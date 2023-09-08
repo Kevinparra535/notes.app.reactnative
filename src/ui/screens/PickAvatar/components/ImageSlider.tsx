@@ -4,7 +4,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "react-native-heroicons/outline";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import PagerView from "react-native-pager-view";
 
 // Contextos
@@ -22,6 +22,8 @@ import PagerView from "react-native-pager-view";
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
 import Colors from "@/ui/styles/Colors";
+import Fonts from "@/ui/styles/Fonts";
+import { Translate, TranslateHelper } from "@/ui/i18n";
 
 // Tipado
 type Props = {
@@ -69,17 +71,35 @@ const ImageSlider = ({ handleScroll, page, items }: Props): JSX.Element => {
     >
       {items.map((item, index) => (
         <View style={styles.page} key={String(index)}>
-          <ChevronLeftIcon
-            size={24}
-            color={page !== 0 ? Colors.oscuro : Colors.variants.one}
-          />
+          <View style={styles.arrow}>
+            <ChevronLeftIcon
+              size={24}
+              color={page !== 0 ? Colors.oscuro : Colors.variants.one}
+            />
+            <Translate
+              langkey="pickavatar.arrowSlide"
+              style={[
+                styles.arrowLabel,
+                { color: page !== 0 ? Colors.oscuro : Colors.variants.one },
+              ]}
+            />
+          </View>
 
           <Image source={item} style={styles.image} />
 
-          <ChevronRightIcon
-            size={24}
-            color={page !== 8 ? Colors.oscuro : Colors.variants.one}
-          />
+          <View style={styles.arrow}>
+            <Translate
+              langkey="pickavatar.arrowSlide"
+              style={[
+                styles.arrowLabel,
+                { color: page !== 8 ? Colors.oscuro : Colors.variants.one },
+              ]}
+            />
+            <ChevronRightIcon
+              size={24}
+              color={page !== 8 ? Colors.oscuro : Colors.variants.one}
+            />
+          </View>
         </View>
       ))}
     </PagerView>
@@ -104,6 +124,16 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
+  },
+
+  arrow: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+
+  arrowLabel: {
+    ...Fonts.bodyText,
+    fontSize: 10,
   },
 });
 

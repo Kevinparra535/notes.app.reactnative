@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     flexWrap: "wrap",
+    height: '100%',
     ...Fonts.inputsNormal,
   },
 });

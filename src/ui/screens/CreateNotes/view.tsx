@@ -47,7 +47,7 @@ import RootStoreContext from "@/ui/context/RootStoreContext";
 const CreateNotes: React.FC = observer(() => {
   const auth = useContext(RootStoreContext);
 
-  const userId = auth?.authStore.user?.uid || '';
+  const userId = auth?.authStore.user?.uid || "";
 
   // Estados
   const [viewModel] = useState(() => new CreateNotesViewModel(userId));
@@ -69,10 +69,6 @@ const CreateNotes: React.FC = observer(() => {
       };
     }, [])
   );
-
-  useEffect(() => {
-    console.log(auth);
-  }, [auth]);
 
   // Renders
   return (
