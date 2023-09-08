@@ -18,15 +18,14 @@
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
-      },
-      "googleServicesFile": "./GoogleService-Info.plist"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./google-services.json"
+      "package": "com.ensayo.notesAppReactnative"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,6 +36,11 @@
     "plugins": [
       "expo-localization",
       "@react-native-google-signin/google-signin"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ba5f5a6a-8519-49d4-88ec-7e02987a0d61"
+      }
+    }
   }
 }

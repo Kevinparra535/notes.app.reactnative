@@ -48,7 +48,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "^13.13.0",
     "react-native-swipe-list-view": "^3.2.9",
-    "reanimated-color-picker": "^2.3.4"
+    "reanimated-color-picker": "^2.3.4",
+    "expo-dev-client": "~2.4.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
