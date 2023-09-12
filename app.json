@@ -18,13 +18,15 @@
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
-      }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.ensayo.notesAppReactnative"
     },
     "web": {

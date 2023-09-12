@@ -5,9 +5,9 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-gesture-handler";
 
 import loadFonts from "@/ui/utils/FontLoader";
-import rootStore from "./ui/store/RootStore";
-import { RootStoreProvider } from "./ui/context/RootStoreContext";
-import RootNavigation from "./ui/navigation/RootNavigation";
+import rootStore from "./src/ui/store/RootStore";
+import { RootStoreProvider } from "./src/ui/context/RootStoreContext";
+import RootNavigation from "./src/ui/navigation/RootNavigation";
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);

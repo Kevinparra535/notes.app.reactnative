@@ -14,14 +14,13 @@ import {
   onSnapshot,
   updateProfile,
   getDownloadURL,
-  googleProvider,
   serverTimestamp,
-  signInWithPopup,
   onAuthStateChanged,
-  GoogleAuthProvider,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "@/config/firebaseConfig";
+
+import { GoogleSignin, statusCodes } from "@/config/googleConfig";
 
 import User from "@/domain/entities/User";
 import Note from "@/domain/entities/Note";
@@ -79,23 +78,24 @@ export class FirebaseService {
     }
   }
 
-  async loginGoogle(): Promise<Session> {
+  async loginGoogle(): Promise<any> {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const user = result.user;
-      console.log("loginGoogle =>", user);
-
-      return {
-        ...user,
-      };
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log("loginGoogle: ", userInfo);
+      return { userInfo };
     } catch (error: any) {
-      const errorCode = error?.code;
-      const errorMessage = error?.message;
+      console.log("loginGoogle.error: ", error);
 
-      console.error("loginGoogle Error =>", errorMessage);
-
-      return { errorCode };
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        return { error };
+      }
     }
   }
 

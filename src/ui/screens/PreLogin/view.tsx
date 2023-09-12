@@ -1,5 +1,5 @@
 // Librerias
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Pressable, Platform, Image } from "react-native";
 import LottieView from "lottie-react-native";
 import { Link } from "@react-navigation/native";
@@ -22,6 +22,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
+import { PreLoginViewModel } from "./viewModel";
 
 // Tipado
 type Props = {
@@ -47,6 +48,7 @@ type Props = {
 
 const PreLogin = ({ navigation }: Props): JSX.Element => {
   // Estados
+  const [viewModel] = useState(() => new PreLoginViewModel())
 
   // Contextos
 
@@ -54,6 +56,9 @@ const PreLogin = ({ navigation }: Props): JSX.Element => {
   const animation: any = useRef(null);
 
   // Funciones
+  const handleGoogle = () => {
+    viewModel.signInWithGoogle();
+  };
 
   // UseEffects
   useEffect(() => {
@@ -85,7 +90,7 @@ const PreLogin = ({ navigation }: Props): JSX.Element => {
       <Translate langkey="prelogin.title" style={styles.title} />
       <Translate langkey="prelogin.subtitle" style={styles.subTitle} />
 
-      <Pressable style={[styles.buttons, { backgroundColor: Colors.oscuro }]}>
+      <Pressable onPress={handleGoogle} style={[styles.buttons, { backgroundColor: Colors.oscuro }]}>
         <Translate
           langkey="prelogin.google"
           style={[styles.buttonsLabel, { color: Colors.claro }]}
