@@ -7,13 +7,13 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "GOOGLE_SERVICES_BASE64": "@GOOGLE_SERVICES_BASE64"
+        "GOOGLE_SERVICES_FILE": "@GOOGLE_SERVICES_FILE"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
-        "GOOGLE_SERVICES_BASE64": "@GOOGLE_SERVICES_BASE64"
+        "GOOGLE_SERVICES_FILE": "@GOOGLE_SERVICES_FILE"
       }
     },
     "production": {}
