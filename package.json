@@ -5,7 +5,8 @@
     "start": "expo start -c",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "eas-build-pre-install": "node -e \"const fs = require('fs'); fs.writeFileSync('./android/app/google-services.json', Buffer.from(process.env.GOOGLE_SERVICES_BASE64 || '', 'base64').toString('utf-8'))\""
   },
   "dependencies": {
     "@dotlottie/react-player": "^1.4.0",
