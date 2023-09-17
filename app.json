@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "process.env.GOOGLE_SERVICES_JSON",
+      "googleServicesFile": "./google-services.json",
       "package": "com.ensayo.notesAppReactnative"
     },
     "web": {
