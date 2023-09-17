@@ -4,17 +4,16 @@
   },
   "build": {
     "development": {
+      "node": "18.17.1",
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "GOOGLE_SERVICES_FILE": "@GOOGLE_SERVICES_FILE"
+        "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
       }
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "GOOGLE_SERVICES_FILE": "@GOOGLE_SERVICES_FILE"
-      }
+      "extends": "production",
+      "distribution": "internal"
     },
     "production": {}
   },
