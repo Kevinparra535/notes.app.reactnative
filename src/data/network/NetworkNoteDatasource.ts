@@ -1,38 +1,37 @@
 import Note from "@/domain/entities/Note";
 import { NoteRepository } from "@/domain/repositories/NoteRepository";
-import { FirebaseService } from "../services/FirebaseService";
+import { NotesService } from "../services/NotesService";
 import { ResponseModel } from "../models/ResponseModel";
-import Session from "@/domain/entities/Session";
 
 export class NetworkNoteDatasource implements NoteRepository {
   private static instance: NetworkNoteDatasource;
-  private firebaseService: FirebaseService;
+  private service: NotesService;
 
   private constructor() {
-    this.firebaseService = new FirebaseService();
+    this.service = new NotesService();
   }
 
   async getAllNotes(): Promise<ResponseModel<Array<Note>>> {
-    return this.firebaseService.fetchAllNotes();
+    return this.service.fetchAllNotes();
   }
 
   async createNote(data: Record<string, string>): Promise<any> {
-    return this.firebaseService.createNote(data);
+    return this.service.createNote(data);
   }
 
   async getNoteById(noteId: string): Promise<Note> {
-    return this.firebaseService.fetchNoteById(noteId);
+    return this.service.fetchNoteById(noteId);
   }
 
   async updateContent(
     noteId: string,
     data: Record<string, any>
   ): Promise<void> {
-    this.firebaseService.updateNoteContent(noteId, data);
+    this.service.updateNoteContent(noteId, data);
   }
 
   async deleteNote(noteId: string): Promise<void> {
-    await this.firebaseService.deleteNote(noteId);
+    await this.service.deleteNote(noteId);
   }
 
   public static getInstance(): NetworkNoteDatasource {

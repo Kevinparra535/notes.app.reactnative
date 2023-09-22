@@ -1,29 +1,29 @@
-import { FirebaseService } from "../services/FirebaseService";
+import { AuthService } from "../services/AuthService";
 import Session from "@/domain/entities/Session";
 import { SessionRepository } from "@/domain/repositories/SessionRepository";
 
 export class NetworkSessionDatasource implements SessionRepository {
   private static instance: NetworkSessionDatasource;
-  private firebaseService: FirebaseService;
+  private service: AuthService;
 
   private constructor() {
-    this.firebaseService = new FirebaseService();
+    this.service = new AuthService();
   }
 
   async loginUser(data: Record<string, string>): Promise<Session> {
-    return this.firebaseService.loginUser(data);
+    return this.service.loginUser(data);
   }
 
   async loginWithProvider(): Promise<any> {
-    return this.firebaseService.loginGoogle();
+    return this.service.loginGoogle();
   }
 
   async checkActiveSession(): Promise<Session> {
-    return this.firebaseService.checkSession();
+    return this.service.checkSession();
   }
 
   async registerUser(data: Record<string, string>): Promise<Session> {
-    return this.firebaseService.registerUser(data);
+    return this.service.registerUser(data);
   }
 
   public static getInstance(): NetworkSessionDatasource {
