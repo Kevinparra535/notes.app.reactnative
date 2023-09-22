@@ -15,6 +15,10 @@ export class NetworkNoteDatasource implements NoteRepository {
     return this.service.fetchAllNotes();
   }
 
+  async getFavoritesNotes(): Promise<ResponseModel<Array<Note>>> {
+    return this.service.fetchFavoritesNotes();
+  }
+
   async createNote(data: Record<string, string>): Promise<any> {
     return this.service.createNote(data);
   }

@@ -22,6 +22,7 @@ import CustomTab from "./components/CustomTab";
 // Navigations
 import NotesNavigation from "./NotesNavigation";
 import CreateNotes from "../screens/CreateNotes";
+import FavoritesNavigation from "./FavoritesNavigation";
 
 // Imagenes
 
@@ -89,7 +90,7 @@ const DashboardNavigation = (): JSX.Element => {
 
       <Tab.Screen
         name="FavoritesNavigation"
-        component={EmptyView}
+        component={FavoritesNavigation}
         options={{
           headerShown: false,
           tabBarShowLabel: false,

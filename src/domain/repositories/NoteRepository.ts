@@ -14,6 +14,7 @@ export interface NoteRepository {
   getNoteById(uuid: string): Promise<Note>;
   deleteNote(uuid: string): Promise<void>;
   getAllNotes(): Promise<ResponseModel<Array<Note>>>;
+  getFavoritesNotes(): Promise<ResponseModel<Array<Note>>>;
   createNote(data: Record<string, string>): Promise<string>;
   updateContent(noteId: string, newData: Record<string, string>): Promise<void>;
 }
