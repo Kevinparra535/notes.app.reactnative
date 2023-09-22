@@ -1,16 +1,16 @@
 // Librerias
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Contextos
 
 // Hooks
 
 // Screens
-import Favorites from "../screens/Favorites";
-import Notes from "../screens/Notes";
 import NotesDetails from "../screens/NotesDetails";
+import Archived from "../screens/Archived";
 
 // Componentes
 
@@ -30,12 +30,12 @@ type Props = {
  * Descripción del componente.
  *
  * @remarks
- * Este componente se encarga de crear un sistema de navegacion para las notas que se encuentran en favoritos
+ * Este navegador se encarga de enrutar las vistas necesarias para ver las notas arvhivadas
  *
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <FavoritesNAvigation />
+ * <ArchivedNavigation />
  * ```
  *
  * @returns `JSX.Element`
@@ -45,7 +45,7 @@ type Props = {
 
 const Stack = createNativeStackNavigator();
 
-const FavoritesNavigation = ({ navigation, route }: Props): JSX.Element => {
+const ArchivedNavigation = ({ navigation, route }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -58,10 +58,10 @@ const FavoritesNavigation = ({ navigation, route }: Props): JSX.Element => {
 
   // Renders
   return (
-    <Stack.Navigator initialRouteName="Favorites">
+    <Stack.Navigator>
       <Stack.Screen
-        name="Favorites"
-        component={Favorites}
+        name="Archived"
+        component={Archived}
         options={{
           headerShown: false,
         }}
@@ -94,8 +94,8 @@ const FavoritesNavigation = ({ navigation, route }: Props): JSX.Element => {
   );
 };
 
-FavoritesNavigation.defaultProps = {};
+ArchivedNavigation.defaultProps = {};
 
 const styles = StyleSheet.create({});
 
-export default FavoritesNavigation;
+export default ArchivedNavigation;

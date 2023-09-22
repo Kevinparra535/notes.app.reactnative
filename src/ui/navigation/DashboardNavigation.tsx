@@ -22,7 +22,9 @@ import CustomTab from "./components/CustomTab";
 // Navigations
 import NotesNavigation from "./NotesNavigation";
 import CreateNotes from "../screens/CreateNotes";
+import CategoriesNavigation from "./CategoriesNavigation";
 import FavoritesNavigation from "./FavoritesNavigation";
+import ArchivedNavigation from "./ArchivedNavigation";
 
 // Imagenes
 
@@ -49,10 +51,6 @@ import Colors from "../styles/Colors";
  */
 
 const Tab = createBottomTabNavigator();
-
-const EmptyView = () => {
-  return <View></View>
-}
 
 const DashboardNavigation = (): JSX.Element => {
   // Estados
@@ -113,8 +111,8 @@ const DashboardNavigation = (): JSX.Element => {
       />
 
       <Tab.Screen
-        name="ArchiviedNavigation"
-        component={EmptyView}
+        name="ArchivedNavigation"
+        component={ArchivedNavigation}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -126,7 +124,7 @@ const DashboardNavigation = (): JSX.Element => {
 
       <Tab.Screen
         name="CategoriesNavigation"
-        component={EmptyView}
+        component={CategoriesNavigation}
         options={{
           headerShown: false,
           tabBarShowLabel: false,
