@@ -5,16 +5,10 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "GOOGLE_SERVICES_FILE": "@GOOGLE_SERVICES_FILE"
-      }
+      "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "GOOGLE_SERVICES_FILE": "@GOOGLE_SERVICES_FILE"
-      }
+      "distribution": "internal"
     },
     "production": {}
   },
