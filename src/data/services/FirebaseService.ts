@@ -151,6 +151,8 @@ export class FirebaseService {
 
   // Note
   async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {
+    const user = auth.currentUser;
+
     // const cacheKey = "all-notes";
 
     // if (this.cacheManager.has(cacheKey)) {
@@ -177,7 +179,6 @@ export class FirebaseService {
     // }
 
     return new Promise((resolve, reject) => {
-      const user = auth.currentUser;
       const formatedResponse: Array<Note> = [];
       const notesCol = collection(db, this.collectionName);
       const q = query(

@@ -81,10 +81,10 @@ const Login: React.FC<Props> = observer(
           handleEmailSubmit={handleEmailSubmit}
         />
 
-        <LoginFooter
+        {/* <LoginFooter
           handleGoogle={handleGoogle}
           isLoading={viewModel.isLoading}
-        />
+        /> */}
       </KeyboardAvoidingView>
     );
   }

@@ -2,10 +2,10 @@ import {
   GoogleSignin,
   statusCodes,
 } from "@react-native-google-signin/google-signin";
+import { config } from "./config";
 
 GoogleSignin.configure({
-  webClientId:
-    "721935570225-t2nd7tmhphkcehguh2drnlh7efhjgkp3.apps.googleusercontent.com",
+  webClientId: config.FIREBASE_GOOGLE_WEB_CLIENT,
 });
 
 export { GoogleSignin, statusCodes };

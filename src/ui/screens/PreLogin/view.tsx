@@ -48,7 +48,7 @@ type Props = {
 
 const PreLogin = ({ navigation }: Props): JSX.Element => {
   // Estados
-  const [viewModel] = useState(() => new PreLoginViewModel())
+  const [viewModel] = useState(() => new PreLoginViewModel());
 
   // Contextos
 
@@ -90,19 +90,25 @@ const PreLogin = ({ navigation }: Props): JSX.Element => {
       <Translate langkey="prelogin.title" style={styles.title} />
       <Translate langkey="prelogin.subtitle" style={styles.subTitle} />
 
-      <Pressable onPress={handleGoogle} style={[styles.buttons, { backgroundColor: Colors.oscuro }]}>
+      {/* <Pressable onPress={handleGoogle} style={[styles.buttons, { backgroundColor: Colors.oscuro }]}>
         <Translate
           langkey="prelogin.google"
           style={[styles.buttonsLabel, { color: Colors.claro }]}
         />
-      </Pressable>
+      </Pressable> */}
 
-      <Pressable style={styles.buttons}>
+      {/* <Pressable style={styles.buttons}>
         <Translate langkey="prelogin.apple" style={styles.buttonsLabel} />
-      </Pressable>
+      </Pressable> */}
 
-      <Pressable onPress={() => navigation.navigate('Login')} style={styles.buttons}>
-        <Translate langkey="prelogin.email" style={styles.buttonsLabel} />
+      <Pressable
+        onPress={() => navigation.navigate("Login")}
+        style={[styles.buttons, { backgroundColor: Colors.oscuro }]}
+      >
+        <Translate
+          langkey="prelogin.email"
+          style={[styles.buttonsLabel, { color: Colors.claro }]}
+        />
       </Pressable>
 
       <Link style={styles.links} to={{ screen: "SignUp" }}>

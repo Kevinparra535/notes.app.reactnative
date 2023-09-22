@@ -7,4 +7,5 @@ export const config = {
   messagingsenderid: process.env.FIREBASE_MESSAGINGSENDERID,
   appid: process.env.FIREBASE_APPID,
   measurementid: process.env.FIREBASE_MEASUREMENTID,
+  FIREBASE_GOOGLE_WEB_CLIENT: process.env.FIREBASE_GOOGLE_WEB_CLIENT,
 };
