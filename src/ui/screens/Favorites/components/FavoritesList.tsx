@@ -1,17 +1,15 @@
 // Librerias
-import React from "react";
-import { StyleSheet } from "react-native";
-import { SwipeListView } from "react-native-swipe-list-view";
+import NotesCards from "@/ui/components/Notes/NotesCards";
+import React, { useEffect } from "react";
+import { StyleSheet, FlatList } from "react-native";
 
 // Contextos
 
 // Hooks
 
 // Screens
-import NotesCards from "../../../components/Notes/NotesCards";
 
 // Componentes
-import NotesListOptions from "./NotesListOptions";
 import ListNotesEmpty from "@/ui/components/Notes/ListNotesEmpty";
 
 // Navigations
@@ -27,21 +25,19 @@ import { ResponseModel } from "@/data/models/ResponseModel";
 
 type Props = {
   refresh: () => void;
-  deleteNote: (uuid: string) => void;
   viewModel: ResponseModel<NoteModel[]>;
-  setfavoritesNote: (uuid: string, pin: boolean) => void;
 };
 
 /**
  * Descripción del componente.
  *
  * @remarks
- * Este componente usa una libreria de terceros para hacer el scroll de la lista y que los items tengan opciones al deslizar a los lados
+ * Este componente se encarga de renderizar las notas que estan en favoritos pero sin el feature de deslizar el item
  *
  * @example
  * Ejemplo de uso:
  * ```jsx
- * <NotesList />
+ * <FavoritesList />
  * ```
  *
  * @returns `JSX.Element`
@@ -49,12 +45,7 @@ type Props = {
  * @beta
  */
 
-const NotesList = ({
-  viewModel,
-  refresh,
-  deleteNote,
-  setfavoritesNote,
-}: Props): JSX.Element => {
+const FavoritesList = ({ viewModel, refresh }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -67,25 +58,12 @@ const NotesList = ({
 
   // Renders
   return (
-    <SwipeListView
-      closeOnScroll
+    <FlatList
       onRefresh={refresh}
-      leftOpenValue={100}
-      closeOnRowBeginSwipe
-      closeOnRowOpen={true}
-      rightOpenValue={-100}
       data={viewModel.data}
-      closeOnRowPress={true}
       style={styles.container}
       keyExtractor={(item) => item.uuid}
-      renderHiddenItem={(data) => (
-        <NotesListOptions
-          uuid={data.item.uuid}
-          deleteNote={deleteNote}
-          noteIsFavorite={data.item.pin}
-          setfavoritesNote={setfavoritesNote}
-        />
-      )}
+      ListEmptyComponent={ListNotesEmpty}
       refreshing={viewModel.status === "loading"}
       renderItem={({ item }) => (
         <NotesCards
@@ -95,7 +73,6 @@ const NotesList = ({
           content={item.content}
         />
       )}
-      ListEmptyComponent={ListNotesEmpty}
     />
   );
 };
@@ -107,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotesList;
+export default FavoritesList;

@@ -64,7 +64,6 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
     viewModel.deleteNotes(uuid);
   };
 
-
   // Renders
   if (viewModel.notes.status === "loading") return <Loader />;
   if (viewModel.notes.status === "error") return <Text>Error</Text>;

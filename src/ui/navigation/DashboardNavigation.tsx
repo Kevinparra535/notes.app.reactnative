@@ -70,7 +70,7 @@ const DashboardNavigation = (): JSX.Element => {
         tabBarHideOnKeyboard: true,
         tabBarInactiveTintColor: Colors.oscuro,
         tabBarActiveTintColor: Colors.oscuro,
-        tabBarActiveBackgroundColor: Colors.brand.secondary,
+        tabBarActiveBackgroundColor: Colors.variants.one,
       }}
       tabBar={(props) => <CustomTab {...props} />}
     >

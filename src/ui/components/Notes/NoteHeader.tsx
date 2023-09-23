@@ -81,10 +81,11 @@ const NoteHeader = ({
 
   // Funciones
   const handleBackPress = () => {
-    navigation.navigate({
-      name: "Notes",
-      merge: true,
-    });
+    navigation.goBack()
+    // navigation.navigate({
+    //   name: "Notes",
+    //   merge: true,
+    // });
   };
 
   // UseEffects
@@ -159,11 +160,11 @@ const NoteHeader = ({
 
 const styles = StyleSheet.create({
   header: {
-    paddingVertical: Spacings.space,
-    paddingHorizontal: Spacings.spacex2,
+    padding: Spacings.space,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
+    height: 50,
   },
 
   actions: {

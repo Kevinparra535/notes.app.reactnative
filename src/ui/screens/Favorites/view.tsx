@@ -1,23 +1,24 @@
 // Librerias
 import Colors from "@/ui/styles/Colors";
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { observer } from "mobx-react-lite";
 
 // Contextos
-import RootStoreContext from "@/ui/context/RootStoreContext";
 
 // Hooks
 
 // Screens
 
+// ViewModel
+import { FavoritesViewModel } from "./viewModel";
+
 // Componentes
 import Header from "../../components/Header";
-import NotesList from "../Notes/components/NotesList";
 import Loader from "@/ui/components/Loader";
-import { FavoritesViewModel } from "./viewModel";
-import { observer } from "mobx-react-lite";
+import FavoritesList from "./components/FavoritesList";
 
 // Navigations
 
@@ -26,6 +27,10 @@ import { observer } from "mobx-react-lite";
 // Estilos
 
 // Tipado
+type Props = {
+  route: any;
+  navigation: any;
+};
 
 /**
  * Descripción del componente.
@@ -44,7 +49,7 @@ import { observer } from "mobx-react-lite";
  * @beta
  */
 
-const Favorites: React.FC = observer((): JSX.Element => {
+const Favorites: React.FC<Props> = observer(({ route, navigation }) => {
   // Estados
   const [viewModel] = useState(() => new FavoritesViewModel());
 
@@ -53,32 +58,28 @@ const Favorites: React.FC = observer((): JSX.Element => {
   // Hooks
 
   // Funciones
-  const handleSetFavorite = (uuid: string, pin: boolean) => {
-    viewModel.setfavoritesNote(uuid, { pin });
-  };
-
-  const handleDeleteNote = (uuid: string) => {
-    viewModel.deleteNotes(uuid);
-  };
 
   // UseEffects
-  console.log(viewModel.notes.data);
+  useEffect(() => {
+    viewModel.refresh()
+  }, [])
+  
 
   // Renders
-
-  if (viewModel.notes.status === "loading") return <Loader />;
-  if (viewModel.notes.status === "error") return <Text>Error</Text>;
 
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Favorites" />
+      {viewModel.notes.status === "loading" && <Loader />}
 
-      <NotesList
-        viewModel={viewModel.notes}
-        deleteNote={handleDeleteNote}
-        refresh={() => viewModel.refresh()}
-        setfavoritesNote={handleSetFavorite}
-      />
+      {viewModel.notes.status === "success" && (
+        <FavoritesList
+          viewModel={viewModel.notes}
+          refresh={() => viewModel.refresh()}
+        />
+      )}
+
+      {viewModel.notes.status === "error" && <Text>Error</Text>}
 
       <StatusBar translucent style="dark" backgroundColor={Colors.claro} />
     </SafeAreaView>

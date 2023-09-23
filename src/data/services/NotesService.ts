@@ -21,153 +21,76 @@ export class NotesService {
   private cacheManager = new NotesCacheManager();
   private collectionName: string = "notes";
 
-  async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {
+  private async processSnapshot(snapshot: any): Promise<Array<Note>> {
+    const formatedResponse: Array<Note> = [];
+    snapshot.docChanges().forEach((change: any) => {
+      const docData: Note = { uuid: change.doc.id, ...change.doc.data() };
+      if (["added", "modified"].includes(change.type))
+        formatedResponse.push(docData);
+      if (change.type === "removed") {
+        const indexToRemove = formatedResponse.findIndex(
+          (item) => item.uuid === change.doc.id
+        );
+        if (indexToRemove !== -1) formatedResponse.splice(indexToRemove, 1);
+      }
+    });
+    return formatedResponse;
+  }
+
+  private getQuery(userUid: string, additionalConditions: any[] = []): any {
+    const notesCol = collection(db, this.collectionName);
+    return query(
+      notesCol,
+      where("userId", "==", userUid),
+      ...additionalConditions
+    );
+  }
+
+  private async fetchNotes(
+    queryConditions: any[]
+  ): Promise<ResponseModel<Array<Note>>> {
     const user = auth.currentUser;
-
-    // const cacheKey = "all-notes";
-
-    // if (this.cacheManager.has(cacheKey)) {
-    //   return { status: "success", data: this.cacheManager.get(cacheKey) };
-    // }
-
-    // const formatedResponse: Array<Note> = [];
-
-    // try {
-    //   const notesCol = collection(db, this.collectionName);
-    //   const q = query(notesCol, orderBy("updated", "desc"));
-
-    //   const docs = await getDocs(q);
-
-    //   docs.forEach((doc: { id: string; data: () => any }) => {
-    //     formatedResponse.push({ uuid: doc.id, ...doc.data() });
-    //   });
-
-    //   // this.cacheManager.set(cacheKey, formatedResponse);
-
-    //   return { status: "success", data: formatedResponse };
-    // } catch (error: any) {
-    //   return { status: "error", error: error.message };
-    // }
+    if (!user || !user.uid)
+      return { status: "error", error: "User is not authenticated" };
 
     return new Promise((resolve, reject) => {
-      const formatedResponse: Array<Note> = [];
-      const notesCol = collection(db, this.collectionName);
-      const q = query(
-        notesCol,
-        where("userId", "==", user?.uid),
-        orderBy("updatedAt", "desc")
-      );
-
-      // Set up the listener
+      const q = this.getQuery(user.uid, queryConditions);
       const unsub = onSnapshot(
         q,
-        (snapshot) => {
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added" || change.type === "modified") {
-              const docData: any = {
-                uuid: change.doc.id,
-                ...change.doc.data(),
-              };
-              formatedResponse.push(docData);
-            }
-            if (change.type === "removed") {
-              const indexToRemove = formatedResponse.findIndex(
-                (item) => item.uuid === change.doc.id
-              );
-              if (indexToRemove !== -1) {
-                formatedResponse.splice(indexToRemove, 1);
-              }
-            }
-          });
-          resolve({ status: "success", data: formatedResponse });
+        async (snapshot: any) => {
+          try {
+            const formatedResponse = await this.processSnapshot(snapshot);
+            resolve({ status: "success", data: formatedResponse });
+          } catch (error: any) {
+            reject({ status: "error", error: error.message });
+          }
         },
-        (error) => {
-          reject({ status: "error", error: error.message });
-        }
+        (error: { message: any; }) => reject({ status: "error", error: error.message })
       );
 
       return unsub;
     });
   }
 
+  async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {
+    return this.fetchNotes([orderBy("updatedAt", "desc")]);
+  }
+
   async fetchFavoritesNotes(): Promise<ResponseModel<Array<Note>>> {
-    const user = auth.currentUser;
-
-    // const cacheKey = "all-notes";
-
-    // if (this.cacheManager.has(cacheKey)) {
-    //   return { status: "success", data: this.cacheManager.get(cacheKey) };
-    // }
-
-    // const formatedResponse: Array<Note> = [];
-
-    // try {
-    //   const notesCol = collection(db, this.collectionName);
-    //   const q = query(notesCol, orderBy("updated", "desc"));
-
-    //   const docs = await getDocs(q);
-
-    //   docs.forEach((doc: { id: string; data: () => any }) => {
-    //     formatedResponse.push({ uuid: doc.id, ...doc.data() });
-    //   });
-
-    //   // this.cacheManager.set(cacheKey, formatedResponse);
-
-    //   return { status: "success", data: formatedResponse };
-    // } catch (error: any) {
-    //   return { status: "error", error: error.message };
-    // }
-
-    return new Promise((resolve, reject) => {
-      const formatedResponse: Array<Note> = [];
-      const notesCol = collection(db, this.collectionName);
-      const q = query(
-        notesCol,
-        where("userId", "==", user?.uid),
-        where("pin", "==", true),
-        orderBy("updatedAt", "desc")
-      );
-
-      // Set up the listener
-      const unsub = onSnapshot(
-        q,
-        (snapshot) => {
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added" || change.type === "modified") {
-              const docData: any = {
-                uuid: change.doc.id,
-                ...change.doc.data(),
-              };
-              formatedResponse.push(docData);
-            }
-            if (change.type === "removed") {
-              const indexToRemove = formatedResponse.findIndex(
-                (item) => item.uuid === change.doc.id
-              );
-              if (indexToRemove !== -1) {
-                formatedResponse.splice(indexToRemove, 1);
-              }
-            }
-          });
-          resolve({ status: "success", data: formatedResponse });
-        },
-        (error) => {
-          reject({ status: "error", error: error.message });
-        }
-      );
-
-      return unsub;
-    });
+    return this.fetchNotes([
+      where("pin", "==", true),
+      orderBy("updatedAt", "desc"),
+    ]);
   }
 
   async createNote(data: Record<string, string>): Promise<string> {
     const docRef = await addDoc(collection(db, this.collectionName), {
+      ...data,
       tags: [],
       pin: false,
       color: "#FFFFFF",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
-      ...data,
     });
 
     return docRef.id;
@@ -178,16 +101,9 @@ export class NotesService {
       const unsub = onSnapshot(
         doc(db, this.collectionName, noteId),
         (docSnap) => {
-          if (docSnap.exists()) {
-            const noteData: Note = docSnap.data() as Note;
-            resolve(noteData);
-
-            unsub();
-          } else {
-            reject(new Error("Note not found"));
-
-            unsub();
-          }
+          if (!docSnap.exists()) return reject(new Error("Note not found"));
+          resolve(docSnap.data() as Note);
+          unsub();
         }
       );
     });
@@ -197,18 +113,14 @@ export class NotesService {
     noteId: string,
     data: Record<string, any>
   ): Promise<void> {
-    const notesRef = doc(db, this.collectionName, noteId);
-    const updatedData = {
+    await updateDoc(doc(db, this.collectionName, noteId), {
       ...data,
       updatedAt: serverTimestamp(),
-    };
-    await updateDoc(notesRef, updatedData);
+    });
     this.cacheManager.clear(noteId);
   }
 
   async deleteNote(noteId: string): Promise<void> {
-    const notesRef = doc(db, this.collectionName, noteId);
-    await deleteDoc(notesRef);
+    await deleteDoc(doc(db, this.collectionName, noteId));
   }
 }
-

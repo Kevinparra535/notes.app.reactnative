@@ -1,7 +1,10 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
 
 // Contextos
@@ -50,28 +53,31 @@ const Header = ({ title }: Props): JSX.Element => {
   // Contextos
 
   // Hooks
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   // Funciones
   const handleGoBack = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   // UseEffects
 
   // Renders
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Pressable onPress={handleGoBack}>
         <ArrowLeftIcon size={24} color={Colors.oscuro} />
       </Pressable>
 
-      <Text style={styles.title}>{title}</Text>
+      <View>
+        <Text style={styles.title}>{title}</Text>
+      </View>
 
       <View>
-        <ArrowLeftIcon size={24} color={Colors.claro} />
+        <ArrowLeftIcon size={24} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -81,8 +87,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "100%",
-    backgroundColor: Colors.claro,
+    height: 50,
   },
 
   title: {

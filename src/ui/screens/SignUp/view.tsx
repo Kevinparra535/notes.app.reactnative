@@ -1,6 +1,7 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { observer } from "mobx-react-lite";
 
 // Contextos
 
@@ -12,6 +13,8 @@ import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 import SignupFooter from "./components/SignupFooter";
 import SignupForm from "./components/SignupForm";
 import SignupHeader from "./components/SignupHeader";
+import { SignUpViewModel } from "./viewModel";
+
 
 // Navigations
 
@@ -20,8 +23,6 @@ import SignupHeader from "./components/SignupHeader";
 // Estilos
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
-import { SignUpViewModel } from "./viewModel";
-import { observer } from "mobx-react-lite";
 
 // Tipado
 type Props = {

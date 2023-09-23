@@ -17,7 +17,7 @@ import { debounce } from "@/ui/utils/Deboucing";
 
 export class NotesViewModel {
   private deleteNote: DeleteNote;
-  private getAllNotes: GetAllNotes;
+  private getNotes: GetAllNotes;
   private updateNoteContent: UpdateNoteContent;
   private noteRepositoryImpl: NoteRepositoryImpl;
   private datasource: NetworkNoteDatasource =
@@ -32,7 +32,7 @@ export class NotesViewModel {
   constructor() {
     makeAutoObservable(this);
     this.noteRepositoryImpl = new NoteRepositoryImpl(this.datasource);
-    this.getAllNotes = new GetAllNotes(this.noteRepositoryImpl);
+    this.getNotes = new GetAllNotes(this.noteRepositoryImpl);
     this.updateNoteContent = new UpdateNoteContent(this.noteRepositoryImpl);
     this.deleteNote = new DeleteNote(this.noteRepositoryImpl);
 
@@ -61,8 +61,15 @@ export class NotesViewModel {
 
   private setToastMessage(message: string) {
     this.toastMessage = Toast.show(message, {
-      duration: Toast.durations.LONG,
+      duration: Toast.durations.SHORT,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
     });
+
+    setTimeout(() => {
+      Toast.hide(this.toastMessage);
+    }, Toast.durations.SHORT);
   }
 
   private setNotes(notes: ResponseModel<Array<NoteModel>>) {
@@ -71,7 +78,7 @@ export class NotesViewModel {
 
   private async fetchNote(): Promise<void> {
     const result: ResponseModel<Array<NoteModel>> =
-      await this.getAllNotes.execute();
+      await this.getNotes.execute();
 
     this.setNotes(result);
   }
@@ -100,7 +107,7 @@ export class NotesViewModel {
     );
   }
 
-  setfavoritesNote(noteId: string, newData: Record<string, boolean>) {
+  public setfavoritesNote(noteId: string, newData: Record<string, boolean>) {
     const fun = debounce(async (newData: Record<string, any>) => {
       try {
         await this.updateNoteContent.execute(noteId, newData);

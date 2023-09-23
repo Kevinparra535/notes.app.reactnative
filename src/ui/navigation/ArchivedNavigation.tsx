@@ -94,7 +94,6 @@ const ArchivedNavigation = ({ navigation, route }: Props): JSX.Element => {
   );
 };
 
-ArchivedNavigation.defaultProps = {};
 
 const styles = StyleSheet.create({});
 
