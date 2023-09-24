@@ -156,6 +156,7 @@ export class NotesViewModel {
 
       runInAction(() => {
         notesStore.setNoteUpdated(true);
+        notesStore.setNoteAddedFavorite(true);
       });
     } catch (error) {
       console.log("NotesViewModel.setfavoritesNote.error:", error);

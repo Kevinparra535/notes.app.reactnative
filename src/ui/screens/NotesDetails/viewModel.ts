@@ -131,7 +131,7 @@ export class NotesDetailsViewModel {
     const fun = debounce(async (newData: Record<string, any>) => {
       try {
         await this.updateNoteContent.execute(this.noteId, newData);
-        
+
         this.setSynced();
         this.setToastMessage(
           newData.pin === true
@@ -174,6 +174,7 @@ export class NotesDetailsViewModel {
 
       runInAction(() => {
         notesStore.setNoteUpdated(true);
+        notesStore.setNoteAddedFavorite(true);
       });
       return true;
     } catch (error) {
