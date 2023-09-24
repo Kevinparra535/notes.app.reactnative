@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 class NotesStore {
   noteUpdated = false;
+  noteAddedFavorite = false
   newNoteCreated = false;
 
   constructor() {
@@ -14,6 +15,10 @@ class NotesStore {
 
   setNoteUpdated(status: boolean) {
     this.noteUpdated = status;
+  }
+
+  setNoteAddedFavorite(status: boolean) {
+    this.noteAddedFavorite = status;
   }
 }
 

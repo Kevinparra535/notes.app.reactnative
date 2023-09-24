@@ -27,18 +27,17 @@ export class FavoritesViewModel {
     this.noteRepositoryImpl = new NoteRepositoryImpl(this.datasource);
     this.getNotes = new GetFavoritesNotes(this.noteRepositoryImpl);
 
-    this.fetchNote();
-
     reaction(
-      () => notesStore.noteUpdated,
+      () => notesStore.noteAddedFavorite,
       (newVal) => {
         if (newVal) {
           this.refresh();
-          notesStore.setNoteUpdated(false);
-          console.log(notesStore.noteUpdated)
+          notesStore.setNoteAddedFavorite(false);
         }
       }
     );
+
+    this.fetchNote();
   }
 
   private setNotes(notes: ResponseModel<Array<NoteModel>>) {
@@ -46,7 +45,8 @@ export class FavoritesViewModel {
   }
 
   private async fetchNote(): Promise<void> {
-    const result: ResponseModel<Array<NoteModel>> = await this.getNotes.execute();
+    const result: ResponseModel<Array<NoteModel>> =
+      await this.getNotes.execute();
 
     this.setNotes(result);
   }
@@ -54,14 +54,12 @@ export class FavoritesViewModel {
   public refresh(): void {
     this.fetchNote();
 
-    console.log('REFRESH')
-
     reaction(
-      () => notesStore.noteUpdated,
+      () => notesStore.noteAddedFavorite,
       (newVal) => {
         if (newVal) {
           this.refresh();
-          notesStore.setNoteUpdated(false);
+          notesStore.setNoteAddedFavorite(false);
         }
       }
     );

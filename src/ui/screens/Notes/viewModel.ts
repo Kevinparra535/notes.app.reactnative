@@ -57,6 +57,15 @@ export class NotesViewModel {
         }
       }
     );
+
+    reaction(
+      () => notesStore.noteAddedFavorite,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+        }
+      }
+    );
   }
 
   private setToastMessage(message: string) {
@@ -105,6 +114,15 @@ export class NotesViewModel {
         }
       }
     );
+
+    reaction(
+      () => notesStore.noteAddedFavorite,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+        }
+      }
+    );
   }
 
   public setfavoritesNote(noteId: string, newData: Record<string, boolean>) {
@@ -119,7 +137,7 @@ export class NotesViewModel {
         );
 
         runInAction(() => {
-          notesStore.setNoteUpdated(true);
+          notesStore.setNoteAddedFavorite(true);
         });
       } catch (error) {
         console.log("NotesViewModel.setfavoritesNote.error:", error);
