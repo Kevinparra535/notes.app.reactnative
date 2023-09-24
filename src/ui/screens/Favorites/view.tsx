@@ -60,10 +60,6 @@ const Favorites: React.FC<Props> = observer(({ route, navigation }) => {
   // Funciones
 
   // UseEffects
-  useEffect(() => {
-    viewModel.refresh()
-  }, [])
-  
 
   // Renders
 

@@ -61,8 +61,15 @@ export class NotesDetailsViewModel {
 
   private setToastMessage(message: string) {
     this.toastMessage = Toast.show(message, {
-      duration: Toast.durations.LONG,
+      duration: Toast.durations.SHORT,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
     });
+
+    setTimeout(() => {
+      Toast.hide(this.toastMessage);
+    }, Toast.durations.SHORT);
   }
 
   private setSyncError(error: string) {

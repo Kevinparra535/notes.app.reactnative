@@ -23,17 +23,23 @@ export class NotesService {
 
   private async processSnapshot(snapshot: any): Promise<Array<Note>> {
     const formatedResponse: Array<Note> = [];
+
     snapshot.docChanges().forEach((change: any) => {
       const docData: Note = { uuid: change.doc.id, ...change.doc.data() };
-      if (["added", "modified"].includes(change.type))
+
+      if (["added", "modified"].includes(change.type)) {
         formatedResponse.push(docData);
+      }
+
       if (change.type === "removed") {
         const indexToRemove = formatedResponse.findIndex(
           (item) => item.uuid === change.doc.id
         );
+
         if (indexToRemove !== -1) formatedResponse.splice(indexToRemove, 1);
       }
     });
+
     return formatedResponse;
   }
 
@@ -47,25 +53,28 @@ export class NotesService {
   }
 
   private async fetchNotes(
-    queryConditions: any[]
+    queries: Array<any>
   ): Promise<ResponseModel<Array<Note>>> {
     const user = auth.currentUser;
-    if (!user || !user.uid)
+
+    if (!user || !user.uid) {
       return { status: "error", error: "User is not authenticated" };
+    }
 
     return new Promise((resolve, reject) => {
-      const q = this.getQuery(user.uid, queryConditions);
-      const unsub = onSnapshot(
-        q,
-        async (snapshot: any) => {
-          try {
-            const formatedResponse = await this.processSnapshot(snapshot);
-            resolve({ status: "success", data: formatedResponse });
-          } catch (error: any) {
-            reject({ status: "error", error: error.message });
-          }
-        },
-        (error: { message: any; }) => reject({ status: "error", error: error.message })
+      const q = this.getQuery(user.uid, queries);
+
+      const snapShotCallBack = async (snapshot: any) => {
+        try {
+          const formatedResponse = await this.processSnapshot(snapshot);
+          resolve({ status: "success", data: formatedResponse });
+        } catch (error: any) {
+          reject({ status: "error", error: error.message });
+        }
+      };
+
+      const unsub = onSnapshot(q, snapShotCallBack, (error: { message: any }) =>
+        reject({ status: "error", error: error.message })
       );
 
       return unsub;

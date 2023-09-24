@@ -64,6 +64,7 @@ const FavoritesNavigation = ({ navigation, route }: Props): JSX.Element => {
         component={Favorites}
         options={{
           headerShown: false,
+          animation: "slide_from_right",
         }}
         listeners={() => ({
           focus: () => {
@@ -80,6 +81,7 @@ const FavoritesNavigation = ({ navigation, route }: Props): JSX.Element => {
         component={NotesDetails}
         options={{
           headerShown: false,
+          animation: "simple_push",
         }}
         listeners={() => ({
           focus: () => {

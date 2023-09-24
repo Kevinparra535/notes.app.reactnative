@@ -35,6 +35,7 @@ export class FavoritesViewModel {
         if (newVal) {
           this.refresh();
           notesStore.setNoteUpdated(false);
+          console.log(notesStore.noteUpdated)
         }
       }
     );
@@ -45,16 +46,15 @@ export class FavoritesViewModel {
   }
 
   private async fetchNote(): Promise<void> {
-    const result: ResponseModel<Array<NoteModel>> =
-      await this.getNotes.execute();
-
-    console.log(result);
+    const result: ResponseModel<Array<NoteModel>> = await this.getNotes.execute();
 
     this.setNotes(result);
   }
 
   public refresh(): void {
     this.fetchNote();
+
+    console.log('REFRESH')
 
     reaction(
       () => notesStore.noteUpdated,
