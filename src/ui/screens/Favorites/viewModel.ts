@@ -1,8 +1,6 @@
-import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 
-import { DeleteNote } from "@/domain/useCases/deleteNote";
 import { GetFavoritesNotes } from "@/domain/useCases/getFavoritesNotes";
-import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
 
 import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
 import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";

@@ -1,11 +1,8 @@
 // Librerias
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
+import { useNavigation } from "@react-navigation/native";
 
 // Contextos
 
@@ -14,6 +11,7 @@ import { ArrowLeftIcon } from "react-native-heroicons/outline";
 // Screens
 
 // Componentes
+import { CategoriesViewModel } from "../screens/Categories/viewModel";
 
 // Navigations
 
@@ -23,18 +21,18 @@ import { ArrowLeftIcon } from "react-native-heroicons/outline";
 import Fonts from "../styles/Fonts";
 import Colors from "../styles/Colors";
 import Spacings from "../styles/Spacings";
-import { useNavigation } from "@react-navigation/native";
 
 // Tipado
 type Props = {
   title: string;
+  viewModel?: CategoriesViewModel;
 };
 
 /**
  * Descripción del componente.
  *
  * @remarks
- * Esta es una descripción más detallada del componente. Puedes hablar sobre su funcionamiento, cómo se utiliza, etc.
+ * Este header se usa en la mayoria de screens, solo contiene la flecha, el titulo y acceso al perfil del usuario
  *
  * @example
  * Ejemplo de uso:
@@ -47,17 +45,18 @@ type Props = {
  * @beta
  */
 
-const Header = ({ title }: Props): JSX.Element => {
+const Header = ({ title, viewModel }: Props): JSX.Element => {
   // Estados
 
   // Contextos
 
   // Hooks
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
 
   // Funciones
   const handleGoBack = () => {
+    viewModel?.setShowCatInput(false)
+    viewModel?.setCategoryId(null)
     navigation.goBack();
   };
 

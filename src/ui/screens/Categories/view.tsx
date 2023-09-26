@@ -1,6 +1,6 @@
 // Librerias
-import Header from "@/ui/components/Header";
 import React, { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -10,13 +10,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // Screens
 
+// ViewModel
+import { CategoriesViewModel } from "./viewModel";
+
 // Componentes
+import Header from "@/ui/components/Header";
+import CategoriesList from "./components/CategoriesList";
+import Loader from "@/ui/components/Loader";
 
 // Navigations
 
 // Imagenes
 
 // Estilos
+import Colors from "@/ui/styles/Colors";
+import CreateCategories from "@/ui/components/Categories/CreateCategories";
 
 // Tipado
 
@@ -37,8 +45,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * @beta
  */
 
-const Categories = (): JSX.Element => {
+const Categories: React.FC = observer(() => {
   // Estados
+  const [viewModel] = useState(() => new CategoriesViewModel());
 
   // Contextos
 
@@ -50,18 +59,32 @@ const Categories = (): JSX.Element => {
 
   // Renders
   return (
-    <SafeAreaView>
-      <Header title="Categories" />
+    <SafeAreaView style={styles.container}>
+      <Header title="Categories" viewModel={viewModel} />
 
-      <View>
-        <Text>Categories</Text>
-      </View>
+      {viewModel.categories.status === "loading" && <Loader />}
+
+      {viewModel.categories.status === "success" && (
+        <>
+          <CreateCategories viewModel={viewModel} />
+
+          <CategoriesList
+            viewModel={viewModel}
+            refresh={() => viewModel.refresh()}
+          />
+        </>
+      )}
+
+      {viewModel.categories.status === "error" && <Text>Error</Text>}
     </SafeAreaView>
   );
-};
+});
 
-Categories.defaultProps = {};
-
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.claro,
+  },
+});
 
 export default Categories;
