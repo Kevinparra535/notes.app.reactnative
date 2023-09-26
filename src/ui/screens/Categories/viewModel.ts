@@ -52,4 +52,16 @@ export class CategoriesViewModel {
   public refresh(): void {
     this.fetchData();
   }
+
+  public create(data: Record<string, string>) {
+    console.log("NEW CATEGORY", data);
+  }
+
+  public update(data: Record<string, string>) {
+    console.log("UPDATE CATEGORY", this.categoryIdToEdit, data);
+  }
+
+  public delete(uuid: string): void {
+    console.log("DELETE CATEGORIE", uuid);
+  }
 }

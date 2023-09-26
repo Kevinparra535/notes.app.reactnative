@@ -55,6 +55,7 @@ type Props = {
 
 const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
   // Estados
+  const [title, setTitle] = useState<string | null>(null);
   const [colorSelected, setColorSelected] = useState("#F4D5B6");
 
   // Contextos
@@ -69,6 +70,20 @@ const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
 
   const handleClose = () => {
     viewModel.setShowCatInput(false);
+  };
+
+  const handleChange = (e: string) => {
+    setTitle(e);
+  };
+
+  const handleSubmit = () => {
+    if (title) {
+      viewModel.create({ title, color: colorSelected });
+      viewModel.setShowCatInput(false);
+      setTitle(null);
+    } else {
+      viewModel.setShowCatInput(false);
+    }
   };
 
   // UseEffects
@@ -96,6 +111,7 @@ const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
             autoFocus
             maxLength={20}
             style={styles.input}
+            onChangeText={handleChange}
             placeholder="Category title"
           />
 
@@ -103,7 +119,7 @@ const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
             <XMarkIcon size={24} color={Colors.alerts.error} />
           </Pressable>
 
-          <Pressable style={styles.action}>
+          <Pressable onPress={handleSubmit} style={styles.action}>
             <CheckIcon size={24} color={Colors.alerts.check} />
           </Pressable>
         </View>

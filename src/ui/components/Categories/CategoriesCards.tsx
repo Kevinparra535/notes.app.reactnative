@@ -1,12 +1,19 @@
 // Librerias
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   CheckIcon,
   PencilSquareIcon,
   TrashIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline";
-import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  Alert,
+} from "react-native";
 
 // Contextos
 
@@ -15,6 +22,8 @@ import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
 // Screens
 
 // Componentes
+import { CategoriesViewModel } from "@/ui/screens/Categories/viewModel";
+import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
 
@@ -25,7 +34,6 @@ import Colors from "@/ui/styles/Colors";
 import Fonts from "@/ui/styles/Fonts";
 import Spacings from "@/ui/styles/Spacings";
 import { observer } from "mobx-react-lite";
-import { CategoriesViewModel } from "@/ui/screens/Categories/viewModel";
 
 // Tipado
 type Props = {
@@ -55,6 +63,7 @@ type Props = {
 const CategoriesCards: React.FC<Props> = observer(
   ({ uuid, title, color, viewModel }) => {
     // Estados
+    const [newTitle, setNewTitle] = useState<string | null>(title);
 
     // Contextos
 
@@ -63,11 +72,44 @@ const CategoriesCards: React.FC<Props> = observer(
     // Funciones
     const handleEdit = (id: string) => {
       viewModel.setCategoryId(id);
-      viewModel.setShowCatInput(false)
+      viewModel.setShowCatInput(false);
     };
 
     const handleClose = () => {
       viewModel.setCategoryId(null);
+      setNewTitle(title);
+    };
+
+    const handleDelete = () => {
+      Alert.alert(
+        TranslateHelper("alerts.categories.delete.title"),
+        TranslateHelper("alerts.categories.delete.message"),
+        [
+          {
+            style: "cancel",
+            text: TranslateHelper("alerts.notes.delete.cancel"),
+          },
+          {
+            onPress: () => viewModel.delete(uuid),
+            text: TranslateHelper("alerts.categories.delete.delete"),
+          },
+        ]
+      );
+    };
+
+    const handleSubmit = () => {
+      const data = {
+        title: newTitle || title,
+        color: color,
+      };
+
+      viewModel.update(data);
+      viewModel.setCategoryId(null);
+      setNewTitle(title);
+    };
+
+    const handleChange = (e: any) => {
+      setNewTitle(e);
     };
 
     // UseEffects
@@ -83,13 +125,18 @@ const CategoriesCards: React.FC<Props> = observer(
         {viewModel.categoryIdToEdit === uuid ? (
           <>
             <View style={styles.titleContainer}>
-              <Pressable style={styles.action}>
+              <Pressable onPress={handleDelete} style={styles.action}>
                 <TrashIcon size={24} color={Colors.alerts.error} />
               </Pressable>
 
               <View style={[styles.color, { backgroundColor: color }]}></View>
 
-              <TextInput style={styles.input} autoFocus defaultValue={title} />
+              <TextInput
+                autoFocus
+                value={newTitle!}
+                style={styles.input}
+                onChangeText={handleChange}
+              />
             </View>
 
             <View style={styles.actionsContainer}>
@@ -97,7 +144,7 @@ const CategoriesCards: React.FC<Props> = observer(
                 <XMarkIcon size={24} color={Colors.alerts.error} />
               </Pressable>
 
-              <Pressable>
+              <Pressable onPress={handleSubmit}>
                 <CheckIcon size={24} color={Colors.alerts.check} />
               </Pressable>
             </View>

@@ -54,6 +54,14 @@
         "cancel": "Cancel",
         "delete": "Delete"
       }
+    },
+    "categories": {
+      "delete": {
+        "title": "Are you sure?",
+        "message": "If you delete this categorie you will not be able to recover it.",
+        "cancel": "Cancel",
+        "delete": "Delete"
+      }
     }
   },
 
