@@ -57,22 +57,21 @@ const Categories: React.FC = observer(() => {
 
   // UseEffects
 
+  console.log(viewModel.categories)
+
   // Renders
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Categories" viewModel={viewModel} />
+      <CreateCategories viewModel={viewModel} />
 
       {viewModel.categories.status === "loading" && <Loader />}
 
       {viewModel.categories.status === "success" && (
-        <>
-          <CreateCategories viewModel={viewModel} />
-
-          <CategoriesList
-            viewModel={viewModel}
-            refresh={() => viewModel.refresh()}
-          />
-        </>
+        <CategoriesList
+          viewModel={viewModel}
+          refresh={() => viewModel.refresh()}
+        />
       )}
 
       {viewModel.categories.status === "error" && <Text>Error</Text>}

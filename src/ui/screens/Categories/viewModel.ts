@@ -1,29 +1,29 @@
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, makeAutoObservable, reaction, runInAction } from "mobx";
 
+import { GetCategories } from "@/domain/useCases/getCategories";
+import { CreateCategory } from "@/domain/useCases/createCategory";
+
+import { NetworkCategoryDatasource } from "@/data/network/NetworkCategoryDatasource";
+import { CategoryRepositoryImpl } from "@/data/repositories/CategoryRepositoryImpl";
+
+import { CategoryModel } from "@/data/models/CategoryModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
 
+import categoryStore from "@/ui/store/CategoryStore";
+
+
 export class CategoriesViewModel {
+  private getData: GetCategories;
+  private createCategory: CreateCategory;
+  private repositoryImpl: CategoryRepositoryImpl;
+  private datasource: NetworkCategoryDatasource =
+    NetworkCategoryDatasource.getInstance();
+
   public showCreateCatInput: boolean = false;
   public categoryIdToEdit: string | null = null;
-  public categories: ResponseModel<Array<any>> = {
-    status: "success",
-    data: [
-      {
-        title: "University",
-        color: "#F8C5C3",
-        uuid: "7YF7YfV8m3TyOa9fGo50",
-        notesId: ["QSHNAB5lTksdqEiKvsgy"],
-        userId: "8Fep2CK58qaNHIR1QucQ7TLFhmD3",
-      },
 
-      {
-        title: "Shopping",
-        color: "#B6D3E0",
-        uuid: "7YF7YfV8m3TyOa9fGo51",
-        notesId: ["QSHNAB5lTksdqEiKvsgy"],
-        userId: "8Fep2CK58qaNHIR1QucQ7TLFhmD3",
-      },
-    ],
+  public categories: ResponseModel<Array<CategoryModel>> = {
+    status: "loading",
   };
 
   constructor() {
@@ -32,7 +32,21 @@ export class CategoriesViewModel {
       setCategoryId: action,
     });
 
+    this.repositoryImpl = new CategoryRepositoryImpl(this.datasource);
+    this.getData = new GetCategories(this.repositoryImpl);
+    this.createCategory = new CreateCategory(this.repositoryImpl);
+
     this.fetchData();
+
+
+    reaction(
+      () => categoryStore.newCategory,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+        }
+      }
+    );
   }
 
   public setShowCatInput(status: boolean) {
@@ -47,14 +61,26 @@ export class CategoriesViewModel {
     this.categories = data;
   }
 
-  private async fetchData() {}
+  private async fetchData(): Promise<void> {
+    const result: ResponseModel<Array<CategoryModel>> = await this.getData.execute();
+    this.setData(result);
+  }
 
   public refresh(): void {
     this.fetchData();
   }
 
-  public create(data: Record<string, string>) {
-    console.log("NEW CATEGORY", data);
+  public async create(data: Record<string, string>) {
+    try {
+      const response = await this.createCategory.execute(data);
+
+      runInAction(() => {
+        categoryStore.setNewCategory(true);
+      });
+
+    } catch (error) {
+      console.log("CreateCategoryViewModel.create.error:", error);
+    }
   }
 
   public update(data: Record<string, string>) {
