@@ -19,6 +19,31 @@ import { ResponseModel } from "../models/ResponseModel";
 export class CategoryService {
   private collectionName: string = "categories";
 
+  async delete(id: string): Promise<void> {
+    const ref = doc(db, this.collectionName, id);
+    await deleteDoc(ref);
+  }
+
+  async getById(noteId: string): Promise<Category> {
+    return new Promise((resolve, reject) => {
+      const unsub = onSnapshot(
+        doc(db, this.collectionName, noteId),
+        (docSnap) => {
+          if (docSnap.exists()) {
+            const data: Category = docSnap.data() as Category;
+            resolve(data);
+
+            unsub();
+          } else {
+            reject(new Error("Category not found"));
+
+            unsub();
+          }
+        }
+      );
+    });
+  }
+
   async fetchAll(): Promise<ResponseModel<Array<Category>>> {
     const user = auth.currentUser;
 
@@ -85,25 +110,5 @@ export class CategoryService {
       updatedAt: serverTimestamp(),
     };
     await updateDoc(catgoryRef, updatedData);
-  }
-
-  async getById(noteId: string): Promise<Category> {
-    return new Promise((resolve, reject) => {
-      const unsub = onSnapshot(
-        doc(db, this.collectionName, noteId),
-        (docSnap) => {
-          if (docSnap.exists()) {
-            const data: Category = docSnap.data() as Category;
-            resolve(data);
-
-            unsub();
-          } else {
-            reject(new Error("Category not found"));
-
-            unsub();
-          }
-        }
-      );
-    });
   }
 }

@@ -61,7 +61,7 @@
       "error": "Something has happened.",
       "delete": {
         "title": "Are you sure?",
-        "message": "If you delete this categorie you will not be able to recover it.",
+        "message": "If you delete this category you will not be able to recover it.",
         "cancel": "Cancel",
         "delete": "Delete"
       }
@@ -106,6 +106,15 @@
         "error": "Error adding a note.",
         "success": "Note added to favorites.",
         "removed": "Note removed from favorites."
+      }
+    },
+    "categories": {
+      "update": {
+        "error": "Error syncing the category."
+      },
+      "delete": {
+        "error": "Error deleting a category.",
+        "success": "category successfully deleted!"
       }
     }
   }

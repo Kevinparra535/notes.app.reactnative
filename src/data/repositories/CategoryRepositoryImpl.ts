@@ -5,6 +5,14 @@ import { NetworkCategoryDatasource } from "../network/NetworkCategoryDatasource"
 export class CategoryRepositoryImpl {
   constructor(private datasource: NetworkCategoryDatasource) {}
 
+  async getById(id: string): Promise<Category> {
+    return this.datasource.getById(id);
+  }
+
+  async delete(id: string): Promise<void> {
+    return this.datasource.delete(id);
+  }
+
   async getAll(): Promise<ResponseModel<Array<Category>>> {
     return this.datasource.getAll();
   }
@@ -15,9 +23,5 @@ export class CategoryRepositoryImpl {
 
   async update(id: string, data: Record<string, any>): Promise<void> {
     this.datasource.update(id, data);
-  }
-
-  async getById(id: string): Promise<Category> {
-    return this.datasource.getById(id);
   }
 }

@@ -107,6 +107,17 @@
         "success": "Nota añadida a favoritos.",
         "removed": "Nota eliminada de favoritos."
       }
+    },
+
+    "categories": {
+      "update": {
+        "error": "Error al sincronizar la categoria."
+      },
+
+      "delete": {
+        "error": "Error al eliminar una categoria.",
+        "success": "¡Categoria eliminada exitosamente!"
+      }
     }
   }
 }

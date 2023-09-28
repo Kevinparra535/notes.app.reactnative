@@ -1,7 +1,12 @@
 import { action, makeAutoObservable, reaction, runInAction } from "mobx";
+import Toast from "react-native-root-toast";
+
 
 import { GetCategories } from "@/domain/useCases/getCategories";
 import { CreateCategory } from "@/domain/useCases/createCategory";
+import { DeleteCategory } from "@/domain/useCases/deleteCategory";
+import { UpdateCategory } from "@/domain/useCases/updateCategory";
+
 
 import { NetworkCategoryDatasource } from "@/data/network/NetworkCategoryDatasource";
 import { CategoryRepositoryImpl } from "@/data/repositories/CategoryRepositoryImpl";
@@ -9,14 +14,12 @@ import { CategoryRepositoryImpl } from "@/data/repositories/CategoryRepositoryIm
 import { CategoryModel } from "@/data/models/CategoryModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
 
-import categoryStore from "@/ui/store/CategoryStore";
-import { debounce } from "@/ui/utils/Deboucing";
-import { UpdateCategory } from "@/domain/useCases/updateCategory";
-import Toast from "react-native-root-toast";
 import { TranslateHelper } from "@/ui/i18n";
+import categoryStore from "@/ui/store/CategoryStore";
 
 export class CategoriesViewModel {
   private getData: GetCategories;
+  private deleteCategory: DeleteCategory;
   private createCategory: CreateCategory;
   private updateCategory: UpdateCategory;
   private repositoryImpl: CategoryRepositoryImpl;
@@ -47,6 +50,7 @@ export class CategoriesViewModel {
     this.getData = new GetCategories(this.repositoryImpl);
     this.createCategory = new CreateCategory(this.repositoryImpl);
     this.updateCategory = new UpdateCategory(this.repositoryImpl);
+    this.deleteCategory = new DeleteCategory(this.repositoryImpl);
 
     this.fetchData();
 
@@ -86,16 +90,28 @@ export class CategoriesViewModel {
     this.fetchData();
   }
 
-  public delete(uuid: string): void {
-    console.log("DELETE CATEGORIE", uuid);
-  }
-
   public setShowCatInput(status: boolean) {
     this.showCreateCatInput = status;
   }
 
   public setCategoryId(id: string | null) {
     this.categoryIdToEdit = id;
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      await this.deleteCategory.execute(id);
+
+      this.setToastMessage(TranslateHelper("messages.categories.delete.success"));
+
+      runInAction(() => {
+        this.fetchData()
+        categoryStore.setCategoryUpdated(true);
+      });
+    } catch (error) {
+      console.log("CategoriesViewModel.setfavoritesNote.error:", error);
+      this.setToastMessage(TranslateHelper("messages.categories.delete.error"));
+    }
   }
 
   private async fetchData(): Promise<void> {

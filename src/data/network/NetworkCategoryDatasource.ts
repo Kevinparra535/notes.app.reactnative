@@ -12,6 +12,14 @@ export class NetworkCategoryDatasource implements CategoryRepository {
     this.service = new CategoryService();
   }
 
+  async delete(id: string): Promise<void> {
+    return this.service.delete(id);
+  }
+
+  async getById(id: string): Promise<Category> {
+    return this.service.getById(id);
+  }
+
   public getAll(): Promise<ResponseModel<Array<Category>>> {
     return this.service.fetchAll();
   }
@@ -22,10 +30,6 @@ export class NetworkCategoryDatasource implements CategoryRepository {
 
   async update(id: string, data: Record<string, any>): Promise<void> {
     this.service.update(id, data);
-  }
-
-  async getById(id: string): Promise<Category> {
-   return this.service.getById(id);
   }
 
   public static getInstance(): NetworkCategoryDatasource {
