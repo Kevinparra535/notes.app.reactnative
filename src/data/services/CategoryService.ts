@@ -74,4 +74,36 @@ export class CategoryService {
 
     return docRef.id;
   }
+
+  async update(categoryId: string, data: Record<string, any>): Promise<void> {
+    const user = auth.currentUser;
+
+    const catgoryRef = doc(db, this.collectionName, categoryId);
+    const updatedData = {
+      ...data,
+      userId: user?.uid,
+      updatedAt: serverTimestamp(),
+    };
+    await updateDoc(catgoryRef, updatedData);
+  }
+
+  async getById(noteId: string): Promise<Category> {
+    return new Promise((resolve, reject) => {
+      const unsub = onSnapshot(
+        doc(db, this.collectionName, noteId),
+        (docSnap) => {
+          if (docSnap.exists()) {
+            const data: Category = docSnap.data() as Category;
+            resolve(data);
+
+            unsub();
+          } else {
+            reject(new Error("Category not found"));
+
+            unsub();
+          }
+        }
+      );
+    });
+  }
 }

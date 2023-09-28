@@ -99,13 +99,13 @@ const CategoriesCards: React.FC<Props> = observer(
 
     const handleSubmit = () => {
       const data = {
-        title: newTitle || title,
+        title: newTitle ?? title,
         color: color,
       };
 
       viewModel.update(data);
       viewModel.setCategoryId(null);
-      setNewTitle(title);
+      // setNewTitle(title);
     };
 
     const handleChange = (e: any) => {

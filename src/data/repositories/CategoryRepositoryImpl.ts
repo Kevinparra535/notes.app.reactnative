@@ -12,4 +12,12 @@ export class CategoryRepositoryImpl {
   async create(data: Record<string, string>): Promise<string> {
     return this.datasource.create(data);
   }
+
+  async update(id: string, data: Record<string, any>): Promise<void> {
+    this.datasource.update(id, data);
+  }
+
+  async getById(id: string): Promise<Category> {
+    return this.datasource.getById(id);
+  }
 }

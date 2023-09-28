@@ -20,6 +20,14 @@ export class NetworkCategoryDatasource implements CategoryRepository {
     return this.service.create(data);
   }
 
+  async update(id: string, data: Record<string, any>): Promise<void> {
+    this.service.update(id, data);
+  }
+
+  async getById(id: string): Promise<Category> {
+   return this.service.getById(id);
+  }
+
   public static getInstance(): NetworkCategoryDatasource {
     if (!this.instance) {
       this.instance = new NetworkCategoryDatasource();

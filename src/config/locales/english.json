@@ -56,6 +56,9 @@
       }
     },
     "categories": {
+      "create": "Synchronizing categories.",
+      "update": "Updating categories.",
+      "error": "Something has happened.",
       "delete": {
         "title": "Are you sure?",
         "message": "If you delete this categorie you will not be able to recover it.",

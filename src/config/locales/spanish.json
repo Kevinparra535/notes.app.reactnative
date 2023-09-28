@@ -56,6 +56,9 @@
       }
     },
     "categories": {
+      "create": "Sincronizando categorias.",
+      "update": "Actualizando categorias.",
+      "error": " Algo ha salido mal.",
       "delete": {
         "title": "¿Estás seguro?",
         "message": "Si eliminas esta categoria, no podrás recuperarla.",

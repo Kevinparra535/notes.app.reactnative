@@ -1,8 +1,8 @@
 // Librerias
-import CategoriesCards from "@/ui/components/Categories/CategoriesCards";
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { StyleSheet, FlatList } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Contextos
 
@@ -12,7 +12,7 @@ import { StyleSheet, FlatList } from "react-native";
 
 // Componentes
 import ListNotesEmpty from "@/ui/components/Notes/ListNotesEmpty";
-import { ResponseModel } from "@/data/models/ResponseModel";
+import CategoriesCards from "@/ui/components/Categories/CategoriesCards";
 
 // Navigations
 
@@ -60,22 +60,29 @@ const CategoriesList: React.FC<Props> = observer(({ viewModel, refresh }) => {
 
   // Renders
   return (
-    <FlatList
-      onRefresh={refresh}
-      data={viewModel.categories.data}
-      style={styles.container}
-      keyExtractor={(item) => item.uuid}
-      ListEmptyComponent={ListNotesEmpty}
-      refreshing={viewModel.categories.status === "loading"}
-      renderItem={({ item }) => (
-        <CategoriesCards
-          uuid={item.uuid}
-          title={item.title}
-          color={item.color}
-          viewModel={viewModel}
-        />
-      )}
-    />
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      extraHeight={100}
+      viewIsInsideTabBar
+      extraScrollHeight={100}
+    >
+      <FlatList
+        onRefresh={refresh}
+        style={styles.container}
+        data={viewModel.categories.data}
+        keyExtractor={(item) => item.uuid}
+        ListEmptyComponent={ListNotesEmpty}
+        refreshing={viewModel.categories.status === "loading"}
+        renderItem={({ item }) => (
+          <CategoriesCards
+            uuid={item.uuid}
+            title={item.title}
+            color={item.color}
+            viewModel={viewModel}
+          />
+        )}
+      />
+    </KeyboardAwareScrollView>
   );
 });
 

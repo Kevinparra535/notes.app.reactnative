@@ -57,7 +57,6 @@ const Categories: React.FC = observer(() => {
 
   // UseEffects
 
-  console.log(viewModel.categories)
 
   // Renders
   return (

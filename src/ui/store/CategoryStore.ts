@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
 
 class CategoryStore {
-  categoryUpdated = false;
   newCategory = false;
+  categoryUpdated = false;
 
   constructor() {
     makeAutoObservable(this);
