@@ -73,6 +73,7 @@ const CategoriesCards: React.FC<Props> = observer(
     const handleEdit = (id: string) => {
       viewModel.setCategoryId(id);
       viewModel.setShowCatInput(false);
+      viewModel.setColor(color)
     };
 
     const handleClose = () => {
@@ -100,16 +101,19 @@ const CategoriesCards: React.FC<Props> = observer(
     const handleSubmit = () => {
       const data = {
         title: newTitle ?? title,
-        color: color,
+        color: viewModel.colorSelected ?? color,
       };
 
       viewModel.update(data);
       viewModel.setCategoryId(null);
-      // setNewTitle(title);
     };
 
     const handleChange = (e: any) => {
       setNewTitle(e);
+    };
+
+    const handleModal = () => {
+      viewModel.setModalVisible(true);
     };
 
     // UseEffects
@@ -129,7 +133,16 @@ const CategoriesCards: React.FC<Props> = observer(
                 <TrashIcon size={24} color={Colors.alerts.error} />
               </Pressable>
 
-              <View style={[styles.color, { backgroundColor: color }]}></View>
+              <Pressable
+                onPress={handleModal}
+                style={[
+                  styles.color,
+                  {
+                    borderWidth: 0.5,
+                    backgroundColor: viewModel.colorSelected ?? color,
+                  },
+                ]}
+              ></Pressable>
 
               <TextInput
                 autoFocus
@@ -152,7 +165,14 @@ const CategoriesCards: React.FC<Props> = observer(
         ) : (
           <>
             <View style={styles.titleContainer}>
-              <View style={[styles.color, { backgroundColor: color }]}></View>
+              <View
+                style={[
+                  styles.color,
+                  {
+                    backgroundColor: color,
+                  },
+                ]}
+              ></View>
               <Text style={styles.title}>{title}</Text>
             </View>
 

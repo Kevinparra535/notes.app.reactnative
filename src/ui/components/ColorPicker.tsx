@@ -1,13 +1,8 @@
 // Librerias
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import ColorPicker, {
-  Panel1,
-  Swatches,
-  Preview,
-  OpacitySlider,
-  HueSlider,
-} from "reanimated-color-picker";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { observer } from "mobx-react-lite";
+import ColorPicker, { Swatches } from "reanimated-color-picker";
 
 // Contextos
 
@@ -16,8 +11,9 @@ import ColorPicker, {
 // Screens
 
 // Componentes
-import { COLORS_PICKER } from "@/ui/constants/Colors.type";
 import Spacings from "@/ui/styles/Spacings";
+import { COLORS_PICKER } from "@/ui/constants/Colors.type";
+import { CategoriesViewModel } from "../screens/Categories/viewModel";
 
 // Navigations
 
@@ -27,8 +23,7 @@ import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
 type Props = {
-  actualColor: string;
-  onColorChange: (id: string, value: string) => void;
+  viewModel: CategoriesViewModel;
 };
 
 /**
@@ -48,7 +43,7 @@ type Props = {
  * @beta
  */
 
-const ColorsPicker = ({ actualColor, onColorChange }: Props): JSX.Element => {
+const ColorsPicker = observer(({ viewModel }: Props) => {
   // Estados
 
   // Contextos
@@ -57,7 +52,7 @@ const ColorsPicker = ({ actualColor, onColorChange }: Props): JSX.Element => {
 
   // Funciones
   const onSelectColor = ({ hex }: { hex: string }) => {
-    onColorChange("color", hex);
+    viewModel.setColor(hex);
   };
 
   // UseEffects
@@ -65,14 +60,14 @@ const ColorsPicker = ({ actualColor, onColorChange }: Props): JSX.Element => {
   // Renders
   return (
     <ColorPicker
-      value={actualColor}
       style={styles.container}
       onComplete={onSelectColor}
+      value={viewModel.colorSelected}
     >
       <Swatches colors={COLORS_PICKER} swatchStyle={styles.spot} />
     </ColorPicker>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

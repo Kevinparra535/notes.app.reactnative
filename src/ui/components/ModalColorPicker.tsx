@@ -1,6 +1,7 @@
 // Librerias
 import React from "react";
-import { View, Text, StyleSheet, Modal, Pressable } from "react-native";
+import { View, StyleSheet, Modal, Pressable } from "react-native";
+import { observer } from "mobx-react-lite";
 import { XCircleIcon } from "react-native-heroicons/outline";
 
 // Contextos
@@ -11,7 +12,8 @@ import { XCircleIcon } from "react-native-heroicons/outline";
 
 // Componentes
 import { Translate } from "@/ui/i18n";
-import ColorsPicker from "@/ui/components/Notes/ColorPicker";
+import ColorsPicker from "@/ui/components/ColorPicker";
+import { CategoriesViewModel } from "../screens/Categories/viewModel";
 
 // Navigations
 
@@ -24,9 +26,7 @@ import Spacings from "@/ui/styles/Spacings";
 
 // Tipado
 type Props = {
-  visible: boolean;
-  onRequestClose: () => void;
-  onColorChange: (id: string, value: string) => void;
+  viewModel: CategoriesViewModel;
 };
 
 /**
@@ -46,11 +46,7 @@ type Props = {
  * @beta
  */
 
-const ModalColorPicker = ({
-  visible,
-  onColorChange,
-  onRequestClose,
-}: Props): JSX.Element => {
+const ModalColorPicker: React.FC<Props> = observer(({ viewModel }: Props) => {
   // Estados
 
   // Contextos
@@ -58,12 +54,19 @@ const ModalColorPicker = ({
   // Hooks
 
   // Funciones
+  const onRequestClose = () => {
+    viewModel.setModalVisible(false);
+  };
 
   // UseEffects
 
   // Renders
   return (
-    <Modal transparent={true} visible={visible} onRequestClose={onRequestClose}>
+    <Modal
+      transparent={true}
+      visible={viewModel.modalIsVisible}
+      onRequestClose={onRequestClose}
+    >
       <View style={styles.modalContent}>
         <View style={styles.titleContainer}>
           <Translate langkey="colorPicker.title" style={styles.title} />
@@ -71,17 +74,17 @@ const ModalColorPicker = ({
             <XCircleIcon color={Colors.oscuro} size={22} />
           </Pressable>
         </View>
-        <ColorsPicker onColorChange={onColorChange} actualColor="#ffffff" />
+        <ColorsPicker viewModel={viewModel} />
       </View>
     </Modal>
   );
-};
+});
 
 const styles = StyleSheet.create({
   modalContent: {
     position: "absolute",
     bottom: 0,
-    height: "30%",
+    height: "22%",
     width: "100%",
     borderTopRightRadius: Spacings.spacex2,
     borderTopLeftRadius: Spacings.spacex2,
@@ -93,11 +96,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.claro,
   },
   titleContainer: {
+    paddingVertical: Spacings.space,
     paddingHorizontal: Spacings.spacex2,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    height: "16%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,

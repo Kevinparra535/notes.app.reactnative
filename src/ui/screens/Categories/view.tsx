@@ -14,9 +14,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CategoriesViewModel } from "./viewModel";
 
 // Componentes
+import Loader from "@/ui/components/Loader";
 import Header from "@/ui/components/Header";
 import CategoriesList from "./components/CategoriesList";
-import Loader from "@/ui/components/Loader";
+import ModalColorPicker from "@/ui/components/ModalColorPicker";
 
 // Navigations
 
@@ -57,7 +58,6 @@ const Categories: React.FC = observer(() => {
 
   // UseEffects
 
-
   // Renders
   return (
     <SafeAreaView style={styles.container}>
@@ -67,10 +67,14 @@ const Categories: React.FC = observer(() => {
       {viewModel.categories.status === "loading" && <Loader />}
 
       {viewModel.categories.status === "success" && (
-        <CategoriesList
-          viewModel={viewModel}
-          refresh={() => viewModel.refresh()}
-        />
+        <>
+          <CategoriesList
+            viewModel={viewModel}
+            refresh={() => viewModel.refresh()}
+          />
+
+          <ModalColorPicker viewModel={viewModel} />
+        </>
       )}
 
       {viewModel.categories.status === "error" && <Text>Error</Text>}

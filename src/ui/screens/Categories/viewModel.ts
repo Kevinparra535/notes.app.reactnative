@@ -1,12 +1,10 @@
 import { action, makeAutoObservable, reaction, runInAction } from "mobx";
 import Toast from "react-native-root-toast";
 
-
 import { GetCategories } from "@/domain/useCases/getCategories";
 import { CreateCategory } from "@/domain/useCases/createCategory";
 import { DeleteCategory } from "@/domain/useCases/deleteCategory";
 import { UpdateCategory } from "@/domain/useCases/updateCategory";
-
 
 import { NetworkCategoryDatasource } from "@/data/network/NetworkCategoryDatasource";
 import { CategoryRepositoryImpl } from "@/data/repositories/CategoryRepositoryImpl";
@@ -27,14 +25,10 @@ export class CategoriesViewModel {
     NetworkCategoryDatasource.getInstance();
 
   private toastMessage: any;
+  public modalIsVisible: boolean = false;
+  public colorSelected: string = "#F4D5B6";
   public showCreateCatInput: boolean = false;
   public categoryIdToEdit: string | null = null;
-
-  public error: unknown = null;
-  public isLoading: boolean = true;
-  public isSyncing: boolean = false;
-  public syncError: string | null = null;
-  public lastSynced: { seconds: number; nanoseconds: number } | null = null;
 
   public categories: ResponseModel<Array<CategoryModel>> = {
     status: "loading",
@@ -42,8 +36,10 @@ export class CategoriesViewModel {
 
   constructor() {
     makeAutoObservable(this, {
+      setColor: action,
       setCategoryId: action,
       setShowCatInput: action,
+      setModalVisible: action
     });
 
     this.repositoryImpl = new CategoryRepositoryImpl(this.datasource);
@@ -73,6 +69,26 @@ export class CategoriesViewModel {
     );
   }
 
+  public refresh(): void {
+    this.fetchData();
+  }
+
+  public setColor(value: string) {
+    this.colorSelected = value;
+  }
+
+  public setModalVisible(value: boolean) {
+    this.modalIsVisible = value;
+  }
+
+  public setShowCatInput(status: boolean) {
+    this.showCreateCatInput = status;
+  }
+
+  public setCategoryId(id: string | null) {
+    this.categoryIdToEdit = id;
+  }
+
   private setToastMessage(message: string) {
     this.toastMessage = Toast.show(message, {
       duration: Toast.durations.SHORT,
@@ -86,26 +102,16 @@ export class CategoriesViewModel {
     }, Toast.durations.SHORT);
   }
 
-  public refresh(): void {
-    this.fetchData();
-  }
-
-  public setShowCatInput(status: boolean) {
-    this.showCreateCatInput = status;
-  }
-
-  public setCategoryId(id: string | null) {
-    this.categoryIdToEdit = id;
-  }
-
   async delete(id: string): Promise<void> {
     try {
       await this.deleteCategory.execute(id);
 
-      this.setToastMessage(TranslateHelper("messages.categories.delete.success"));
+      this.setToastMessage(
+        TranslateHelper("messages.categories.delete.success")
+      );
 
       runInAction(() => {
-        this.fetchData()
+        this.fetchData();
         categoryStore.setCategoryUpdated(true);
       });
     } catch (error) {

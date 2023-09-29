@@ -22,7 +22,7 @@ import NoteHeader from "@/ui/components/Notes/NoteHeader";
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
 import { useFocusEffect } from "@react-navigation/native";
-import ModalColorPicker from "@/ui/components/Notes/ModalColorPicker";
+import ModalColorPicker from "@/ui/components/ModalColorPicker";
 import RootStoreContext from "@/ui/context/RootStoreContext";
 
 // Tipado

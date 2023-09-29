@@ -18,7 +18,7 @@ import NoteBody from "@/ui/components/Notes/NoteBody";
 // Componentes
 import Loader from "@/ui/components/Loader";
 import NoteHeader from "@/ui/components/Notes/NoteHeader";
-import ModalColorPicker from "../../components/Notes/ModalColorPicker";
+import ModalColorPicker from "../../components/ModalColorPicker";
 
 // Navigations
 
@@ -89,10 +89,6 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
     viewModel.setfavoritesNote({ pin: !viewModel.note?.pin });
   };
 
-  const handleSetColor = (id: string, value: string) => {
-    viewModel.setNewColorNote({ [id]: value });
-  };
-
   useEffect(() => {
     if (isFocused) navigation.setParams({ hideTabBar: true });
   }, [isFocused, navigation]);
@@ -108,22 +104,13 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
       viewModel={viewModel}
       deleteNotes={handleDeleteNote}
       setfavoritesNote={handleSetFavorite}
-      setModalIsVisible={() => setModalIsVisible(!modalIsVisible)}
     >
-      <>
-        <NoteBody
-          color={viewModel.note?.color}
-          title={viewModel.note?.title}
-          onChangeText={handleTextChange}
-          content={viewModel.note?.content}
-        />
-
-        <ModalColorPicker
-          visible={modalIsVisible}
-          onColorChange={handleSetColor}
-          onRequestClose={() => setModalIsVisible(!modalIsVisible)}
-        />
-      </>
+      <NoteBody
+        color={viewModel.note?.color}
+        title={viewModel.note?.title}
+        onChangeText={handleTextChange}
+        content={viewModel.note?.content}
+      />
     </NoteHeader>
   );
 });

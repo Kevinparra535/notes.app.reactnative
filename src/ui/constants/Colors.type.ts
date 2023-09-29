@@ -13,9 +13,4 @@ export const COLORS_PICKER: Array<string> = [
   "#ADD8E6",
   "#80CBC4",
   "#AED9E0",
-  "#B2DFDB",
-  "#B3E5FC",
-  "#FFC1E1",
-  "#D1C4E9",
-  "#C5CAE9",
 ];

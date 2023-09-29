@@ -1,16 +1,8 @@
 // Librerias
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import { observer } from "mobx-react-lite";
 import { CheckIcon, PlusIcon, XMarkIcon } from "react-native-heroicons/outline";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 // Contextos
 
@@ -19,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 // Screens
 
 // Componentes
+import { CategoriesViewModel } from "@/ui/screens/Categories/viewModel";
 
 // Navigations
 
@@ -28,8 +21,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Fonts from "@/ui/styles/Fonts";
 import Colors from "@/ui/styles/Colors";
 import Spacings from "@/ui/styles/Spacings";
-import { CategoriesViewModel } from "@/ui/screens/Categories/viewModel";
-import { observer } from "mobx-react-lite";
 
 // Tipado
 type Props = {
@@ -56,7 +47,6 @@ type Props = {
 const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
   // Estados
   const [title, setTitle] = useState<string | null>(null);
-  const [colorSelected, setColorSelected] = useState("#F4D5B6");
 
   // Contextos
 
@@ -66,6 +56,7 @@ const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
   const handleButton = () => {
     viewModel.setShowCatInput(true);
     viewModel.setCategoryId(null);
+    viewModel.setColor("#F4D5B6");
   };
 
   const handleClose = () => {
@@ -78,12 +69,16 @@ const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
 
   const handleSubmit = () => {
     if (title) {
-      viewModel.create({ title, color: colorSelected });
+      viewModel.create({ title, color: viewModel.colorSelected });
       viewModel.setShowCatInput(false);
       setTitle(null);
     } else {
       viewModel.setShowCatInput(false);
     }
+  };
+
+  const handleModal = () => {
+    viewModel.setModalVisible(true);
   };
 
   // UseEffects
@@ -104,7 +99,8 @@ const CreateCategories: React.FC<Props> = observer(({ viewModel }) => {
       ) : (
         <View style={styles.inputContainer}>
           <Pressable
-            style={[styles.color, { backgroundColor: colorSelected }]}
+            onPress={handleModal}
+            style={[styles.color, { backgroundColor: viewModel.colorSelected }]}
           ></Pressable>
 
           <TextInput
@@ -170,6 +166,7 @@ const styles = StyleSheet.create({
     marginRight: Spacings.space,
     width: 24,
     height: 24,
+    borderWidth: 0.5,
     borderRadius: Spacings.spacehalf,
     backgroundColor: "black",
   },

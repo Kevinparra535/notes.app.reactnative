@@ -39,7 +39,6 @@ type Props = {
   color?: string;
   deleteNotes?: () => void;
   showLastTimeEdited?: boolean;
-  setModalIsVisible?: () => void;
   setfavoritesNote?: () => void;
   viewModel: NotesDetailsViewModel | CreateNotesViewModel;
 };
@@ -68,7 +67,6 @@ const NoteHeader = ({
   viewModel,
   deleteNotes,
   setfavoritesNote,
-  setModalIsVisible,
   showLastTimeEdited,
 }: Props): JSX.Element => {
   // Estados
@@ -81,7 +79,7 @@ const NoteHeader = ({
 
   // Funciones
   const handleBackPress = () => {
-    navigation.goBack()
+    navigation.goBack();
     // navigation.navigate({
     //   name: "Notes",
     //   merge: true,
@@ -105,10 +103,6 @@ const NoteHeader = ({
           </Pressable>
 
           <View style={{ flexDirection: "row" }}>
-            <Pressable style={styles.actions} onPress={setModalIsVisible}>
-              <SwatchIcon size={24} color={Colors.oscuro} />
-            </Pressable>
-
             {mode === "edit" && (
               <Pressable style={styles.actions} onPress={() => null}>
                 <FolderArrowDownIcon size={24} color={Colors.oscuro} />
