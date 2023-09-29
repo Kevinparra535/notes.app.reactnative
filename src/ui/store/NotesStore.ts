@@ -4,6 +4,8 @@ class NotesStore {
   noteUpdated = false;
   noteAddedFavorite = false
   newNoteCreated = false;
+  categoryAdded = false
+
 
   constructor() {
     makeAutoObservable(this);
@@ -19,6 +21,10 @@ class NotesStore {
 
   setNoteAddedFavorite(status: boolean) {
     this.noteAddedFavorite = status;
+  }
+
+  setCategoryAdded(status: boolean) {
+    this.categoryAdded = status;
   }
 }
 

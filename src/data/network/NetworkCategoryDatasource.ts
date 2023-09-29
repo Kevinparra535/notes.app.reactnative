@@ -32,6 +32,10 @@ export class NetworkCategoryDatasource implements CategoryRepository {
     this.service.update(id, data);
   }
 
+  async addTagsToNotes(id: string, tags: Array<string>): Promise<void> {
+    this.service.addTagsToNotes(id, tags);
+  }
+
   public static getInstance(): NetworkCategoryDatasource {
     if (!this.instance) {
       this.instance = new NetworkCategoryDatasource();

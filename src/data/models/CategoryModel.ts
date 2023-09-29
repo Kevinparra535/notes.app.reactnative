@@ -5,7 +5,6 @@ export interface CategoryModel {
   title: string;
   userId: string;
   color: string;
-  notesId: Array<string>;
   updatedAt: timeStamp;
   createdAt: timeStamp;
 }

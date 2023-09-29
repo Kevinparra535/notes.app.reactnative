@@ -1,10 +1,11 @@
 // Librerias
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { StyleSheet } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
+import { useFocusEffect } from "@react-navigation/native";
 
 // Contextos
+import RootStoreContext from "@/ui/context/RootStoreContext";
 
 // Hooks
 
@@ -21,9 +22,6 @@ import NoteHeader from "@/ui/components/Notes/NoteHeader";
 
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
-import { useFocusEffect } from "@react-navigation/native";
-import ModalColorPicker from "@/ui/components/ModalColorPicker";
-import RootStoreContext from "@/ui/context/RootStoreContext";
 
 // Tipado
 
@@ -51,7 +49,6 @@ const CreateNotes: React.FC = observer(() => {
 
   // Estados
   const [viewModel] = useState(() => new CreateNotesViewModel(userId));
-  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   // Contextos
 
@@ -77,7 +74,6 @@ const CreateNotes: React.FC = observer(() => {
       showLastTimeEdited
       viewModel={viewModel}
       color={viewModel.newNoteContent.color}
-      setModalIsVisible={() => setModalIsVisible(!modalIsVisible)}
     >
       <>
         <NoteBody
@@ -85,12 +81,6 @@ const CreateNotes: React.FC = observer(() => {
           title={viewModel.note?.title}
           onChangeText={handleTextChange}
           content={viewModel.note?.content}
-        />
-
-        <ModalColorPicker
-          visible={modalIsVisible}
-          onColorChange={handleTextChange}
-          onRequestClose={() => setModalIsVisible(!modalIsVisible)}
         />
       </>
     </NoteHeader>

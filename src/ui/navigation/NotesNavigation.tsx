@@ -7,12 +7,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Hooks
 
 // Screens
+import AssignCategories from "../screens/AssignCategories";
+import Notes from "../screens/Notes";
+import NotesDetails from "../screens/NotesDetails";
 
 // Componentes
 
 // Navigations
-import Notes from "../screens/Notes";
-import NotesDetails from "../screens/NotesDetails";
 
 // Imagenes
 
@@ -54,6 +55,7 @@ const NotesNavigation = ({ navigation, route }: Props): JSX.Element => {
           headerShown: false,
         }}
       />
+
       <Stack.Screen
         name="NotesDetails"
         component={NotesDetails}
@@ -68,6 +70,14 @@ const NotesNavigation = ({ navigation, route }: Props): JSX.Element => {
             navigation.setParams({ hideTabBar: undefined });
           },
         })}
+      />
+
+      <Stack.Screen
+        name="AssignCategories"
+        component={AssignCategories}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

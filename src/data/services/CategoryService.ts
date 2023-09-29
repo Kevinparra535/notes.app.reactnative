@@ -18,6 +18,7 @@ import { ResponseModel } from "../models/ResponseModel";
 
 export class CategoryService {
   private collectionName: string = "categories";
+  private collectionNotesName: string = "notes";
 
   async delete(id: string): Promise<void> {
     const ref = doc(db, this.collectionName, id);
@@ -110,5 +111,14 @@ export class CategoryService {
       updatedAt: serverTimestamp(),
     };
     await updateDoc(catgoryRef, updatedData);
+  }
+
+  async addTagsToNotes(noteId: string, tags: Array<string>): Promise<void> {
+    const noteRef = doc(db, this.collectionNotesName, noteId);
+    const updatedData = {
+      tags: tags,
+      updatedAt: serverTimestamp(),
+    };
+    await updateDoc(noteRef, updatedData);
   }
 }

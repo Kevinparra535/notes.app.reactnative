@@ -24,4 +24,8 @@ export class CategoryRepositoryImpl {
   async update(id: string, data: Record<string, any>): Promise<void> {
     this.datasource.update(id, data);
   }
+
+  async addTagsToNotes(id: string, tags: Array<string>): Promise<void> {
+    this.datasource.addTagsToNotes(id, tags);
+  }
 }

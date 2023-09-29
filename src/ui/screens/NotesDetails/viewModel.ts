@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import Toast from "react-native-root-toast";
 
 import Note from "@/domain/entities/Note";
@@ -23,7 +23,7 @@ export class NotesDetailsViewModel {
   private datasource: NetworkNoteDatasource =
     NetworkNoteDatasource.getInstance();
 
-  private noteId: string;
+  public noteId: string;
   public error: unknown = null;
   public isLoading: boolean = true;
   public isSyncing: boolean = false;
@@ -40,6 +40,16 @@ export class NotesDetailsViewModel {
     this.getNoteById = new GetNoteById(this.noteRepositoryImpl);
     this.updateNoteContent = new UpdateNoteContent(this.noteRepositoryImpl);
     this.deleteNote = new DeleteNote(this.noteRepositoryImpl);
+
+    reaction(
+      () => notesStore.categoryAdded,
+      (newVal) => {
+        if (newVal) {
+          this.fetchNote();
+          notesStore.setCategoryAdded(false);
+        }
+      }
+    );
 
     this.fetchNote();
   }

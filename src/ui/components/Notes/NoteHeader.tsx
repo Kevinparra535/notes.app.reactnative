@@ -86,6 +86,16 @@ const NoteHeader = ({
     // });
   };
 
+  const handleCategories = () => {
+    if (viewModel instanceof NotesDetailsViewModel) {
+      const tags = viewModel.note?.tags;
+      navigation.navigate("AssignCategories", {
+        noteId: viewModel.noteId,
+        tags,
+      });
+    }
+  };
+
   // UseEffects
 
   // Renders
@@ -104,29 +114,31 @@ const NoteHeader = ({
 
           <View style={{ flexDirection: "row" }}>
             {mode === "edit" && (
-              <Pressable style={styles.actions} onPress={() => null}>
-                <FolderArrowDownIcon size={24} color={Colors.oscuro} />
-              </Pressable>
-            )}
+              <>
+                <Pressable style={styles.actions} onPress={() => null}>
+                  <FolderArrowDownIcon size={24} color={Colors.oscuro} />
+                </Pressable>
 
-            <Pressable style={styles.actions} onPress={() => null}>
-              <RectangleStackIcon size={24} color={Colors.oscuro} />
-            </Pressable>
+                <Pressable onPress={handleCategories} style={styles.actions}>
+                  <RectangleStackIcon size={24} color={Colors.oscuro} />
+                </Pressable>
 
-            <Pressable style={styles.actions} onPress={setfavoritesNote}>
-              <StarIcon
-                size={24}
-                color={Colors.oscuro}
-                fill={
-                  viewModel.note?.pin ? Colors.variants.three : "transparent"
-                }
-              />
-            </Pressable>
+                <Pressable style={styles.actions} onPress={setfavoritesNote}>
+                  <StarIcon
+                    size={24}
+                    color={Colors.oscuro}
+                    fill={
+                      viewModel.note?.pin
+                        ? Colors.variants.three
+                        : "transparent"
+                    }
+                  />
+                </Pressable>
 
-            {mode === "edit" && (
-              <Pressable style={styles.actions} onPress={deleteNotes}>
-                <TrashIcon size={24} color={Colors.oscuro} />
-              </Pressable>
+                <Pressable style={styles.actions} onPress={deleteNotes}>
+                  <TrashIcon size={24} color={Colors.oscuro} />
+                </Pressable>
+              </>
             )}
           </View>
         </View>

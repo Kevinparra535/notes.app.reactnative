@@ -1,5 +1,5 @@
 // Librerias
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   CheckIcon,
   PencilSquareIcon,
@@ -23,6 +23,7 @@ import {
 
 // Componentes
 import { CategoriesViewModel } from "@/ui/screens/Categories/viewModel";
+import { AssignCategoriesViewModel } from "@/ui/screens/AssignCategories/viewModel";
 import { TranslateHelper } from "@/ui/i18n";
 
 // Navigations
@@ -40,7 +41,7 @@ type Props = {
   uuid: string;
   title: string;
   color: string;
-  viewModel: CategoriesViewModel;
+  viewModel: CategoriesViewModel | AssignCategoriesViewModel;
 };
 
 /**
@@ -71,31 +72,37 @@ const CategoriesCards: React.FC<Props> = observer(
 
     // Funciones
     const handleEdit = (id: string) => {
-      viewModel.setCategoryId(id);
-      viewModel.setShowCatInput(false);
-      viewModel.setColor(color)
+      if (viewModel instanceof CategoriesViewModel) {
+        viewModel.setCategoryId(id);
+        viewModel.setShowCatInput(false);
+        viewModel.setColor(color);
+      }
     };
 
     const handleClose = () => {
-      viewModel.setCategoryId(null);
-      setNewTitle(title);
+      if (viewModel instanceof CategoriesViewModel) {
+        viewModel.setCategoryId(null);
+        setNewTitle(title);
+      }
     };
 
     const handleDelete = () => {
-      Alert.alert(
-        TranslateHelper("alerts.categories.delete.title"),
-        TranslateHelper("alerts.categories.delete.message"),
-        [
-          {
-            style: "cancel",
-            text: TranslateHelper("alerts.notes.delete.cancel"),
-          },
-          {
-            onPress: () => viewModel.delete(uuid),
-            text: TranslateHelper("alerts.categories.delete.delete"),
-          },
-        ]
-      );
+      if (viewModel instanceof CategoriesViewModel) {
+        Alert.alert(
+          TranslateHelper("alerts.categories.delete.title"),
+          TranslateHelper("alerts.categories.delete.message"),
+          [
+            {
+              style: "cancel",
+              text: TranslateHelper("alerts.notes.delete.cancel"),
+            },
+            {
+              onPress: () => viewModel.delete(uuid),
+              text: TranslateHelper("alerts.categories.delete.delete"),
+            },
+          ]
+        );
+      }
     };
 
     const handleSubmit = () => {
@@ -104,8 +111,10 @@ const CategoriesCards: React.FC<Props> = observer(
         color: viewModel.colorSelected ?? color,
       };
 
-      viewModel.update(data);
-      viewModel.setCategoryId(null);
+      if (viewModel instanceof CategoriesViewModel) {
+        viewModel.update(data);
+        viewModel.setCategoryId(null);
+      }
     };
 
     const handleChange = (e: any) => {
@@ -113,7 +122,8 @@ const CategoriesCards: React.FC<Props> = observer(
     };
 
     const handleModal = () => {
-      viewModel.setModalVisible(true);
+      if (viewModel instanceof CategoriesViewModel)
+        viewModel.setModalVisible(true);
     };
 
     // UseEffects

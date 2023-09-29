@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 
 // Componentes
 import { CategoriesViewModel } from "../screens/Categories/viewModel";
+import { AssignCategoriesViewModel } from "../screens/AssignCategories/viewModel";
 
 // Navigations
 
@@ -25,7 +26,7 @@ import Spacings from "../styles/Spacings";
 // Tipado
 type Props = {
   title: string;
-  viewModel?: CategoriesViewModel;
+  viewModel?: CategoriesViewModel | AssignCategoriesViewModel;
 };
 
 /**
@@ -55,8 +56,10 @@ const Header = ({ title, viewModel }: Props): JSX.Element => {
 
   // Funciones
   const handleGoBack = () => {
-    viewModel?.setShowCatInput(false)
-    viewModel?.setCategoryId(null)
+    if (viewModel instanceof CategoriesViewModel) {
+      viewModel?.setShowCatInput(false);
+      viewModel?.setCategoryId(null);
+    }
     navigation.goBack();
   };
 
