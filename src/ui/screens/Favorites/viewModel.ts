@@ -35,6 +35,16 @@ export class FavoritesViewModel {
       }
     );
 
+    reaction(
+      () => notesStore.noteUpdated,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+          notesStore.setNoteUpdated(false);
+        }
+      }
+    );
+
     this.fetchNote();
   }
 
@@ -58,6 +68,16 @@ export class FavoritesViewModel {
         if (newVal) {
           this.refresh();
           notesStore.setNoteAddedFavorite(false);
+        }
+      }
+    );
+
+    reaction(
+      () => notesStore.noteUpdated,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+          notesStore.setNoteUpdated(false);
         }
       }
     );

@@ -16,106 +16,57 @@ import {
 import Note from "@/domain/entities/Note";
 import { ResponseModel } from "../models/ResponseModel";
 import { NotesCacheManager } from "@/ui/store/NotesCacheManager";
+import { CategoryService } from "./CategoryService";
+import Category from "@/domain/entities/Category";
 
 export class NotesService {
   private cacheManager = new NotesCacheManager();
   private collectionName: string = "notes";
+  private categoryService = new CategoryService();
 
   async fetchAllNotes(): Promise<ResponseModel<Array<Note>>> {
-    const user = auth.currentUser;
-
-    // const cacheKey = "all-notes";
-
-    // if (this.cacheManager.has(cacheKey)) {
-    //   return { status: "success", data: this.cacheManager.get(cacheKey) };
-    // }
-
-    // const formatedResponse: Array<Note> = [];
-
-    // try {
-    //   const notesCol = collection(db, this.collectionName);
-    //   const q = query(notesCol, orderBy("updated", "desc"));
-
-    //   const docs = await getDocs(q);
-
-    //   docs.forEach((doc: { id: string; data: () => any }) => {
-    //     formatedResponse.push({ uuid: doc.id, ...doc.data() });
-    //   });
-
-    //   // this.cacheManager.set(cacheKey, formatedResponse);
-
-    //   return { status: "success", data: formatedResponse };
-    // } catch (error: any) {
-    //   return { status: "error", error: error.message };
-    // }
-
-    return new Promise((resolve, reject) => {
-      const formatedResponse: Array<Note> = [];
-      const notesCol = collection(db, this.collectionName);
+    return this.fetchNotes((user) => {
       const q = query(
-        notesCol,
+        collection(db, this.collectionName),
         where("userId", "==", user?.uid),
         orderBy("updatedAt", "desc")
       );
-
-      // Set up the listener
-      const unsub = onSnapshot(
-        q,
-        (snapshot) => {
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added" || change.type === "modified") {
-              const docData: any = {
-                uuid: change.doc.id,
-                ...change.doc.data(),
-              };
-              formatedResponse.push(docData);
-            }
-            if (change.type === "removed") {
-              const indexToRemove = formatedResponse.findIndex(
-                (item) => item.uuid === change.doc.id
-              );
-              if (indexToRemove !== -1) {
-                formatedResponse.splice(indexToRemove, 1);
-              }
-            }
-          });
-          resolve({ status: "success", data: formatedResponse });
-        },
-        (error) => {
-          reject({ status: "error", error: error.message });
-        }
-      );
-
-      return unsub;
+      return q;
     });
   }
 
   async fetchFavoritesNotes(): Promise<ResponseModel<Array<Note>>> {
-    const user = auth.currentUser;
-
-    return new Promise((resolve, reject) => {
-      const formatedResponse: Array<Note> = [];
-      const notesCol = collection(db, this.collectionName);
+    return this.fetchNotes((user) => {
       const q = query(
-        notesCol,
+        collection(db, this.collectionName),
         where("userId", "==", user?.uid),
         where("pin", "==", true),
         orderBy("updatedAt", "desc")
       );
+      return q;
+    });
+  }
 
-      // Set up the listener
-      const unsub = onSnapshot(
-        q,
-        (snapshot) => {
-          snapshot.docChanges().forEach((change) => {
+  private async fetchNotes(
+    queryBuilder: (user: any) => any
+  ): Promise<ResponseModel<Array<Note>>> {
+    const user = auth.currentUser;
+
+    return new Promise((resolve, reject) => {
+      const formatedResponse: Array<Note> = [];
+      const q = queryBuilder(user);
+
+      const handleSnapshot = (snapshot: any) => {
+        snapshot.docChanges().forEach(async (change: any) => {
+          try {
             if (change.type === "added" || change.type === "modified") {
-              const docData: any = {
-                uuid: change.doc.id,
+              const docData: Note = {
                 ...change.doc.data(),
+                uuid: change.doc.id,
+                tags: await this.getCategoriesForNotes(change.doc.data().tags),
               };
               formatedResponse.push(docData);
-            }
-            if (change.type === "removed") {
+            } else if (change.type === "removed") {
               const indexToRemove = formatedResponse.findIndex(
                 (item) => item.uuid === change.doc.id
               );
@@ -123,13 +74,16 @@ export class NotesService {
                 formatedResponse.splice(indexToRemove, 1);
               }
             }
-          });
-          resolve({ status: "success", data: formatedResponse });
-        },
-        (error) => {
-          reject({ status: "error", error: error.message });
-        }
-      );
+            resolve({ status: "success", data: formatedResponse });
+          } catch (error) {
+            console.log("ERROR EN EL SERVICIO: FETCH ALL NOTES");
+          }
+        });
+      };
+
+      const unsub = onSnapshot(q, handleSnapshot, (error) => {
+        reject({ status: "error", error: error.message });
+      });
 
       return unsub;
     });
@@ -156,11 +110,9 @@ export class NotesService {
           if (docSnap.exists()) {
             const noteData: Note = docSnap.data() as Note;
             resolve(noteData);
-
             unsub();
           } else {
             reject(new Error("Note not found"));
-
             unsub();
           }
         }
@@ -184,5 +136,21 @@ export class NotesService {
   async deleteNote(noteId: string): Promise<void> {
     const notesRef = doc(db, this.collectionName, noteId);
     await deleteDoc(notesRef);
+  }
+
+  async getCategoriesForNotes(categoryIds: Array<string>): Promise<Array<any>> {
+    return Promise.all(
+      categoryIds.map(async (categoryId) => {
+        try {
+          const response = await this.categoryService.getById(categoryId);
+          return { ...response, uuid: categoryId };
+        } catch (error: any) {
+          console.error(
+            `Error retrieving category with ID ${categoryId}: ${error.message}`
+          );
+          return null;
+        }
+      })
+    );
   }
 }

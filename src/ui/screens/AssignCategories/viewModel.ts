@@ -71,10 +71,11 @@ export class AssignCategoriesViewModel {
 
         runInAction(() => {
           this.refresh();
+          notesStore.setNoteUpdated(true);
           notesStore.setCategoryAdded(true);
+          notesStore.setNoteAddedFavorite(true)
         });
 
-        console.log("SET CATEGOIRES: ", this.noteId, this.categoriesSelected);
       }
     } catch (error) {
       console.log("ERROR AL ANADIR LAS CATEGORIAS", error);

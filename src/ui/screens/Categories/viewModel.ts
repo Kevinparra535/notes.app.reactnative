@@ -14,6 +14,7 @@ import { ResponseModel } from "@/data/models/ResponseModel";
 
 import { TranslateHelper } from "@/ui/i18n";
 import categoryStore from "@/ui/store/CategoryStore";
+import notesStore from "@/ui/store/NotesStore";
 
 export class CategoriesViewModel {
   private getData: GetCategories;
@@ -112,6 +113,7 @@ export class CategoriesViewModel {
 
       runInAction(() => {
         this.fetchData();
+        notesStore.setNoteUpdated(true);
         categoryStore.setCategoryUpdated(true);
       });
     } catch (error) {

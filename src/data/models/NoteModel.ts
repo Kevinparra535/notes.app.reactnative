@@ -1,3 +1,5 @@
+import Category from "@/domain/entities/Category";
+
 export type timeStamp = { seconds: number; nanoseconds: number };
 
 export interface NoteModel {
@@ -10,7 +12,7 @@ export interface NoteModel {
   isSyncing?: boolean;
   lastSynced?: Date;
   syncError?: string;
-  tags: Array<string | number>;
+  tags?: Array<Category>;
   updatedAt: timeStamp;
   createdAt: timeStamp;
 }

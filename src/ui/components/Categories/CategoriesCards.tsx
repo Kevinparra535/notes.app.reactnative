@@ -41,7 +41,7 @@ type Props = {
   uuid: string;
   title: string;
   color: string;
-  viewModel: CategoriesViewModel | AssignCategoriesViewModel;
+  viewModel: CategoriesViewModel;
 };
 
 /**

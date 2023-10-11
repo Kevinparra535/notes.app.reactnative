@@ -75,14 +75,12 @@ const CreateNotes: React.FC = observer(() => {
       viewModel={viewModel}
       color={viewModel.newNoteContent.color}
     >
-      <>
-        <NoteBody
-          color={viewModel.newNoteContent.color}
-          title={viewModel.note?.title}
-          onChangeText={handleTextChange}
-          content={viewModel.note?.content}
-        />
-      </>
+      <NoteBody
+        color={viewModel.newNoteContent.color}
+        title={viewModel.note?.title}
+        onChangeText={handleTextChange}
+        content={viewModel.note?.content}
+      />
     </NoteHeader>
   );
 });

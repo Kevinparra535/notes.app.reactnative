@@ -70,6 +70,7 @@ const FavoritesList = ({ viewModel, refresh }: Props): JSX.Element => {
           uuid={item.uuid}
           title={item.title}
           color={item.color}
+          tags={item.tags}
           content={item.content}
         />
       )}

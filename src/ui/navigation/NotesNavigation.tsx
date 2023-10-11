@@ -78,6 +78,14 @@ const NotesNavigation = ({ navigation, route }: Props): JSX.Element => {
         options={{
           headerShown: false,
         }}
+        listeners={() => ({
+          focus: () => {
+            navigation.setParams({ hideTabBar: true });
+          },
+          beforeRemove: () => {
+            navigation.setParams({ hideTabBar: undefined });
+          },
+        })}
       />
     </Stack.Navigator>
   );

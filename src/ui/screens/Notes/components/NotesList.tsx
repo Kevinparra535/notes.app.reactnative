@@ -90,6 +90,7 @@ const NotesList = ({
       renderItem={({ item }) => (
         <NotesCards
           uuid={item.uuid}
+          tags={item.tags}
           title={item.title}
           color={item.color}
           content={item.content}

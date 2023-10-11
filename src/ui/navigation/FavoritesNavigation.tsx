@@ -9,8 +9,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Screens
 import Favorites from "../screens/Favorites";
-import Notes from "../screens/Notes";
 import NotesDetails from "../screens/NotesDetails";
+import AssignCategories from "../screens/AssignCategories";
 
 // Componentes
 
@@ -82,6 +82,22 @@ const FavoritesNavigation = ({ navigation, route }: Props): JSX.Element => {
         options={{
           headerShown: false,
           animation: "simple_push",
+        }}
+        listeners={() => ({
+          focus: () => {
+            navigation.setParams({ hideTabBar: true });
+          },
+          beforeRemove: () => {
+            navigation.setParams({ hideTabBar: undefined });
+          },
+        })}
+      />
+
+      <Stack.Screen
+        name="AssignCategories"
+        component={AssignCategories}
+        options={{
+          headerShown: false,
         }}
         listeners={() => ({
           focus: () => {

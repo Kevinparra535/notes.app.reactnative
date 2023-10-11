@@ -56,11 +56,12 @@ const Header = ({ title, viewModel }: Props): JSX.Element => {
 
   // Funciones
   const handleGoBack = () => {
+    navigation.goBack();
+
     if (viewModel instanceof CategoriesViewModel) {
       viewModel?.setShowCatInput(false);
       viewModel?.setCategoryId(null);
     }
-    navigation.goBack();
   };
 
   // UseEffects

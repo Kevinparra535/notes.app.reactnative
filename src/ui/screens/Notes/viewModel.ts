@@ -120,6 +120,7 @@ export class NotesViewModel {
       (newVal) => {
         if (newVal) {
           this.refresh();
+          notesStore.setNoteAddedFavorite(false)
         }
       }
     );

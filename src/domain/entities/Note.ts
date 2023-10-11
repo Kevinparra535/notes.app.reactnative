@@ -1,4 +1,5 @@
 import { NoteModel, timeStamp } from "@/data/models/NoteModel";
+import Category from "./Category";
 
 export interface NoteProps extends NoteModel {}
 
@@ -12,7 +13,7 @@ class Note {
   public isSyncing: boolean;
   public lastSynced: Date | null;
   public syncError: string | null;
-  public tags: Array<string | number>;
+  public tags: Array<Category>;
   public updatedAt: timeStamp;
   public createdAt: timeStamp;
 

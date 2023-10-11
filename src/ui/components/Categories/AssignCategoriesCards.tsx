@@ -61,7 +61,6 @@ const AssignCategoriesCards: React.FC<Props> = observer(
     };
 
     // UseEffects
-    console.log("RENDER: ", viewModel.categoriesSelected);
 
     // Renders
     return (

@@ -1,6 +1,6 @@
 // Librerias
 import Colors from "@/ui/styles/Colors";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";

@@ -1,6 +1,6 @@
 // Librerias
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 // Contextos
@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 // Hooks
 
 // Componentes
+import Category from "@/domain/entities/Category";
 
 // Imagenes
 
@@ -31,9 +32,15 @@ import Fonts from "@/ui/styles/Fonts";
  * @beta
  */
 
-type Props = { title: string; content: string; uuid: string; color: string };
+type Props = {
+  title: string;
+  content: string;
+  uuid: string;
+  color: string;
+  tags?: Array<Category>;
+};
 
-const NotesCards = ({ title, content, uuid, color }: Props) => {
+const NotesCards = ({ title, content, uuid, color, tags }: Props) => {
   // Estados
 
   // Contextos
@@ -46,6 +53,14 @@ const NotesCards = ({ title, content, uuid, color }: Props) => {
     navigation.navigate("NotesDetails", { id: uuid });
   };
 
+  const TagsCard = ({ title, color }: { title: string; color: string }) => {
+    return (
+      <View style={[styles.tags, { backgroundColor: color }]}>
+        <Text style={styles.tagsText}>{title}</Text>
+      </View>
+    );
+  };
+
   // UseEffects
 
   // Renders
@@ -54,7 +69,7 @@ const NotesCards = ({ title, content, uuid, color }: Props) => {
       onPress={handlePress}
       style={[styles.card, { backgroundColor: color }]}
     >
-      {title && (
+      {title !== null && (
         <View style={styles.cardHeader}>
           <Text style={styles.title} numberOfLines={2}>
             {title}
@@ -62,7 +77,7 @@ const NotesCards = ({ title, content, uuid, color }: Props) => {
         </View>
       )}
 
-      {content && (
+      {content !== null && (
         <View style={styles.cardBody}>
           <Text style={styles.content} numberOfLines={3}>
             {content}
@@ -76,7 +91,18 @@ const NotesCards = ({ title, content, uuid, color }: Props) => {
         </View>
       )}
 
-      <View style={styles.cardFooter}>{/* <Text>Tags</Text> */}</View>
+      <FlatList
+        horizontal
+        data={tags}
+        scrollEnabled={false}
+        style={styles.cardFooter}
+        ListEmptyComponent={<View />}
+        keyExtractor={(item) => item.uuid}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <TagsCard title={item.title} color={item.color} />
+        )}
+      />
     </Pressable>
   );
 };
@@ -137,8 +163,22 @@ const styles = StyleSheet.create({
   },
 
   cardFooter: {
+    paddingTop: Spacings.spacehalf,
     flex: 1,
-    alignItems: "flex-end",
+    flexDirection: "row-reverse",
+  },
+
+  tags: {
+    paddingVertical: Spacings.spacehalf,
+    paddingHorizontal: Spacings.space,
+    borderRadius: Spacings.spacehalf,
+    marginLeft: Spacings.spacehalf,
+    backgroundColor: Colors.variants.one,
+  },
+
+  tagsText: {
+    ...Fonts.bodyText,
+    fontSize: 12,
   },
 });
 
