@@ -6,10 +6,13 @@ import {
   where,
   addDoc,
   orderBy,
+  getDocs,
   updateDoc,
   deleteDoc,
   collection,
+  writeBatch,
   onSnapshot,
+  arrayRemove,
   serverTimestamp,
 } from "@/config/firebaseConfig";
 
@@ -22,7 +25,12 @@ export class CategoryService {
 
   async delete(id: string): Promise<void> {
     const ref = doc(db, this.collectionName, id);
+
+    // Elimina la categoría
     await deleteDoc(ref);
+
+    // Llama a la función para eliminar la categoría de las notas relacionadas
+    await this.removeCategoryFromNotes(id);
   }
 
   async getById(noteId: string): Promise<Category> {
@@ -120,5 +128,25 @@ export class CategoryService {
       updatedAt: serverTimestamp(),
     };
     await updateDoc(noteRef, updatedData);
+  }
+
+  async removeCategoryFromNotes(categoryId: string): Promise<void> {
+    const q = query(
+      collection(db, this.collectionNotesName),
+      where("tags", "array-contains", categoryId)
+    );
+
+    const notesSnapshot = await getDocs(q);
+
+    const batch = writeBatch(db);
+
+    notesSnapshot.forEach((noteDoc) => {
+      const noteRef = doc(db, this.collectionNotesName, noteDoc.id);
+      batch.update(noteRef, {
+        tags: arrayRemove(categoryId), // Usamos `arrayRemove` para quitar la categoría de la matriz de etiquetas
+      });
+    });
+
+    await batch.commit();
   }
 }

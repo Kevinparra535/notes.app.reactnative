@@ -25,6 +25,7 @@ exports.onDeleteCategory = functions.firestore
 
       // Elimina la categoría de las notas relacionadas
       const batch = admin.firestore().batch();
+
       snapshot.forEach((doc) => {
         const noteRef = notesRef.doc(doc.id);
         batch.update(noteRef, {

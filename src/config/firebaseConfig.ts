@@ -26,6 +26,8 @@ import {
   onSnapshot,
   getFirestore,
   serverTimestamp,
+  writeBatch,
+  arrayRemove,
 } from "firebase/firestore";
 
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -76,6 +78,8 @@ export {
   collection,
   storageRef,
   onSnapshot,
+  writeBatch,
+  arrayRemove,
   getFirestore,
   updateProfile,
   getDownloadURL,
