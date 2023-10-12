@@ -64,7 +64,7 @@ const ColorsPicker = observer(({ viewModel }: Props) => {
       onComplete={onSelectColor}
       value={viewModel.colorSelected}
     >
-      <Swatches colors={COLORS_PICKER} swatchStyle={styles.spot} />
+      <Swatches style={styles.swatches} colors={COLORS_PICKER} swatchStyle={styles.spot} />
     </ColorPicker>
   );
 });
@@ -75,11 +75,15 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 
+  swatches: {
+    justifyContent: 'space-around'
+  },
+
   spot: {
     width: 40,
     height: 40,
-    borderWidth: 1,
-    borderRadius: 100,
+    borderWidth: 0.5,
+    borderRadius: 8,
   },
 });
 

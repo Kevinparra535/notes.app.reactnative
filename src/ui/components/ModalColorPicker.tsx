@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   modalContent: {
     position: "absolute",
     bottom: 0,
-    height: "22%",
+    height: "auto",
     width: "100%",
     borderTopRightRadius: Spacings.spacex2,
     borderTopLeftRadius: Spacings.spacex2,

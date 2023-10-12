@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     marginTop: Spacings.space,
     alignItems: "center",
     justifyContent: "center",
+    minHeight: 50,
     borderRadius: Spacings.spacehalf,
     borderWidth: 1,
   },

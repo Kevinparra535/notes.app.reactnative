@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: Spacings.space,
     width: "100%",
+    minHeight: 50,
     borderRadius: Spacings.spacehalf,
     borderWidth: 1,
   },

@@ -301,6 +301,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacings.spacex2,
     alignItems: "center",
     justifyContent: "center",
+    minHeight: 50,
     borderRadius: Spacings.spacehalf,
     borderWidth: 1,
   },

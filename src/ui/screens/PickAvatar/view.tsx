@@ -96,7 +96,7 @@ const PickAvatar: React.FC<Props> = observer(({ navigation }) => {
       <View style={{ alignItems: "center", width: "100%" }}>
         <Pressable onPress={handlePickAvatar} style={styles.buttons}>
           {viewModel.isLoading ? (
-            <ActivityIndicator size="small" color={Colors.claro} />
+            <ActivityIndicator size="small" color={Colors.oscuro} />
           ) : (
             <Translate
               langkey="pickavatar.button"
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: Spacings.spacehalf,
     borderWidth: 1,
+    minHeight: 50,
   },
 
   buttonsLabel: {
