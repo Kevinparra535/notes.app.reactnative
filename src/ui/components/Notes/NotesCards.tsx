@@ -69,7 +69,7 @@ const NotesCards = ({ title, content, uuid, color, tags }: Props) => {
       onPress={handlePress}
       style={[styles.card, { backgroundColor: color }]}
     >
-      {title !== null && (
+      {title && (
         <View style={styles.cardHeader}>
           <Text style={styles.title} numberOfLines={2}>
             {title}
@@ -77,7 +77,7 @@ const NotesCards = ({ title, content, uuid, color, tags }: Props) => {
         </View>
       )}
 
-      {content !== null && (
+      {content && (
         <View style={styles.cardBody}>
           <Text style={styles.content} numberOfLines={3}>
             {content}
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   cardEmpty: {
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "flex-start",
     flexDirection: "row",
   },
