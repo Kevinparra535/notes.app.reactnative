@@ -45,6 +45,7 @@ type Props = {
 
 const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
   // Estados
+  const [height, setHeight] = useState(50);
 
   // Contextos
 
@@ -59,7 +60,7 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
     <TextInput
       multiline
       inputMode="text"
-      style={styles.input}
+      style={[styles.input, { height: Math.max(35, height) }]}
       defaultValue={value}
       scrollEnabled={false}
       keyboardType="default"
@@ -69,6 +70,7 @@ const ContentInput = ({ value, onChangeText }: Props): JSX.Element => {
       autoFocus={!value ? true : false}
       placeholder={TranslateHelper("input.content")}
       onChangeText={(value) => onChangeText("content", value)}
+      onContentSizeChange={(e) => setHeight(e.nativeEvent.contentSize.height)}
     />
   );
 };
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     flexWrap: "wrap",
-    height: '100%',
+    minHeight: 50,
     ...Fonts.inputsNormal,
   },
 });
