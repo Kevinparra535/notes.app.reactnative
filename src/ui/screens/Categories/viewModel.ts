@@ -40,7 +40,7 @@ export class CategoriesViewModel {
       setColor: action,
       setCategoryId: action,
       setShowCatInput: action,
-      setModalVisible: action
+      setModalVisible: action,
     });
 
     this.repositoryImpl = new CategoryRepositoryImpl(this.datasource);
@@ -49,13 +49,12 @@ export class CategoriesViewModel {
     this.updateCategory = new UpdateCategory(this.repositoryImpl);
     this.deleteCategory = new DeleteCategory(this.repositoryImpl);
 
-    this.fetchData();
-
     reaction(
       () => categoryStore.newCategory,
       (newVal) => {
         if (newVal) {
           this.refresh();
+          categoryStore.setNewCategory(false);
         }
       }
     );
@@ -65,9 +64,12 @@ export class CategoriesViewModel {
       (newVal) => {
         if (newVal) {
           this.refresh();
+          categoryStore.setCategoryUpdated(false);
         }
       }
     );
+
+    this.fetchData();
   }
 
   public refresh(): void {
@@ -114,6 +116,7 @@ export class CategoriesViewModel {
       runInAction(() => {
         this.fetchData();
         notesStore.setNoteUpdated(true);
+        notesStore.setNoteAddedFavorite(true);
         categoryStore.setCategoryUpdated(true);
       });
     } catch (error) {
@@ -141,6 +144,8 @@ export class CategoriesViewModel {
       runInAction(() => {
         this.fetchData();
         categoryStore.setNewCategory(true);
+        notesStore.setNoteUpdated(true);
+        notesStore.setNoteAddedFavorite(true);
       });
     } catch (error) {
       console.log("CreateCategoryViewModel.create.error:", error);
@@ -156,8 +161,10 @@ export class CategoriesViewModel {
         this.setToastMessage(TranslateHelper("alerts.categories.update"));
 
         runInAction(() => {
-          this.fetchData();
+          this.refresh();
+          notesStore.setNoteUpdated(true);
           categoryStore.setCategoryUpdated(true);
+          notesStore.setNoteAddedFavorite(true);
         });
       } catch (error) {
         console.log("CategoriesViewModel.setfavoritesNote.error:", error);

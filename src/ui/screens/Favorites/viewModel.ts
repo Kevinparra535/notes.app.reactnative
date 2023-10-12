@@ -9,6 +9,7 @@ import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
 
 import notesStore from "@/ui/store/NotesStore";
+import categoryStore from "@/ui/store/CategoryStore";
 
 export class FavoritesViewModel {
   private getNotes: GetFavoritesNotes;
@@ -41,6 +42,16 @@ export class FavoritesViewModel {
         if (newVal) {
           this.refresh();
           notesStore.setNoteUpdated(false);
+        }
+      }
+    );
+
+    reaction(
+      () => categoryStore.categoryUpdated,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+          categoryStore.setCategoryUpdated(false);
         }
       }
     );

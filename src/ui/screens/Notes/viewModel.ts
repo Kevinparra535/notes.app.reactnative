@@ -13,6 +13,8 @@ import { NoteModel } from "@/data/models/NoteModel";
 import { ResponseModel } from "@/data/models/ResponseModel";
 
 import notesStore from "@/ui/store/NotesStore";
+import categoryStore from "@/ui/store/CategoryStore";
+
 import { debounce } from "@/ui/utils/Deboucing";
 
 export class NotesViewModel {
@@ -43,7 +45,7 @@ export class NotesViewModel {
       (newVal) => {
         if (newVal) {
           this.refresh();
-          notesStore.setNewNoteCreated(false);
+          notesStore.setNewNoteCreated(false)
         }
       }
     );
@@ -63,6 +65,16 @@ export class NotesViewModel {
       (newVal) => {
         if (newVal) {
           this.refresh();
+        }
+      }
+    );
+
+    reaction(
+      () => categoryStore.categoryUpdated,
+      (newVal) => {
+        if (newVal) {
+          this.refresh();
+          categoryStore.setCategoryUpdated(false);
         }
       }
     );
@@ -90,20 +102,11 @@ export class NotesViewModel {
       await this.getNotes.execute();
 
     this.setNotes(result);
+
   }
 
   public refresh(): void {
     this.fetchNote();
-
-    reaction(
-      () => notesStore.newNoteCreated,
-      (newVal) => {
-        if (newVal) {
-          this.refresh();
-          notesStore.setNewNoteCreated(false);
-        }
-      }
-    );
 
     reaction(
       () => notesStore.noteUpdated,
@@ -138,6 +141,7 @@ export class NotesViewModel {
         );
 
         runInAction(() => {
+          this.refresh();
           notesStore.setNoteAddedFavorite(true);
         });
       } catch (error) {

@@ -28,7 +28,6 @@ export class CreateNotesViewModel {
     title: "",
     content: "",
     userId: "",
-    color: "#FFFFFF",
   };
 
   constructor(userId: string) {
@@ -77,8 +76,7 @@ export class CreateNotesViewModel {
   async saveAndCreateNewNote() {
     if (this.newNoteContent.title || this.newNoteContent.content) {
       try {
-        const response = await this.createNote.execute(this.newNoteContent);
-        console.log("CreateNotesViewModel.saveAndCreateNewNote: ", response);
+        await this.createNote.execute(this.newNoteContent);
         runInAction(() => {
           this.newNoteContent.title = "";
           this.newNoteContent.content = "";
@@ -89,10 +87,6 @@ export class CreateNotesViewModel {
         console.log("CreateNotesViewModel.handleNoteChange.error:", error);
         this.setSyncError(TranslateHelper("messages.notes.update.error"));
       }
-    }
-
-    if (!this.newNoteContent.title && this.newNoteContent.color !== "#FFFF") {
-      this.newNoteContent.color = "#FFFFFF";
     }
   }
 }
