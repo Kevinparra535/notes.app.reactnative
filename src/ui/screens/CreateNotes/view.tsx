@@ -69,14 +69,8 @@ const CreateNotes: React.FC = observer(() => {
 
   // Renders
   return (
-    <NoteHeader
-      mode="create"
-      showLastTimeEdited
-      viewModel={viewModel}
-      color={viewModel.newNoteContent.color}
-    >
+    <NoteHeader mode="create" showLastTimeEdited viewModel={viewModel}>
       <NoteBody
-        color={viewModel.newNoteContent.color}
         title={viewModel.note?.title}
         onChangeText={handleTextChange}
         content={viewModel.note?.content}

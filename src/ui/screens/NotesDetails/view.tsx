@@ -106,7 +106,6 @@ const NotesDetails: React.FC<Props> = observer(({ route, navigation }) => {
       setfavoritesNote={handleSetFavorite}
     >
       <NoteBody
-        color={viewModel.note?.color}
         title={viewModel.note?.title}
         onChangeText={handleTextChange}
         content={viewModel.note?.content}

@@ -23,7 +23,6 @@ export class CreateNotesViewModel {
   public syncError: string | null = null;
   public error: string | null | unknown = null;
 
-  public newNoteCreated: boolean = false;
   public newNoteContent = {
     title: "",
     content: "",
@@ -76,11 +75,11 @@ export class CreateNotesViewModel {
   async saveAndCreateNewNote() {
     if (this.newNoteContent.title || this.newNoteContent.content) {
       try {
-        await this.createNote.execute(this.newNoteContent);
+        const response = await this.createNote.execute(this.newNoteContent);
+        console.log("CreateNotesViewModel.saveAndCreateNewNote: ", response);
         runInAction(() => {
           this.newNoteContent.title = "";
           this.newNoteContent.content = "";
-          this.newNoteCreated = true;
           notesStore.setNewNoteCreated(true);
         });
       } catch (error) {

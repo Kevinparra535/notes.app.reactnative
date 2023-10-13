@@ -59,9 +59,7 @@ export class NotesService {
    * @param queryBuilder - A function that takes the current user as a parameter and returns a Firestore query.
    * @returns A Promise that resolves to a ResponseModel containing an array of Note objects.
    */
-  private async fetchNotes(
-    queryBuilder: (user: any) => any
-  ): Promise<ResponseModel<Array<Note>>> {
+  private async fetchNotes(queryBuilder: (user: any) => any): Promise<ResponseModel<Array<Note>>> {
     const user = auth.currentUser;
 
     return new Promise((resolve, reject) => {

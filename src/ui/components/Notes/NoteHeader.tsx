@@ -101,7 +101,7 @@ const NoteHeader = ({
   // Renders
   return (
     <>
-      <View style={{ flex: 1, paddingTop: insets.top }}>
+      <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: Colors.claro }}>
         <View
           style={[
             styles.header,

@@ -74,8 +74,6 @@ export class LoginViewModel {
       const response = await this.signInGoogle.execute();
       // this.setSynced();
 
-      console.log(response);
-
       if (response.errorCode) {
         this.setSyncError("Correo o contresena erroneos");
       }

@@ -24,10 +24,12 @@ import {
   updateDoc,
   collection,
   onSnapshot,
-  getFirestore,
-  serverTimestamp,
   writeBatch,
   arrayRemove,
+  getFirestore,
+  serverTimestamp,
+  QuerySnapshot,
+  DocumentSnapshot,
 } from "firebase/firestore";
 
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -82,10 +84,12 @@ export {
   arrayRemove,
   getFirestore,
   updateProfile,
+  QuerySnapshot,
   getDownloadURL,
   googleProvider,
   serverTimestamp,
   signInWithPopup,
+  DocumentSnapshot,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,

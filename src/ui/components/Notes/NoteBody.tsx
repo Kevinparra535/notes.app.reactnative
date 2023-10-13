@@ -19,10 +19,10 @@ import ContentInput from "../../components/Notes/ContentInput";
 
 // Estilos
 import Spacings from "@/ui/styles/Spacings";
+import Colors from "@/ui/styles/Colors";
 
 // Tipado
 type Props = {
-  color: string | undefined;
   title: string | undefined;
   content: string | undefined;
   onChangeText: (id: string, value: string) => void;
@@ -45,12 +45,7 @@ type Props = {
  * @beta
  */
 
-const NoteBody = ({
-  color,
-  title,
-  content,
-  onChangeText,
-}: Props): JSX.Element => {
+const NoteBody = ({ title, content, onChangeText }: Props): JSX.Element => {
   // Estados
 
   // Contextos
@@ -68,7 +63,7 @@ const NoteBody = ({
       extraHeight={100}
       viewIsInsideTabBar
       extraScrollHeight={100}
-      style={[styles.container, { backgroundColor: color }]}
+      style={[styles.container]}
     >
       <TitleInput value={title} onChangeText={onChangeText} />
       <ContentInput value={content} onChangeText={onChangeText} />
@@ -80,6 +75,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: Spacings.spacex2,
     flex: 1,
+    backgroundColor: Colors.claro
   },
 });
 

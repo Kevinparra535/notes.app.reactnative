@@ -45,7 +45,7 @@ export class NotesViewModel {
       (newVal) => {
         if (newVal) {
           this.refresh();
-          notesStore.setNewNoteCreated(false)
+          notesStore.setNewNoteCreated(false);
         }
       }
     );
@@ -101,8 +101,9 @@ export class NotesViewModel {
     const result: ResponseModel<Array<NoteModel>> =
       await this.getNotes.execute();
 
-    this.setNotes(result);
+    console.log(result);
 
+    this.setNotes(result);
   }
 
   public refresh(): void {
@@ -123,7 +124,7 @@ export class NotesViewModel {
       (newVal) => {
         if (newVal) {
           this.refresh();
-          notesStore.setNoteAddedFavorite(false)
+          notesStore.setNoteAddedFavorite(false);
         }
       }
     );
