@@ -19,7 +19,7 @@
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/devtools": "^6.0.19",
     "@react-navigation/drawer": "^6.6.3",
-    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
     "expo": "~49.0.7",
@@ -34,6 +34,7 @@
     "firebase": "^10.2.0",
     "i18n-js": "^4.3.0",
     "i18next": "^23.4.6",
+    "inversify": "^6.0.2",
     "lottie-react-native": "5.1.6",
     "make-plural": "^7.3.0",
     "mobx": "^6.10.0",
@@ -53,10 +54,12 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-swipe-list-view": "^3.2.9",
-    "reanimated-color-picker": "^2.3.4"
+    "reanimated-color-picker": "^2.3.4",
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/node": "^20.12.11",
     "@types/react": "~18.2.14",
     "react-native-dotenv": "^3.4.9",
     "typescript": "^5.1.3"
