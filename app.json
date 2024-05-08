@@ -2,7 +2,6 @@
   "expo": {
     "name": "notes.app.reactnative",
     "slug": "notesAppReactnative",
-    "main": "src/App.tsx",
     "githubUrl": "https://github.com/Kevinparra535/notes.app.reactnative",
     "version": "1.0.0",
     "orientation": "portrait",

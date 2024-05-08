@@ -14,7 +14,6 @@ import { GoogleSignin, statusCodes } from "@/config/googleConfig";
 import User from "@/domain/entities/User";
 import Session from "@/domain/entities/Session";
 
-
 export class AuthService {
   async checkSession(): Promise<User> {
     return new Promise((resolve, reject) => {
@@ -41,6 +40,8 @@ export class AuthService {
   }
 
   async loginUser(credentials: Record<string, string>): Promise<Session> {
+    console.log(credentials);
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -55,6 +56,8 @@ export class AuthService {
         email: user.email,
       };
     } catch (error: any) {
+      console.log(error);
+
       const errorCode = error?.code;
       return { errorCode };
     }
