@@ -14,6 +14,7 @@ export const TYPES = {
   CheckActiveSessionUseCase: Symbol.for("CheckActiveSessionUseCase"),
 
   // ViewModels
+  PreLoginViewModel: Symbol.for("PreLoginViewModel"),
 
   // Managers
 

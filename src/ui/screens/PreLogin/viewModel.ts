@@ -1,12 +1,13 @@
+import { injectable } from "inversify";
+import { makeAutoObservable } from "mobx";
+import { User } from "firebase/auth";
+
 import { NetworkSessionDatasource } from "@/data/network/NetworkSessionDatasource";
 import { SessionRepositoryImpl } from "@/data/repositories/SessionRepositoryImpl";
-import {
-  SignInWithGoogle,
-  SignInWithEmailAndPassword,
-} from "@/domain/useCases/signInUser";
-import { User } from "firebase/auth";
-import { makeAutoObservable } from "mobx";
+import { SignInWithGoogle } from "@/domain/useCases/signInUser";
 
+
+@injectable()
 export class PreLoginViewModel {
   private signInGoogle: SignInWithGoogle;
   private sessionRepositoryImpl: SessionRepositoryImpl;

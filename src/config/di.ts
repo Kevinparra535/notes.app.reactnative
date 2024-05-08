@@ -1,4 +1,5 @@
-import { Container } from "inversify";
+import { Container } from 'inversify';
+import { TYPES } from './types';
 
 // Stores
 
@@ -9,6 +10,7 @@ import { Container } from "inversify";
 // UseCases
 
 // ViewModels
+import { PreLoginViewModel } from '@/ui/screens/PreLogin/viewModel';
 
 // Managers
 
@@ -25,6 +27,7 @@ const container = new Container();
 // UseCases
 
 // ViewModels
+container.bind<PreLoginViewModel>(TYPES.PreLoginViewModel).to(PreLoginViewModel);
 
 // Managers
 

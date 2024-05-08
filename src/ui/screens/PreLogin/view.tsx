@@ -1,94 +1,60 @@
-// Librerias
-import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, Pressable, Platform, Image } from "react-native";
-import LottieView from "lottie-react-native";
-import { Link } from "@react-navigation/native";
-import { Translate, TranslateHelper } from "@/ui/i18n";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useEffect, useMemo, useRef } from 'react';
+import { View, StyleSheet, Pressable, Platform, Image } from 'react-native';
+import LottieView from 'lottie-react-native';
+import { Link } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-// Contextos
 
-// Hooks
+import { PreLoginViewModel } from './viewModel';
+import { Translate, TranslateHelper } from '@/ui/i18n';
 
-// Screens
+import Fonts from '@/ui/styles/Fonts';
+import Colors from '@/ui/styles/Colors';
+import Spacings from '@/ui/styles/Spacings';
 
-// Componentes
+import { container } from '@/config/di';
+import { TYPES } from '@/config/types';
 
-// Navigations
-
-// Imagenes
-
-// Estilos
-import Fonts from "@/ui/styles/Fonts";
-import Colors from "@/ui/styles/Colors";
-import Spacings from "@/ui/styles/Spacings";
-import { PreLoginViewModel } from "./viewModel";
-
-// Tipado
 type Props = {
   navigation: any;
 };
 
-/**
- * Descripción del componente.
- *
- * @remarks
- * Esta pantalla se encargara de mostrarle al usuario que opciones tiene disponible y redirigir a donde sea necesario
- *
- * @example
- * Ejemplo de uso:
- * ```jsx
- * <PreLogin />
- * ```
- *
- * @returns `JSX.Element`
- *
- * @beta
- */
-
 const PreLogin = ({ navigation }: Props): JSX.Element => {
-  // Estados
-  const [viewModel] = useState(() => new PreLoginViewModel());
+  const viewModel = useMemo(() => container.get<PreLoginViewModel>(TYPES.PreLoginViewModel), []);
 
-  // Contextos
-
-  // Hooks
   const animation: any = useRef(null);
 
-  // Funciones
-  const handleGoogle = () => {
+  const _handleGoogle = () => {
     viewModel.signInWithGoogle();
   };
 
-  // UseEffects
   useEffect(() => {
     animation.current?.play();
   }, []);
 
-  // Renders
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.animationContainer}>
-        {Platform.OS === "ios" ? (
+        {Platform.OS === 'ios' ? (
           <LottieView
             ref={animation}
             cacheComposition
-            renderMode="AUTOMATIC"
-            cacheStrategy="strong"
-            source={require("@/ui/assets/animations/Notesprelogin_optimized.json")}
+            renderMode='AUTOMATIC'
+            cacheStrategy='strong'
+            source={require('@/ui/assets/animations/Notesprelogin_optimized.json')}
           />
         ) : (
           <Image
-            resizeMethod="auto"
-            resizeMode="contain"
+            resizeMethod='auto'
+            resizeMode='contain'
             style={styles.image}
-            source={require("@/ui/assets/images/static/Notes_prelogin.jpg")}
+            source={require('@/ui/assets/images/static/Notes_prelogin.jpg')}
           />
         )}
       </View>
 
-      <Translate langkey="prelogin.title" style={styles.title} />
-      <Translate langkey="prelogin.subtitle" style={styles.subTitle} />
+      <Translate langkey='prelogin.title' style={styles.title} />
+      <Translate langkey='prelogin.subtitle' style={styles.subTitle} />
 
       {/* <Pressable onPress={handleGoogle} style={[styles.buttons, { backgroundColor: Colors.oscuro }]}>
         <Translate
@@ -102,17 +68,17 @@ const PreLogin = ({ navigation }: Props): JSX.Element => {
       </Pressable> */}
 
       <Pressable
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate('Login')}
         style={[styles.buttons, { backgroundColor: Colors.oscuro }]}
       >
         <Translate
-          langkey="prelogin.email"
+          langkey='prelogin.email'
           style={[styles.buttonsLabel, { color: Colors.claro }]}
         />
       </Pressable>
 
-      <Link style={styles.links} to={{ screen: "SignUp" }}>
-        {TranslateHelper("prelogin.signup")}
+      <Link style={styles.links} to={{ screen: 'SignUp' }}>
+        {TranslateHelper('prelogin.signup')}
       </Link>
     </SafeAreaView>
   );
@@ -122,23 +88,23 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacings.spacex2,
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column",
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
     backgroundColor: Colors.claro,
   },
 
   animationContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "40%",
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '40%',
   },
 
   image: {
     marginBottom: Spacings.space,
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
 
   title: {
@@ -149,7 +115,7 @@ const styles = StyleSheet.create({
 
   subTitle: {
     marginVertical: Spacings.spacex2,
-    textAlign: "center",
+    textAlign: 'center',
     ...Fonts.header4,
     fontSize: 16,
     lineHeight: 18,
@@ -158,10 +124,10 @@ const styles = StyleSheet.create({
 
   buttons: {
     padding: Spacings.space,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: Spacings.space,
-    width: "100%",
+    width: '100%',
     minHeight: 50,
     borderRadius: Spacings.spacehalf,
     borderWidth: 1,
@@ -174,7 +140,7 @@ const styles = StyleSheet.create({
 
   links: {
     marginTop: Spacings.space,
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
     ...Fonts.callToActions,
     fontSize: 13,
     color: Colors.bg.oscuro,
