@@ -3,6 +3,9 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      ['@babel/plugin-proposal-decorators', { legacy: true }],
+      ['@babel/plugin-proposal-class-properties', { loose: true }],
+      'babel-plugin-transform-typescript-metadata',
       [
         'module:react-native-dotenv',
         {
@@ -11,9 +14,7 @@ module.exports = function (api) {
           path: '.env',
         },
       ],
-      'babel-plugin-transform-typescript-metadata',
-      ['@babel/plugin-proposal-decorators', { legacy: true }],
-      ['react-native-reanimated/plugin'],
+      'react-native-reanimated/plugin',
     ],
   };
 };

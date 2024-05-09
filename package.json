@@ -54,10 +54,12 @@
     "react-native-svg": "13.9.0",
     "react-native-swipe-list-view": "^3.2.9",
     "reanimated-color-picker": "^2.3.4",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "react-native-reanimated": "~3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-decorators": "^7.24.1",
     "@types/node": "^20.12.11",
     "@types/react": "~18.2.14",
@@ -79,5 +81,8 @@
     "expo"
   ],
   "author": "Kevin Parra Lopez <kevinparra535@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "resolutions": {
+    "@expo/cli": "xxx"
+  }
 }
