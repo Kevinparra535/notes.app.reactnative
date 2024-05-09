@@ -1,23 +1,21 @@
-import { observable, makeAutoObservable } from "mobx";
-import User from "@/domain/entities/User";
-import { CheckActiveSession } from "@/domain/useCases/checkActiveSession";
-import { SessionRepositoryImpl } from "@/data/repositories/SessionRepositoryImpl";
-import { NetworkSessionDatasource } from "@/data/network/NetworkSessionDatasource";
+import { inject, injectable } from 'inversify';
+import { observable, makeAutoObservable } from 'mobx';
 
+import User from '@/domain/entities/User';
+import { CheckActiveSessionUseCase } from '@/domain/useCases/checkActiveSession';
+
+import { TYPES } from '@/config/types';
+
+@injectable()
 export class AuthStore {
   @observable user: User | null = null;
 
-  private checkSession: CheckActiveSession;
-  private sessionRepositoryImpl: SessionRepositoryImpl;
-  private datasource: NetworkSessionDatasource =
-    NetworkSessionDatasource.getInstance();
-
   public isLoading: boolean = false;
 
-  constructor() {
+  constructor(
+    @inject(TYPES.CheckActiveSessionUseCase) private checkSession: CheckActiveSessionUseCase
+  ) {
     makeAutoObservable(this);
-    this.sessionRepositoryImpl = new SessionRepositoryImpl(this.datasource);
-    this.checkSession = new CheckActiveSession(this.sessionRepositoryImpl);
   }
 
   private setLoading(state: boolean) {
@@ -32,7 +30,7 @@ export class AuthStore {
     this.setLoading(true);
 
     try {
-      const user = await this.checkSession.execute();
+      const user = await this.checkSession.run();
 
       this.setLoading(false);
 
@@ -45,10 +43,7 @@ export class AuthStore {
       }
     } catch (error) {
       this.setLoading(false);
-      console.log("AuthStore.checkActiveSession: ", error);
+      console.log('AuthStore.checkActiveSession: ', error);
     }
   }
 }
-
-const authStore = new AuthStore();
-export default authStore;

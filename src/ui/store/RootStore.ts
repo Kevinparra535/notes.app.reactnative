@@ -1,8 +1,8 @@
-import authStore from "./AuthStore";
+import { inject, injectable } from 'inversify';
+import { AuthStore } from './AuthStore';
+import { TYPES } from '@/config/types';
 
+@injectable()
 export class RootStore {
-  authStore = authStore;
+  @inject(TYPES.AuthStore) public authStore!: AuthStore;
 }
-
-const rootStore = new RootStore();
-export default rootStore;

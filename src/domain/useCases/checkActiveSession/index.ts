@@ -1,10 +1,14 @@
-import User from "@/domain/entities/User";
-import { SessionRepository } from "@/domain/repositories/SessionRepository";
+import { TYPES } from '@/config/types';
+import User from '@/domain/entities/User';
+import { SessionRepository } from '@/domain/repositories/SessionRepository';
+import { inject, injectable } from 'inversify';
+import { UseCase } from '../UseCase';
 
-export class CheckActiveSession {
-  constructor(private _sessionRepository: SessionRepository) {}
+@injectable()
+export class CheckActiveSessionUseCase implements UseCase<any, User> {
+  constructor(@inject(TYPES.SessionRepository) private repository: SessionRepository) {}
 
-  async execute(): Promise<User> {
-    return this._sessionRepository.checkActiveSession();
+  async run(): Promise<User> {
+    return this.repository.checkActiveSession();
   }
 }

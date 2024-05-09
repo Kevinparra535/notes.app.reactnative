@@ -1,6 +1,10 @@
 // Librerias
-import { createContext } from "react";
-import rootStore, { RootStore } from "../store/RootStore";
+import { createContext, useMemo } from 'react';
+
+import { RootStore } from '../store/RootStore';
+
+import { TYPES } from '@/config/types';
+import { container } from '@/config/di';
 
 // Otros
 
@@ -8,30 +12,10 @@ type Props = {
   children: any;
 };
 
-/**
- * Descripción del componente.
- *
- * @remarks
- * Este contexto unifica los stores de MOBx y los deja disponible a nivel global, util para el maneja de rutas
- *
- * @example
- * Ejemplo de uso:
- * ```jsx
- * <RootStoreContext />
- * ```
- *
- * @returns `JSX.Element`
- *
- * @beta
- */
-
 const RootStoreContext = createContext<RootStore | null>(null);
 
 export function RootStoreProvider({ children }: Props) {
-  return (
-    <RootStoreContext.Provider value={rootStore}>
-      {children}
-    </RootStoreContext.Provider>
-  );
+  const rootStore = useMemo(() => container.get<RootStore>(TYPES.RootStore), []);
+  return <RootStoreContext.Provider value={rootStore}>{children}</RootStoreContext.Provider>;
 }
 export default RootStoreContext;

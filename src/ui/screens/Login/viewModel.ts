@@ -4,9 +4,9 @@ import { inject, injectable } from 'inversify';
 import User from '@/domain/entities/User';
 
 import { SignInWithEmailUseCase } from '@/domain/useCases/signInWithEmailAndPassword';
-import rootStore from '@/ui/store/RootStore';
 
 import { TYPES } from '@/config/types';
+import { RootStore } from '@/ui/store/RootStore';
 
 export type ICalls = 'user';
 
@@ -16,7 +16,10 @@ export class LoginViewModel {
   @observable isUserError: string | null = null;
   @observable isUserResponse: User | null = null;
 
-  constructor(@inject(TYPES.SignInWithEmailUseCase) private signInEmail: SignInWithEmailUseCase) {
+  constructor(
+    @inject(TYPES.RootStore) private rootStore: RootStore,
+    @inject(TYPES.SignInWithEmailUseCase) private signInEmail: SignInWithEmailUseCase
+  ) {
     makeAutoObservable(this);
   }
 
@@ -32,7 +35,7 @@ export class LoginViewModel {
 
       runInAction(() => {
         this.isUserResponse = response;
-        rootStore.authStore.setUser(response);
+        this.rootStore.authStore.setUser(response);
       });
     } catch (error) {
       console.log('LoginViewModel.signInWithEmailAndPassword.error:', error);

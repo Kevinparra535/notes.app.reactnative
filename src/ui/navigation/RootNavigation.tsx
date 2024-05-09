@@ -1,29 +1,17 @@
-// Librerias
-import React, { useContext } from "react";
-import { StyleSheet } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { observer } from "mobx-react-lite";
+import React, { useMemo } from 'react';
+import { StyleSheet } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { observer } from 'mobx-react-lite';
 
-// Contextos
+import { RootStore } from '../store/RootStore';
+import Loader from '../components/Loader';
 
-// Hooks
+import DashboardNavigation from './DashboardNavigation';
+import LoginNavigation from './LoginNavigation';
 
-// Screens
-
-// Componentes
-import rootStore from "../store/RootStore";
-import Loader from "../components/Loader";
-
-// Navigations
-import DashboardNavigation from "./DashboardNavigation";
-import LoginNavigation from "./LoginNavigation";
-
-// Imagenes
-
-// Estilos
-import Colors from "../styles/Colors";
-
-// Tipado
+import Colors from '../styles/Colors';
+import { container } from '@/config/di';
+import { TYPES } from '@/config/types';
 
 /**
  * Descripción del componente.
@@ -45,6 +33,7 @@ import Colors from "../styles/Colors";
 const Stack = createStackNavigator();
 
 const RootNavigation = observer(() => {
+  const rootStore = useMemo(() => container.get<RootStore>(TYPES.RootStore), []);
   const isSessionActive = rootStore.authStore.user?.uid;
   const isLoading = rootStore.authStore.isLoading;
 
@@ -52,7 +41,6 @@ const RootNavigation = observer(() => {
     return <Loader />;
   }
 
-  // Renders
   return (
     <Stack.Navigator
       screenOptions={{
@@ -63,13 +51,13 @@ const RootNavigation = observer(() => {
     >
       {!isSessionActive ? (
         <Stack.Screen
-          name="LoginNavigation"
+          name='LoginNavigation'
           component={LoginNavigation}
           options={{ headerShown: false }}
         />
       ) : (
         <Stack.Screen
-          name="DashboardNavigation"
+          name='DashboardNavigation'
           component={DashboardNavigation}
           options={{ headerShown: false }}
         />
