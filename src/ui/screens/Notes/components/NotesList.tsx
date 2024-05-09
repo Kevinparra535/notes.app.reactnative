@@ -74,7 +74,7 @@ const NotesList = ({
       closeOnRowBeginSwipe
       closeOnRowOpen={true}
       rightOpenValue={-100}
-      data={viewModel.data}
+      data={viewModel?.data ?? []}
       closeOnRowPress={true}
       style={styles.container}
       keyExtractor={(item) => item.uuid}

@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import User from '@/domain/entities/User';
 
 import { SignInWithEmailUseCase } from '@/domain/useCases/signInWithEmailAndPassword';
+import rootStore from '@/ui/store/RootStore';
 
 import { TYPES } from '@/config/types';
 
@@ -31,7 +32,7 @@ export class LoginViewModel {
 
       runInAction(() => {
         this.isUserResponse = response;
-        // rootStore.authStore.setUser(response);
+        rootStore.authStore.setUser(response);
       });
     } catch (error) {
       console.log('LoginViewModel.signInWithEmailAndPassword.error:', error);

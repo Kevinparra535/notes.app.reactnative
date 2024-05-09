@@ -1,30 +1,30 @@
 // Librerias
-import React, { useContext, useState } from "react";
-import { Text, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { observer } from "mobx-react-lite";
+import React, { useContext, useState } from 'react';
+import { Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { observer } from 'mobx-react-lite';
 
 // Contextos
-import RootStoreContext from "@/ui/context/RootStoreContext";
+import RootStoreContext from '@/ui/context/RootStoreContext';
 
 // Hooks
 
 // ViewModels
-import { NotesViewModel } from "./viewModel";
+import { NotesViewModel } from './viewModel';
 
 // Screens
 
 // Componentes
-import Header from "./components/Header";
-import Loader from "@/ui/components/Loader";
-import NotesList from "./components/NotesList";
+import Header from './components/Header';
+import Loader from '@/ui/components/Loader';
+import NotesList from './components/NotesList';
 
 // Navigations
 
 // Imagenes
 
 // Estilos
-import Colors from "@/ui/styles/Colors";
+import Colors from '@/ui/styles/Colors';
 
 // Tipado
 type Props = {
@@ -65,22 +65,20 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
   };
 
   // Renders
-  if (viewModel.notes.status === "loading") return <Loader />;
-  if (viewModel.notes.status === "error") return <Text>Error</Text>;
+  if (viewModel.notes.status === 'loading') return <Loader />;
+  if (viewModel.notes.status === 'error') return <Text>Error</Text>;
 
   return (
-    <>
-      <Header user={user}>
-        <NotesList
-          viewModel={viewModel.notes}
-          deleteNote={handleDeleteNote}
-          refresh={() => viewModel.refresh()}
-          setfavoritesNote={handleSetFavorite}
-        />
+    <Header user={user}>
+      {/* <NotesList
+        viewModel={viewModel.notes}
+        deleteNote={handleDeleteNote}
+        refresh={() => viewModel.refresh()}
+        setfavoritesNote={handleSetFavorite}
+      /> */}
 
-        <StatusBar translucent style="dark" backgroundColor={Colors.claro} />
-      </Header>
-    </>
+      <StatusBar translucent style='dark' backgroundColor={Colors.claro} />
+    </Header>
   );
 });
 
