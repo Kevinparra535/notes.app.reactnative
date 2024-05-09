@@ -1,3 +1,5 @@
+import { injectable } from 'inversify';
+
 import {
   ref,
   auth,
@@ -7,13 +9,14 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-} from "@/config/firebaseConfig";
+} from '@/config/firebaseConfig';
 
-import { GoogleSignin, statusCodes } from "@/config/googleConfig";
+import { GoogleSignin, statusCodes } from '@/config/googleConfig';
 
-import User from "@/domain/entities/User";
-import Session from "@/domain/entities/Session";
+import User from '@/domain/entities/User';
+import Session from '@/domain/entities/Session';
 
+@injectable()
 export class AuthService {
   async checkSession(): Promise<User> {
     return new Promise((resolve, reject) => {
@@ -67,10 +70,10 @@ export class AuthService {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log("loginGoogle: ", userInfo);
+      console.log('loginGoogle: ', userInfo);
       return { userInfo };
     } catch (error: any) {
-      console.log("loginGoogle.error: ", error);
+      console.log('loginGoogle.error: ', error);
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -108,7 +111,7 @@ export class AuthService {
   }
 
   async updateUser(credentials: Record<string, unknown>): Promise<User> {
-    const imagesRef = ref(storageRef, "avatars");
+    const imagesRef = ref(storageRef, 'avatars');
     const fileName = credentials.photoURL || null;
     const avatarRef = ref(imagesRef, fileName);
     const user = auth.currentUser;

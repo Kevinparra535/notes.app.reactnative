@@ -15,6 +15,7 @@ import { SignInWithEmailUseCase } from '@/domain/useCases/signInWithEmailAndPass
 // ViewModels
 import { PreLoginViewModel } from '@/ui/screens/PreLogin/viewModel';
 import { LoginViewModel } from '@/ui/screens/Login/viewModel';
+import { AuthService } from '@/data/services/AuthService';
 
 // Managers
 
@@ -28,6 +29,8 @@ const container = new Container();
 container.bind<SessionRepository>(TYPES.SessionRepository).to(SessionRepositoryImpl);
 
 // Services
+container.bind<AuthService>(TYPES.AuthService).to(AuthService);
+
 
 // UseCases
 container.bind<SignInWithEmailUseCase>(TYPES.SignInWithEmailUseCase).to(SignInWithEmailUseCase);
