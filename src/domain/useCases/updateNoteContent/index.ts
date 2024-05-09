@@ -1,22 +1,29 @@
-import { NoteRepository } from "@/domain/repositories/NoteRepository";
-import Note from "@/domain/entities/Note";
+import { inject, injectable } from 'inversify';
 
-export class UpdateNoteContent {
-  private _noteRepository: NoteRepository;
+import Note from '@/domain/entities/Note';
+import { NoteRepository } from '@/domain/repositories/NoteRepository';
 
-  constructor(private noteRepository: NoteRepository) {
-    this._noteRepository = noteRepository;
-  }
+import { TYPES } from '@/config/types';
+import { UseCase } from '../UseCase';
 
-  async execute(noteId: string, newData: Record<string, any>): Promise<Note> {
-    const note = await this._noteRepository.getNoteById(noteId);
+type IParams = {
+  noteId: string;
+  newData: Record<string, any>;
+};
 
-    // console.log("USE CASE UPDATE NOTE ===>: ", note);
+
+@injectable()
+export class UpdateNoteContentUseCase implements UseCase<IParams, Note> {
+  constructor(@inject(TYPES.NoteRepository) private respository: NoteRepository) {}
+
+  async run(data: IParams): Promise<Note> {
+    const { noteId, newData } = data;
+    const note = await this.respository.getNoteById(noteId);
 
     try {
-      await this._noteRepository.updateContent(noteId, newData);
+      await this.respository.updateContent(noteId, newData);
     } catch (error) {
-      console.log("USE CASE UPDATE NOTE ===>: ", error);
+      console.log('USE CASE UPDATE NOTE ===>: ', error);
     }
 
     return note;

@@ -1,61 +1,30 @@
-// Librerias
-import React, { useContext, useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { useContext, useMemo } from 'react';
+import { Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { observer } from 'mobx-react-lite';
 
-// Contextos
 import RootStoreContext from '@/ui/context/RootStoreContext';
 
-// Hooks
-
-// ViewModels
 import { NotesViewModel } from './viewModel';
 
-// Screens
-
-// Componentes
 import Header from './components/Header';
 import Loader from '@/ui/components/Loader';
-import NotesList from './components/NotesList';
 
-// Navigations
-
-// Imagenes
-
-// Estilos
 import Colors from '@/ui/styles/Colors';
 
-// Tipado
+import { container } from '@/config/di';
+import { TYPES } from '@/config/types';
+
 type Props = {
   route: any;
   navigation: any;
 };
 
-/**
- * Descripción del componente.
- *
- * @remarks
- * Esta pantalla renderiza todas las notas
- *
- * @example
- * Ejemplo de uso:
- * ```jsx
- * <NotesScreen />
- * ```
- *
- * @returns `JSX.Element`
- *
- * @beta
- */
-
 const Notes: React.FC<Props> = observer(({ route, navigation }) => {
-  const [viewModel] = useState(() => new NotesViewModel());
+  const viewModel = useMemo(() => container.get<NotesViewModel>(TYPES.NotesViewModel), []);
 
-  // Context
   const user = useContext(RootStoreContext);
 
-  // Funciones
   const handleSetFavorite = (uuid: string, pin: boolean) => {
     viewModel.setfavoritesNote(uuid, { pin });
   };
@@ -64,7 +33,6 @@ const Notes: React.FC<Props> = observer(({ route, navigation }) => {
     viewModel.deleteNotes(uuid);
   };
 
-  // Renders
   if (viewModel.notes.status === 'loading') return <Loader />;
   if (viewModel.notes.status === 'error') return <Text>Error</Text>;
 

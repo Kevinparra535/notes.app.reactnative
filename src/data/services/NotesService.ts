@@ -11,16 +11,18 @@ import {
   onSnapshot,
   serverTimestamp,
   auth,
-} from "@/config/firebaseConfig";
+} from '@/config/firebaseConfig';
 
-import Note from "@/domain/entities/Note";
-import { ResponseModel } from "../models/ResponseModel";
-import { NotesCacheManager } from "@/ui/store/NotesCacheManager";
-import { CategoryService } from "./CategoryService";
+import Note from '@/domain/entities/Note';
+import { ResponseModel } from '../models/ResponseModel';
+import { NotesCacheManager } from '@/ui/store/NotesCacheManager';
+import { CategoryService } from './CategoryService';
+import { injectable } from 'inversify';
 
+@injectable()
 export class NotesService {
   private cacheManager = new NotesCacheManager();
-  private collectionName: string = "notes";
+  private collectionName: string = 'notes';
   private categoryService = new CategoryService();
 
   /**
@@ -31,8 +33,8 @@ export class NotesService {
     return this.fetchNotes((user) => {
       const q = query(
         collection(db, this.collectionName),
-        where("userId", "==", user?.uid),
-        orderBy("updatedAt", "desc")
+        where('userId', '==', user?.uid),
+        orderBy('updatedAt', 'desc')
       );
       return q;
     });
@@ -46,9 +48,9 @@ export class NotesService {
     return this.fetchNotes((user) => {
       const q = query(
         collection(db, this.collectionName),
-        where("userId", "==", user?.uid),
-        where("pin", "==", true),
-        orderBy("updatedAt", "desc")
+        where('userId', '==', user?.uid),
+        where('pin', '==', true),
+        orderBy('updatedAt', 'desc')
       );
       return q;
     });
@@ -69,14 +71,14 @@ export class NotesService {
       const handleSnapshot = async (snapshot: any) => {
         const promises = snapshot.docChanges().map(async (change: any) => {
           try {
-            if (change.type === "added" || change.type === "modified") {
+            if (change.type === 'added' || change.type === 'modified') {
               const docData: Note = {
                 ...change.doc.data(),
                 tags: await this.getCategoriesForNotes(change.doc.data().tags),
                 uuid: change.doc.id,
               };
               formatedResponse.push(docData);
-            } else if (change.type === "removed") {
+            } else if (change.type === 'removed') {
               const indexToRemove: number = formatedResponse.findIndex(
                 (item) => item.uuid === change.doc.id
               );
@@ -85,18 +87,18 @@ export class NotesService {
               }
             }
           } catch (error) {
-            console.log("ERROR EN EL SERVICIO: FETCH ALL NOTES");
+            console.log('ERROR EN EL SERVICIO: FETCH ALL NOTES');
           }
         });
 
         // Wait for all promises to complete before resolving
         await Promise.all(promises);
 
-        resolve({ status: "success", data: formatedResponse });
+        resolve({ status: 'success', data: formatedResponse });
       };
 
       const unsub = onSnapshot(q, handleSnapshot, (error) => {
-        reject({ status: "error", error: error.message });
+        reject({ status: 'error', error: error.message });
       });
 
       return unsub;
@@ -112,7 +114,7 @@ export class NotesService {
     const docRef = await addDoc(collection(db, this.collectionName), {
       tags: [],
       pin: false,
-      color: "#FFFFFF",
+      color: '#FFFFFF',
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       ...data,
@@ -128,19 +130,16 @@ export class NotesService {
    */
   async fetchNoteById(noteId: string): Promise<Note> {
     return new Promise((resolve, reject) => {
-      const unsub = onSnapshot(
-        doc(db, this.collectionName, noteId),
-        (docSnap) => {
-          if (docSnap.exists()) {
-            const noteData: Note = docSnap.data() as Note;
-            resolve(noteData);
-            unsub();
-          } else {
-            reject(new Error("Note not found"));
-            unsub();
-          }
+      const unsub = onSnapshot(doc(db, this.collectionName, noteId), (docSnap) => {
+        if (docSnap.exists()) {
+          const noteData: Note = docSnap.data() as Note;
+          resolve(noteData);
+          unsub();
+        } else {
+          reject(new Error('Note not found'));
+          unsub();
         }
-      );
+      });
     });
   }
 
@@ -150,10 +149,7 @@ export class NotesService {
    * @param data - The updated data for the note.
    * @returns A Promise that resolves when the note is successfully updated.
    */
-  async updateNoteContent(
-    noteId: string,
-    data: Record<string, any>
-  ): Promise<void> {
+  async updateNoteContent(noteId: string, data: Record<string, any>): Promise<void> {
     const notesRef = doc(db, this.collectionName, noteId);
     const updatedData = {
       ...data,
@@ -186,9 +182,7 @@ export class NotesService {
           const response = await this.categoryService.getById(categoryId);
           return { ...response, uuid: categoryId };
         } catch (error: any) {
-          console.error(
-            `Error retrieving category with ID ${categoryId}: ${error.message}`
-          );
+          console.error(`Error retrieving category with ID ${categoryId}: ${error.message}`);
           return null;
         }
       })

@@ -1,42 +1,35 @@
-import { makeAutoObservable, reaction, runInAction } from "mobx";
-import { TranslateHelper } from "@/ui/i18n";
-import Toast from "react-native-root-toast";
+import { makeAutoObservable, reaction, runInAction } from 'mobx';
+import { TranslateHelper } from '@/ui/i18n';
+import Toast from 'react-native-root-toast';
 
-import { DeleteNote } from "@/domain/useCases/deleteNote";
-import { GetAllNotes } from "@/domain/useCases/getAllNotes";
-import { UpdateNoteContent } from "@/domain/useCases/updateNoteContent";
+import { DeleteNoteUseCase } from '@/domain/useCases/deleteNote';
+import { GetAllNotesUseCase } from '@/domain/useCases/getAllNotes';
+import { UpdateNoteContentUseCase } from '@/domain/useCases/updateNoteContent';
 
-import { NetworkNoteDatasource } from "@/data/network/NetworkNoteDatasource";
-import { NoteRepositoryImpl } from "@/data/repositories/NoteRepositoryImpl";
+import { NoteModel } from '@/data/models/NoteModel';
+import { ResponseModel } from '@/data/models/ResponseModel';
 
-import { NoteModel } from "@/data/models/NoteModel";
-import { ResponseModel } from "@/data/models/ResponseModel";
+import notesStore from '@/ui/store/NotesStore';
+import categoryStore from '@/ui/store/CategoryStore';
 
-import notesStore from "@/ui/store/NotesStore";
-import categoryStore from "@/ui/store/CategoryStore";
+import { debounce } from '@/ui/utils/Deboucing';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '@/config/types';
 
-import { debounce } from "@/ui/utils/Deboucing";
-
+@injectable()
 export class NotesViewModel {
-  private deleteNote: DeleteNote;
-  private getNotes: GetAllNotes;
-  private updateNoteContent: UpdateNoteContent;
-  private noteRepositoryImpl: NoteRepositoryImpl;
-  private datasource: NetworkNoteDatasource =
-    NetworkNoteDatasource.getInstance();
-
   private toastMessage: any;
 
   public notes: ResponseModel<Array<NoteModel>> = {
-    status: "loading",
+    status: 'loading',
   };
 
-  constructor() {
+  constructor(
+    @inject(TYPES.DeleteNoteUseCase) private deleteNote: DeleteNoteUseCase,
+    @inject(TYPES.GetAllNotesUseCase) private getNotes: GetAllNotesUseCase,
+    @inject(TYPES.UpdateNoteContentUseCase) private updateNoteContent: UpdateNoteContentUseCase
+  ) {
     makeAutoObservable(this);
-    this.noteRepositoryImpl = new NoteRepositoryImpl(this.datasource);
-    this.getNotes = new GetAllNotes(this.noteRepositoryImpl);
-    this.updateNoteContent = new UpdateNoteContent(this.noteRepositoryImpl);
-    this.deleteNote = new DeleteNote(this.noteRepositoryImpl);
 
     this.fetchNote();
 
@@ -98,8 +91,7 @@ export class NotesViewModel {
   }
 
   private async fetchNote(): Promise<void> {
-    const result: ResponseModel<Array<NoteModel>> =
-      await this.getNotes.execute();
+    const result: ResponseModel<Array<NoteModel>> = await this.getNotes.run();
 
     console.log(result);
 
@@ -133,12 +125,15 @@ export class NotesViewModel {
   public setfavoritesNote(noteId: string, newData: Record<string, boolean>) {
     const fun = debounce(async (newData: Record<string, any>) => {
       try {
-        await this.updateNoteContent.execute(noteId, newData);
+        await this.updateNoteContent.run({
+          noteId,
+          newData,
+        });
 
         this.setToastMessage(
           newData.pin === true
-            ? TranslateHelper("messages.notes.favorites.success")
-            : TranslateHelper("messages.notes.favorites.removed")
+            ? TranslateHelper('messages.notes.favorites.success')
+            : TranslateHelper('messages.notes.favorites.removed')
         );
 
         runInAction(() => {
@@ -146,8 +141,8 @@ export class NotesViewModel {
           notesStore.setNoteAddedFavorite(true);
         });
       } catch (error) {
-        console.log("NotesViewModel.setfavoritesNote.error:", error);
-        this.setToastMessage(TranslateHelper("messages.notes.favorites.error"));
+        console.log('NotesViewModel.setfavoritesNote.error:', error);
+        this.setToastMessage(TranslateHelper('messages.notes.favorites.error'));
       }
     }, 500);
 
@@ -156,17 +151,17 @@ export class NotesViewModel {
 
   async deleteNotes(noteId: string) {
     try {
-      await this.deleteNote.execute(noteId);
+      await this.deleteNote.run(noteId);
 
-      this.setToastMessage(TranslateHelper("messages.notes.delete.success"));
+      this.setToastMessage(TranslateHelper('messages.notes.delete.success'));
 
       runInAction(() => {
         notesStore.setNoteUpdated(true);
         notesStore.setNoteAddedFavorite(true);
       });
     } catch (error) {
-      console.log("NotesViewModel.setfavoritesNote.error:", error);
-      this.setToastMessage(TranslateHelper("messages.notes.delete.error"));
+      console.log('NotesViewModel.setfavoritesNote.error:', error);
+      this.setToastMessage(TranslateHelper('messages.notes.delete.error'));
     }
   }
 }

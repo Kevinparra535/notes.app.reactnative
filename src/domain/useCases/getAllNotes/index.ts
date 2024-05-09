@@ -1,11 +1,16 @@
-import { NoteRepository } from "@/domain/repositories/NoteRepository";
-import Note, { NoteProps } from "@/domain/entities/Note";
+import { inject, injectable } from 'inversify';
 
-export class GetAllNotes {
-  constructor(private _noteRepository: NoteRepository) {}
+import { NoteRepository } from '@/domain/repositories/NoteRepository';
 
-  async execute(): Promise<any> {
-    const noteModel = await this._noteRepository.getAllNotes();
+import { TYPES } from '@/config/types';
+import { UseCase } from '../UseCase';
+
+@injectable()
+export class GetAllNotesUseCase implements UseCase<any, any> {
+  constructor(@inject(TYPES.NoteRepository) private respository: NoteRepository) {}
+
+  async run(): Promise<any> {
+    const noteModel = await this.respository.getAllNotes();
     return noteModel;
   }
 }

@@ -1,10 +1,14 @@
-import { NoteRepository } from "@/domain/repositories/NoteRepository";
+import { NoteRepository } from '@/domain/repositories/NoteRepository';
+import { UseCase } from '../UseCase';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '@/config/types';
 
-export class DeleteNote {
-  constructor(private _noteRepository: NoteRepository) {}
+@injectable()
+export class DeleteNoteUseCase implements UseCase<string, any> {
+  constructor(@inject(TYPES.NoteRepository) private respository: NoteRepository) {}
 
-  async execute(uuid: string): Promise<any> {
-    const noteModel = await this._noteRepository.deleteNote(uuid);
+  async run(uuid: string): Promise<any> {
+    const noteModel = await this.respository.deleteNote(uuid);
     return noteModel;
   }
 }
