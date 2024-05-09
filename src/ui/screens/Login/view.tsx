@@ -1,104 +1,73 @@
-// Librerias
-import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import React, { useEffect, useMemo } from 'react';
+import { observer } from 'mobx-react-lite';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 
-// Contextos
+import { LoginViewModel } from './viewModel';
+import LoginForm from './components/LoginForm';
+import LoginHeader from './components/LoginHeader';
+// import LoginFooter from './components/LoginFooter';
 
-// Hooks
+import Colors from '@/ui/styles/Colors';
+import Spacings from '@/ui/styles/Spacings';
 
-// Screens
+import { container } from '@/config/di';
+import { TYPES } from '@/config/types';
 
-// Componentes
-import LoginFooter from "./components/LoginFooter";
-import LoginForm from "./components/LoginForm";
-import LoginHeader from "./components/LoginHeader";
-
-// Navigations
-
-// Imagenes
-
-// Estilos
-import Colors from "@/ui/styles/Colors";
-import Spacings from "@/ui/styles/Spacings";
-import { LoginViewModel } from "./viewModel";
-import { observer } from "mobx-react-lite";
-
-// Tipado
 type Props = {
   navigation: any;
 };
 
 /**
- * Descripción del componente.
+ * Login screen component.
  *
- * @remarks
- * Esta pantalla se muestra cuando el usuario decide registrarse, le proporcionamos las diferentes opciones posibles
- *
- * @example
- * Ejemplo de uso:
- * ```jsx
- * <Login />
- * ```
- *
- * @returns `JSX.Element`
- *
- * @beta
+ * @component
  */
-const Login: React.FC<Props> = observer(
-  ({ navigation }: Props): JSX.Element => {
-    // Estados
-    const [viewModel] = useState(() => new LoginViewModel());
+const Login: React.FC<Props> = ({ navigation }: Props): JSX.Element => {
+  const viewModel = useMemo(() => container.get<LoginViewModel>(TYPES.LoginViewModel), []);
 
-    // Contextos
+  /**
+   * Handles the submission of the email form.
+   *
+   * @param data - The form data containing the email and password.
+   */
+  const handleEmailSubmit = (data: Record<string, string>) => {
+    viewModel.signInWithEmailAndPassword(data);
+  };
 
-    // Hooks
+  useEffect(() => {
+    console.log(viewModel.isUserResponse);
+  }, [viewModel.isUserResponse]);
 
-    // Funciones
-    const handleEmailSubmit = (data: Record<string, string>) => {
-      viewModel.signInWithEmailAndPassword(data);
-    };
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <LoginHeader />
 
-    const handleGoogle = () => {
-      viewModel.signInWithGoogle();
-    };
+      <LoginForm
+        isError={viewModel.isUserError}
+        isLoading={viewModel.isUserLoading}
+        handleEmailSubmit={handleEmailSubmit}
+      />
 
-    // UseEffects
-    useEffect(() => {
-      console.log(viewModel.user);
-    }, [viewModel.user]);
-
-    // Renders
-    return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <LoginHeader />
-
-        <LoginForm
-          isError={viewModel.syncError}
-          isLoading={viewModel.isLoading}
-          handleEmailSubmit={handleEmailSubmit}
-        />
-
-        {/* <LoginFooter
+      {/* <LoginFooter
           handleGoogle={handleGoogle}
           isLoading={viewModel.isLoading}
         /> */}
-      </KeyboardAvoidingView>
-    );
-  }
-);
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     padding: Spacings.spacex2,
     flex: 1,
-    alignItems: "center",
-    flexDirection: "column",
-    justifyContent: "center",
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
     backgroundColor: Colors.claro,
   },
 });
 
-export default Login;
+export default observer(Login);

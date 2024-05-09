@@ -1,8 +1,8 @@
+import 'reflect-metadata';
 import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { StatusBar } from "expo-status-bar";
-import 'reflect-metadata';
 import "react-native-gesture-handler";
 
 import loadFonts from "@/ui/utils/FontLoader";

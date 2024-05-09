@@ -1,20 +1,21 @@
 export const TYPES = {
   // Stores
-  RootStore: Symbol.for("RootStore"),
-  AuthStore: Symbol.for("AuthStore"),
+  RootStore: Symbol.for('RootStore'),
+  AuthStore: Symbol.for('AuthStore'),
 
   // Repositories
-  SessionRepository: Symbol.for("SessionRepository"),
+  SessionRepository: Symbol.for('SessionRepository'),
 
   // Services
-  AuthService: Symbol.for("AuthService"),
+  AuthService: Symbol.for('AuthService'),
 
   // UseCases
-  SignInWithEmailUseCase: Symbol.for("SignInWithEmailUseCase"),
-  CheckActiveSessionUseCase: Symbol.for("CheckActiveSessionUseCase"),
+  SignInWithEmailUseCase: Symbol.for('SignInWithEmailUseCase'),
+  CheckActiveSessionUseCase: Symbol.for('CheckActiveSessionUseCase'),
 
   // ViewModels
-  PreLoginViewModel: Symbol.for("PreLoginViewModel"),
+  PreLoginViewModel: Symbol.for('PreLoginViewModel'),
+  LoginViewModel: Symbol.for('LoginViewModel'),
 
   // Managers
 

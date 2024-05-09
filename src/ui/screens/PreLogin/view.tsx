@@ -1,32 +1,38 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Pressable, Platform, Image } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { Link } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
-import { PreLoginViewModel } from './viewModel';
+// import { PreLoginViewModel } from './viewModel';
 import { Translate, TranslateHelper } from '@/ui/i18n';
 
 import Fonts from '@/ui/styles/Fonts';
 import Colors from '@/ui/styles/Colors';
 import Spacings from '@/ui/styles/Spacings';
 
-import { container } from '@/config/di';
-import { TYPES } from '@/config/types';
+// import { container } from '@/config/di';
+// import { TYPES } from '@/config/types';
 
 type Props = {
   navigation: any;
 };
 
+/**
+ * Renders the PreLogin screen.
+ *
+ * @param {Props} navigation - The navigation object.
+ * @returns {JSX.Element} The PreLogin screen component.
+ */
 const PreLogin = ({ navigation }: Props): JSX.Element => {
-  const viewModel = useMemo(() => container.get<PreLoginViewModel>(TYPES.PreLoginViewModel), []);
+  // const viewModel = useMemo(() => container.get<PreLoginViewModel>(TYPES.PreLoginViewModel), []);
 
   const animation: any = useRef(null);
 
-  const _handleGoogle = () => {
-    viewModel.signInWithGoogle();
-  };
+  // const _handleGoogle = () => {
+  //   viewModel.signInWithGoogle();
+  // };
 
   useEffect(() => {
     animation.current?.play();

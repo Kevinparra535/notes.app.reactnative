@@ -1,7 +1,11 @@
-import Session from "@/domain/entities/Session";
-import { NetworkSessionDatasource } from "../network/NetworkSessionDatasource";
-import { SessionRepository } from "@/domain/repositories/SessionRepository";
+import { injectable } from 'inversify';
 
+import Session from '@/domain/entities/Session';
+
+import { NetworkSessionDatasource } from '../network/NetworkSessionDatasource';
+import { SessionRepository } from '@/domain/repositories/SessionRepository';
+
+@injectable()
 export class SessionRepositoryImpl implements SessionRepository {
   constructor(private datasource: NetworkSessionDatasource) {}
 
