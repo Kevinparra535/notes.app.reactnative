@@ -3,24 +3,70 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+const tintColorLight = "#0a7ea4";
+const tintColorDark = "#fff";
 
-export const Colors = {
+ const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    brand: {
+      primary: "#666666",
+      secondary: "#B5B5B5",
+    },
+
+    variants: {
+      one: "#b2b2b2",
+      two: "#F8C5C3",
+      three: "#F4D5B6",
+      four: "#B7D7D3",
+      five: "#E6BAD5",
+      six: "#D2C6E4",
+      seven: "#F5E6B3",
+      eight: "#B6D3E0",
+    },
+
+    alerts: {
+      check: "#38CB89",
+      error: "#E1665D",
+    },
+
+    bg: {
+      claro: "#F5F5F5F5",
+      oscuro: "#292D32",
+    },
+
+    light: "#ffffff",
+    dark: "#111111",
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    brand: {
+      primary: "#666666",
+      secondary: "#B5B5B5",
+    },
+
+    variants: {
+      one: "#b2b2b2",
+      two: "#F8C5C3",
+      three: "#F4D5B6",
+      four: "#B7D7D3",
+      five: "#E6BAD5",
+      six: "#D2C6E4",
+      seven: "#F5E6B3",
+      eight: "#B6D3E0",
+    },
+
+    alerts: {
+      check: "#38CB89",
+      error: "#E1665D",
+    },
+
+    bg: {
+      claro: "#F5F5F5F5",
+      oscuro: "#292D32",
+    },
+
+    light: "#ffffff",
+    dark: "#111111",
   },
 };
+
+export default Colors;

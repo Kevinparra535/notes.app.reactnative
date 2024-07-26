@@ -10,17 +10,16 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { fonts } from "@/Utils/FontLoader";
+import Fonts from "@/constants/Fonts";
+import Colors from "@/constants/Colors";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    PoppinsRegular: require("../assets/fonts/Poppins-Regular.ttf"),
-    PoppinsMedium: require("../assets/fonts/Poppins-Medium.ttf"),
-    PoppinsBold: require("../assets/fonts/Poppins-Bold.ttf"),
-  });
+  const [loaded] = useFonts({ ...fonts });
 
   useEffect(() => {
     if (loaded) {
@@ -34,8 +33,14 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" />
+      <Stack screenOptions={{}}>
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "Mis notas",
+            headerTitleStyle: { ...Fonts.header1 },
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
