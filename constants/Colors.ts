@@ -30,8 +30,8 @@ const tintColorDark = "#fff";
     },
 
     bg: {
-      claro: "#F5F5F5F5",
-      oscuro: "#292D32",
+      ligth: "#F5F5F5F5",
+      dark: "#292D32",
     },
 
     light: "#ffffff",
@@ -60,8 +60,8 @@ const tintColorDark = "#fff";
     },
 
     bg: {
-      claro: "#F5F5F5F5",
-      oscuro: "#292D32",
+      ligth: "#F5F5F5F5",
+      dark: "#292D32",
     },
 
     light: "#ffffff",

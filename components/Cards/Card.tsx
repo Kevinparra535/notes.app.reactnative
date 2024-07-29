@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 
 import Spacings from "@/constants/Spacings";
 import Colors from "@/constants/Colors";
@@ -11,52 +11,52 @@ type Props = {
 };
 
 const Card = ({ item }: Props) => {
+  const handlePress = () => {
+    console.log("Pressed");
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Label</Text>
-
-      <View style={styles.subContainer}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{item}</Text>
-          <Text style={styles.subTitle}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa nisi
-            illum saepe fuga autem dolorem voluptatum...
-          </Text>
-        </View>
-        <View style={styles.icons}>
-          <Icons
-            style={styles.icon}
-            name="heart-outline"
-            onPress={() => console.log("Pressed")}
-          />
-          <Icons
-            style={styles.icon}
-            name="trash-outline"
-            onPress={() => console.log("Pressed")}
-          />
-        </View>
-      </View>
-
-      <View style={styles.footer}>
-        <View style={styles.date}>
-          <Icons name="time-outline" />
-
-          <Text style={styles.dateText}>Date</Text>
+    <TouchableHighlight onPress={handlePress} style={styles.container}>
+      <>
+        <View style={styles.subContainer}>
+          <View style={styles.textContainer}>
+            <Text style={styles.label}>Label</Text>
+            <Text style={styles.title}>{item}</Text>
+            <Text style={styles.subTitle}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
+              nisi illum saepe fuga autem dolorem voluptatum...
+            </Text>
+          </View>
+          <View style={styles.icons}>
+            <Icons
+              style={styles.icon}
+              name="heart-outline"
+              onPress={() => console.log("Pressed")}
+            />
+            <Icons
+              style={styles.icon}
+              name="trash-outline"
+              onPress={() => console.log("Pressed")}
+            />
+          </View>
         </View>
 
-        <View style={styles.curve}></View>
+        <View style={styles.footer}>
+          <View style={styles.date}>
+            <Icons name="time-outline" size={15} />
 
-        <View style={styles.cta}>
-          <Icons
-            style={styles.ctaIcon}
-            name="trash-outline"
-            onPress={() => console.log("Pressed")}
-          />
+            <Text style={styles.dateText}>Sep 16, 2023; 12:15 PM</Text>
+          </View>
+
+          <View style={styles.cta}>
+            <Icons
+              name="trash-outline"
+              onPress={() => console.log("Pressed")}
+            />
+          </View>
         </View>
-
-
-      </View>
-    </View>
+      </>
+    </TouchableHighlight>
   );
 };
 
@@ -64,25 +64,17 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     flex: 1,
+    justifyContent: "space-between",
     marginBottom: Spacings.space,
-    borderRadius: Spacings.spacex3,
-    backgroundColor: "red",
-  },
-
-  label: {
-    padding: Spacings.space,
+    height: 280,
     borderRadius: Spacings.spacex2,
-    marginBottom: Spacings.space,
-    textAlign: "center",
-    overflow: "hidden",
-    backgroundColor: Colors.light.light,
+    backgroundColor: "green",
   },
 
   subContainer: {
     paddingHorizontal: Spacings.space,
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "purple",
     height: 160,
   },
 
@@ -90,7 +82,14 @@ const styles = StyleSheet.create({
     paddingVertical: Spacings.space,
     flex: 1,
     height: 160,
-    backgroundColor: "green",
+  },
+
+  label: {
+    marginTop: Spacings.spacex2,
+    marginBottom: Spacings.space,
+    width: 100,
+    overflow: "hidden",
+    ...Fonts.bodyText,
   },
 
   title: {
@@ -103,15 +102,12 @@ const styles = StyleSheet.create({
   },
 
   icons: {
-    paddingVertical: Spacings.space,
-    flexDirection: "column",
+    paddingTop: Spacings.spacex4,
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "blue",
-    width: 70,
+    flexDirection: "column",
+    width: 75,
     height: 160,
-    borderWidth: 5,
-    borderBottomColor: 'black',
     borderBottomRightRadius: Spacings.spacex2,
   },
 
@@ -125,55 +121,41 @@ const styles = StyleSheet.create({
 
   footer: {
     paddingHorizontal: Spacings.space,
-    flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "violet",
+    flexDirection: "row",
+    height: 100,
   },
 
   cta: {
     position: "absolute",
+    top: 15,
     right: 15,
-    top: -15,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    marginLeft: "auto",
-    width: 65,
-    height: 65,
-    borderWidth: 5,
-    borderColor: "black",
+    width: 70,
+    height: 70,
     borderRadius: Spacings.spacex4,
     overflow: "hidden",
-    backgroundColor: "red",
+    backgroundColor: "white",
   },
 
-  ctaIcon: {},
-
   date: {
-    flex: 1,
+    padding: Spacings.space,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
-    height: 50,
-    borderWidth: 5,
-    borderBottomRightRadius: Spacings.spacex3,
+    justifyContent: "center",
+    borderRadius: Spacings.spacex2,
+    overflow: "hidden",
+    backgroundColor: "white",
   },
 
   dateText: {
-    marginLeft: Spacings.space,
+    marginLeft: 5,
     ...Fonts.bodyText,
+    fontSize: 12,
   },
-
-  curve: {
-    padding: Spacings.space,
-    width: 70,
-    height: "100%",
-    borderWidth: 5,
-    borderRadius: 2,
-    overflow: "hidden",
-    backgroundColor: "white",
-  }
 });
 
 export default Card;

@@ -27,9 +27,7 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -39,6 +37,11 @@ export default function RootLayout() {
           options={{
             title: "Mis notas",
             headerTitleStyle: { ...Fonts.header1 },
+            headerTitleAlign: "center",
+            headerShadowVisible: false,
+            headerStyle: {
+              backgroundColor: Colors?.[colorScheme || "light"].light,
+            },
           }}
         />
       </Stack>
