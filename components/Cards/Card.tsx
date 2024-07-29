@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 
 import Spacings from "@/constants/Spacings";
 import Colors from "@/constants/Colors";
@@ -7,56 +7,55 @@ import Fonts from "@/constants/Fonts";
 import { Icons } from "../Icons";
 
 type Props = {
-  item: string;
+  index?: string;
+  item?: {
+    id: string;
+    title: string;
+  };
 };
 
-const Card = ({ item }: Props) => {
+const Card = ({ item, index }: Props) => {
   const handlePress = () => {
     console.log("Pressed");
   };
 
   return (
-    <TouchableHighlight onPress={handlePress} style={styles.container}>
-      <>
-        <View style={styles.subContainer}>
-          <View style={styles.textContainer}>
-            <Text style={styles.label}>Label</Text>
-            <Text style={styles.title}>{item}</Text>
-            <Text style={styles.subTitle}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-              nisi illum saepe fuga autem dolorem voluptatum...
-            </Text>
-          </View>
-          <View style={styles.icons}>
-            <Icons
-              style={styles.icon}
-              name="heart-outline"
-              onPress={() => console.log("Pressed")}
-            />
-            <Icons
-              style={styles.icon}
-              name="trash-outline"
-              onPress={() => console.log("Pressed")}
-            />
-          </View>
+    <Pressable onPress={handlePress} style={styles.container}>
+      <View style={styles.subContainer}>
+        <View style={styles.textContainer}>
+          <Text style={styles.label}>Label</Text>
+          <Text style={styles.title}>Titulo: {index}</Text>
+          <Text style={styles.subTitle}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa nisi
+            illum saepe fuga autem dolorem voluptatum...
+          </Text>
+        </View>
+        <View style={styles.icons}>
+          <Icons
+            style={styles.icon}
+            name="heart-outline"
+            onPress={() => console.log("Pressed")}
+          />
+          <Icons
+            style={styles.icon}
+            name="trash-outline"
+            onPress={() => console.log("Pressed")}
+          />
+        </View>
+      </View>
+
+      <View style={styles.footer}>
+        <View style={styles.date}>
+          <Icons name="time-outline" size={15} />
+
+          <Text style={styles.dateText}>Sep 16, 2023; 12:15 PM</Text>
         </View>
 
-        <View style={styles.footer}>
-          <View style={styles.date}>
-            <Icons name="time-outline" size={15} />
-
-            <Text style={styles.dateText}>Sep 16, 2023; 12:15 PM</Text>
-          </View>
-
-          <View style={styles.cta}>
-            <Icons
-              name="trash-outline"
-              onPress={() => console.log("Pressed")}
-            />
-          </View>
+        <View style={styles.cta}>
+          <Icons name="trash-outline" onPress={() => console.log("Pressed")} />
         </View>
-      </>
-    </TouchableHighlight>
+      </View>
+    </Pressable>
   );
 };
 

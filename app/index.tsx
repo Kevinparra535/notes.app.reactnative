@@ -1,10 +1,18 @@
-import { FlatList, StatusBar, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  ListRenderItem,
+  ListRenderItemInfo,
+  StyleSheet,
+} from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import { useColorScheme } from "@/hooks/useColorScheme.web";
 
 import Spacings from "@/constants/Spacings";
 import Card from "@/components/Cards/Card";
 import Colors from "@/constants/Colors";
+import { useRef } from "react";
 
 type ColorProps = {
   [key: string]: {
@@ -16,11 +24,19 @@ type ColorProps = {
 const colorScheme = useColorScheme();
 
 export default function HomeScreen() {
+  const flashListRef = useRef<FlashList<number>>(null);
+
+  const renderItem = ({ index }: { index: number }) => {
+    return <Card index={index.toString()} />;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        renderItem={({ item }) => <Card item={item} />}
-        data={["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"]}
+      <FlashList
+        ref={flashListRef}
+        renderItem={renderItem}
+        estimatedItemSize={200}
+        data={new Array<number>(100)}
       />
     </SafeAreaView>
   );
@@ -28,10 +44,11 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacings.space,
-    marginTop: StatusBar.currentHeight || 0,
+    paddingHorizontal: Spacings.space,
     flex: 1,
     flexGrow: 1,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
     backgroundColor: (Colors as ColorProps)?.[colorScheme || "light"].bg.ligth,
   },
 });
