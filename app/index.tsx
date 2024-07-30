@@ -14,12 +14,7 @@ import Card from "@/components/Cards/Card";
 import Colors from "@/constants/Colors";
 import { useRef } from "react";
 
-type ColorProps = {
-  [key: string]: {
-    [x: string]: any;
-    light: string;
-  };
-};
+import { IColorProps } from "@/expo-env";
 
 const colorScheme = useColorScheme();
 
@@ -49,6 +44,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     height: Dimensions.get("window").height,
     width: Dimensions.get("window").width,
-    backgroundColor: (Colors as ColorProps)?.[colorScheme || "light"].bg.ligth,
+    backgroundColor: (Colors as IColorProps)?.[colorScheme || "light"].bg.ligth,
   },
 });

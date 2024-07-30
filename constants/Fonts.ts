@@ -18,7 +18,7 @@ const Fonts = {
   header3: {
     fontSize: 22,
     fontFamily: "poppins-bold",
-    lineHeight: 25,
+    lineHeight: 30,
     color: Colors.light.dark,
   },
 

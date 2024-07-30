@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
 import Spacings from "@/constants/Spacings";
 import Colors from "@/constants/Colors";
@@ -15,8 +16,10 @@ type Props = {
 };
 
 const Card = ({ item, index }: Props) => {
+  const router = useRouter();
+
   const handlePress = () => {
-    console.log("Pressed");
+    router.push("update");
   };
 
   return (
